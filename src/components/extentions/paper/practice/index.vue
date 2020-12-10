@@ -94,7 +94,8 @@ export default {
     return {
       pagination: {
         page: 1,
-        size: 10
+        size: 10,
+        total: 0
       },
       filer: {
         category_id: null,
@@ -137,6 +138,7 @@ export default {
       Object.assign(data, this.filer);
       R.Extentions.paper.Practice.List(data).then(resp => {
         this.datas = resp.data.data.data;
+        this.pagination.total = resp.data.data.total;
         this.loading = false;
         this.categories = resp.data.categories;
       });
