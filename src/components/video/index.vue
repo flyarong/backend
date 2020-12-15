@@ -53,7 +53,7 @@
       </div>
       <div class="float-box mb-10">
         <Table :loading="loading" :checkbox="true" :datas="datas" ref="table" @sort="sortEvt">
-          <TableItem prop="id" title="VID" :sort="true" :width="80"></TableItem>
+          <TableItem prop="id" title="视频ID" :sort="true" :width="80"></TableItem>
           <TableItem title="视频">
             <template slot-scope="{ data }">
               <span class="course-title">{{ data.course.title }}</span>
@@ -61,15 +61,15 @@
               <span class="video-title">{{ data.title }}</span>
             </template>
           </TableItem>
-          <TableItem title="价格" :width="80">
+          <TableItem title="价格" :width="100">
             <template slot-scope="{ data }">￥{{ data.charge }}</template>
           </TableItem>
-          <TableItem title="时长" :width="90">
+          <TableItem title="时长" :width="100">
             <template slot-scope="{ data }">
               <duration-text :seconds="data.duration" />
             </template>
           </TableItem>
-          <TableItem title="操作" align="center" :width="200">
+          <TableItem title="操作" align="center" :width="300">
             <template slot-scope="{ data }">
               <p-button glass="h-btn h-btn-s h-btn-primary" permission="video.edit" text="编辑" @click="edit(data)"></p-button>
               <p-button glass="h-btn h-btn-s" permission="video.subscribes" text="订阅" @click="showSubscribePage(data)"></p-button>
@@ -79,7 +79,7 @@
         </Table>
       </div>
       <div class="float-box mb-10">
-        <Pagination v-if="pagination.total > 0" align="right" v-model="pagination" @change="changePage" />
+        <Pagination align="right" v-model="pagination" @change="changePage" />
       </div>
     </div>
   </div>

@@ -32,27 +32,27 @@
 
       <Table :loading="loading" :datas="datas">
         <TableItem prop="id" title="ID" :width="80"></TableItem>
-        <TableItem title="GID" :width="80">
+        <TableItem title="商品ID" :width="80">
           <template slot-scope="{ data }">
-            <span v-if="data.goods">{{data.goods.other_id}}</span>
+            <span v-if="data.goods">{{ data.goods.other_id }}</span>
             <span class="red" v-else>已删除</span>
           </template>
         </TableItem>
-        <TableItem prop="user_id" title="UID" :width="80"></TableItem>
+        <TableItem prop="user_id" title="用户ID" :width="80"></TableItem>
         <TableItem title="商品">
           <template slot-scope="{ data }">
-            <span v-if="data.goods">{{data.goods.goods_title}}</span>
+            <span v-if="data.goods">{{ data.goods.goods_title }}</span>
             <span class="red" v-else>已删除</span>
           </template>
         </TableItem>
         <TableItem title="用户" :width="150">
           <template slot-scope="{ data }">
-            <span v-if="data.user">{{data.user.nick_name}}</span>
+            <span v-if="data.user">{{ data.user.nick_name }}</span>
             <span class="red" v-else>不存在</span>
           </template>
         </TableItem>
         <TableItem title="支付" :width="80">
-          <template slot-scope="{ data }">￥{{data.charge}}</template>
+          <template slot-scope="{ data }">￥{{ data.charge }}</template>
         </TableItem>
         <TableItem title="状态" :width="80">
           <template slot-scope="{ data }">
@@ -61,17 +61,11 @@
           </template>
         </TableItem>
         <TableItem title="时间" :width="120">
-          <template slot-scope="{ data }">{{data.created_at}}</template>
+          <template slot-scope="{ data }">{{ data.created_at }}</template>
         </TableItem>
       </Table>
 
-      <Pagination
-        class="mt-10"
-        v-if="pagination.total > 0"
-        align="right"
-        v-model="pagination"
-        @change="changePage"
-      />
+      <Pagination class="mt-10" v-if="pagination.total > 0" align="right" v-model="pagination" @change="changePage" />
     </div>
   </div>
 </template>

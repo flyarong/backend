@@ -34,7 +34,7 @@
       <div class="float-box mb-10">
         <Table ref="table" :loading="loading" :datas="datas" :checkbox="true">
           <TableItem prop="id" title="ID" :width="80"></TableItem>
-          <TableItem prop="user_id" title="UID" :width="80"></TableItem>
+          <TableItem prop="user_id" title="用户ID" :width="80"></TableItem>
           <TableItem title="用户" :width="120">
             <template slot-scope="{ data }">
               <span v-if="users[data.user_id]">{{ users[data.user_id].nick_name }}</span>
@@ -57,13 +57,17 @@
               <copytext :copytext="data.channel_account" />
             </template>
           </TableItem>
-          <TableItem title="状态" :wdith="80">
+          <TableItem title="状态" :wdith="100">
             <template slot-scope="{ data }">
               <span v-if="data.status_text === '成功'" class="red">{{ data.status_text }}</span>
               <span v-else>{{ data.status_text }}</span>
             </template>
           </TableItem>
-          <TableItem prop="created_at" title="创建时间" :width="120"></TableItem>
+          <TableItem title="创建时间" :width="120">
+            <template slot-scope="{ data }">
+              <date-text :date="data.created_at"></date-text>
+            </template>
+          </TableItem>
           <TableItem prop="remark" title="备注"></TableItem>
         </Table>
       </div>

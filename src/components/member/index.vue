@@ -49,7 +49,7 @@
       </div>
       <div class="float-box mb-10">
         <Table :loading="loading" :datas="datas" @sort="sortEvt">
-          <TableItem title="用户" :width="240">
+          <TableItem title="用户ID / 昵称 / 手机号" :width="300">
             <template slot-scope="{ data }">
               <copytext :copytext="data.id" />
               <span class="grey">/</span>
@@ -58,17 +58,21 @@
               <copytext :copytext="data.mobile" />
             </template>
           </TableItem>
+          <TableItem title="注册时间" :sort="true" :width="120">
+            <template slot-scope="{ data }">
+              <date-text :date="data.created_at"></date-text>
+            </template>
+          </TableItem>
+          <TableItem title="VIP" :width="150">
+            <template slot-scope="{ data }">
+              <template v-if="data.role">{{ data.role.name }}</template>
+            </template>
+          </TableItem>
           <TableItem title="标签" :width="200">
             <template slot-scope="{ data }">
               <span class="tag-item" v-for="tag in data.tags" :key="tag.id">
                 <copytext :copytext="tag.name" />
               </span>
-            </template>
-          </TableItem>
-          <TableItem prop="created_at" title="注册时间" :sort="true" :width="120"></TableItem>
-          <TableItem title="VIP" :width="100">
-            <template slot-scope="{ data }">
-              <template v-if="data.role">{{ data.role.name }}</template>
             </template>
           </TableItem>
           <TableItem title="备注" :width="200">

@@ -27,10 +27,10 @@
         </Form>
       </div>
       <div class="float-box mt-10">
-        <div class="alert">优惠码的 U 前缀是用户专属邀请码预留的，请勿在自定义优惠码中使用！</div>
+        <div class="alert">优惠码的 <b>U</b> 前缀是用户专属邀请码预留的，请勿在自定义优惠码中使用！</div>
       </div>
       <div class="float-box mt-10">
-        <p-del-button permission="promoCode.destroy.multi" @click="deleteSubmit()"></p-del-button>
+        <p-del-button text="批量删除" permission="promoCode.destroy.multi" @click="deleteSubmit()"></p-del-button>
         <p-button glass="h-btn h-btn-primary h-btn-s" icon="h-icon-plus" permission="promoCode.store" text="添加" @click="create()"></p-button>
 
         <p-button glass="h-btn h-btn-primary h-btn-s" permission="promoCode.import" text="批量导入" @click="showImportPage()"></p-button>
@@ -47,15 +47,23 @@
           </TableItem>
           <TableItem prop="invited_user_reward" :sort="true" title="抵扣" unit="元" :width="80"></TableItem>
           <TableItem prop="invite_user_reward" :sort="true" title="奖励" unit="元" :width="80"></TableItem>
-          <TableItem title="可使用次数" :sort="true" :width="100">
+          <TableItem title="可使用" :width="100">
             <template slot-scope="{ data }">
               <span v-if="data.use_times === 0 || data.use_times === null" class="red">不限制</span>
               <span v-else>{{ data.use_times }}次</span>
             </template>
           </TableItem>
-          <TableItem prop="used_times" :sort="true" title="已使用次数" unit="次" :width="100"></TableItem>
-          <TableItem prop="created_at" :sort="true" title="创建时间" :width="120"></TableItem>
-          <TableItem prop="expired_at" :sort="true" title="过期时间" :width="120"></TableItem>
+          <TableItem prop="used_times" :sort="true" title="已使用" unit="次" :width="100"></TableItem>
+          <TableItem title="创建时间" :width="120">
+            <template slot-scope="{ data }">
+              <date-text :date="data.created_at"></date-text>
+            </template>
+          </TableItem>
+          <TableItem title="过期时间" :width="120">
+            <template slot-scope="{ data }">
+              <date-text :date="data.expired_at"></date-text>
+            </template>
+          </TableItem>
         </Table>
       </div>
       <div class="float-box mt-10 mb-10">

@@ -37,7 +37,7 @@
             </template>
           </TableItem>
           <TableItem prop="title" title="视频"></TableItem>
-          <TableItem prop="aliyun_video_id" title="VID"></TableItem>
+          <TableItem prop="aliyun_video_id" title="视频ID"></TableItem>
           <TableItem title="转码">
             <template slot-scope="{ data }">
               <span v-if="hlsVideoIds[data.id]">已转码</span>

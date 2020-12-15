@@ -30,15 +30,19 @@
         <p-button glass="h-btn h-btn-primary" icon="h-icon-plus" permission="video.subscribe.create" text="添加" @click="create()"></p-button>
       </div>
       <Table :loading="loading" :datas="data">
-        <TableItem title="VID" prop="video_id" :width="80"></TableItem>
-        <TableItem title="UID" prop="user_id" :width="80"></TableItem>
+        <TableItem title="视频ID" prop="video_id" :width="80"></TableItem>
+        <TableItem title="用户ID" prop="user_id" :width="80"></TableItem>
         <TableItem title="用户" :width="120">
           <template slot-scope="{ data }">
             <span v-if="typeof users[data.user_id] !== 'undefined'">{{ users[data.user_id].nick_name }}</span>
             <span v-else class="red">已删除</span>
           </template>
         </TableItem>
-        <TableItem title="订阅时间" prop="created_at" :width="120"></TableItem>
+        <TableItem title="订阅时间" :width="120">
+          <template slot-scope="{ data }">
+            <date-text :date="data.created_at"></date-text>
+          </template>
+        </TableItem>
         <TableItem title="操作" :width="120">
           <template slot-scope="{ data }">
             <p-del-button permission="video.subscribe.delete" @click="remove(data)"></p-del-button>

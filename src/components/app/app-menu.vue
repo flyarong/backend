@@ -3,6 +3,8 @@
   .h-menu {
     font-size: 14px;
     .h-menu-li-selected {
+      font-weight: 600;
+
       .h-menu-show:after {
         width: 4px;
       }
@@ -31,13 +33,7 @@
 <template>
   <div class="app-menu">
     <appLogo></appLogo>
-    <Menu
-      :datas="menus"
-      :inlineCollapsed="siderCollapsed"
-      @click="trigger"
-      ref="menu"
-      :className="`h-menu-${theme}`"
-    ></Menu>
+    <Menu :datas="menus" :inlineCollapsed="siderCollapsed" @click="trigger" ref="menu" :className="`h-menu-${theme}`"></Menu>
     <div class="app-menu-mask" @click="hideMenu"></div>
   </div>
 </template>

@@ -37,7 +37,7 @@
       <div class="float-box">
         <Table :loading="loading" :datas="datas">
           <TableItem prop="id" title="ID" :width="80"></TableItem>
-          <TableItem prop="goods_id" title="GID" :width="80"></TableItem>
+          <TableItem prop="goods_id" title="商品ID" :width="80"></TableItem>
           <TableItem prop="goods_type_text" title="类型" :width="80"></TableItem>
           <TableItem prop="goods_title" title="商品"></TableItem>
           <TableItem title="价格" :width="150">

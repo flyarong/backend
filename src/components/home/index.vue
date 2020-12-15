@@ -77,7 +77,6 @@ export default {
       R.Dashboard.index().then(resp => {
         this.index = resp.data;
       });
-      R.Dashboard.check().then(resp => {});
     },
     getSystemInfo() {
       R.Dashboard.systemInfo().then(resp => {

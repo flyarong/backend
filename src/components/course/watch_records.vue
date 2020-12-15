@@ -31,8 +31,8 @@
       </div>
       <div class="float-box mb-10">
         <Table :loading="loading" :datas="list">
-          <TableItem title="CID" prop="course_id" :width="80"></TableItem>
-          <TableItem title="UID" prop="user_id" :width="80"></TableItem>
+          <TableItem title="课程ID" prop="course_id" :width="80"></TableItem>
+          <TableItem title="用户ID" prop="user_id" :width="80"></TableItem>
           <TableItem title="用户" :width="120">
             <template slot-scope="{ data }">
               <span v-if="typeof users[data.user_id] !== 'undefined'">{{ users[data.user_id].nick_name }}</span>
@@ -50,16 +50,17 @@
               <span>{{ data.progress }}%</span>
             </template>
           </TableItem>
-          <TableItem title="开始时间">
+          <TableItem title="开始时间" :width="120">
             <template slot-scope="{ data }">
-              <span>{{ data.created_at }}</span>
+              <date-text :date="data.created_at"></date-text>
             </template>
           </TableItem>
-          <TableItem title="看完时间">
+          <TableItem title="看完时间" :width="120">
             <template slot-scope="{ data }">
-              <span>{{ data.watched_at }}</span>
+              <date-text :date="data.watched_at"></date-text>
             </template>
           </TableItem>
+
           <TableItem title="订阅">
             <template slot-scope="{ data }">
               <span v-if="typeof subscribeRecords[data.user_id] !== 'undefined'">是</span>
