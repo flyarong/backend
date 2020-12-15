@@ -4,14 +4,7 @@
       <span class="h-panel-title">编辑</span>
     </div>
     <div class="h-panel-body">
-      <Form
-        mode="block"
-        ref="form"
-        :validOnChange="true"
-        :showErrorTip="true"
-        :rules="rules"
-        :model="slider"
-      >
+      <Form mode="block" ref="form" :validOnChange="true" :showErrorTip="true" :rules="rules" :model="slider">
         <Row :space="10">
           <Cell :width="8">
             <FormItem label="平台" prop="platform">
@@ -33,7 +26,7 @@
         <Row :space="10">
           <Cell :width="24">
             <FormItem label="封面" prop="thumb">
-              <image-upload v-model="slider.thumb" name="封面"></image-upload>
+              <image-upload v-model="slider.thumb" name="封面" help="长宽比3:1，建议尺寸：1200x400像素"></image-upload>
             </FormItem>
           </Cell>
         </Row>

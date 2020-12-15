@@ -52,7 +52,7 @@
         </FormItem>
 
         <FormItem label="课程封面" prop="thumb">
-          <image-upload v-model="course.thumb" name="课程封面"></image-upload>
+          <image-upload v-model="course.thumb" name="课程封面" help="长宽比4:3，建议尺寸：400x300像素"></image-upload>
         </FormItem>
 
         <FormItem label="简短介绍" prop="short_description">
