@@ -61,21 +61,6 @@
             <input type="text" v-model="video.slug" placeholder="不清楚可不填写" />
           </FormItem>
 
-          <Row :space="10">
-            <Cell :width="24">
-              <FormItem label="简短介绍" prop="short_description">
-                <template v-slot:label>简短介绍</template>
-                <textarea v-model="video.short_description"></textarea>
-              </FormItem>
-            </Cell>
-            <Cell :width="24">
-              <FormItem label="详细介绍" prop="description">
-                <template v-slot:label>详细介绍</template>
-                <tinymce-editor v-model="video.original_desc"></tinymce-editor>
-              </FormItem>
-            </Cell>
-          </Row>
-
           <FormItem label="上传视频">
             <template v-slot:label>上传视频</template>
             <Tabs :datas="tabs" v-model="tab"></Tabs>
@@ -213,7 +198,6 @@ export default {
           'course_id',
           'title',
           'charge',
-          'short_description',
           'published_at',
           'is_show',
           'is_ban_sell',

@@ -100,7 +100,7 @@ export default {
       },
       cond: {
         keywords: '',
-        sort: 'created_at',
+        sort: 'id',
         order: 'desc',
         course_id: null,
         id: null
