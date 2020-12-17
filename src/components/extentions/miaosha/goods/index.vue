@@ -1,4 +1,3 @@
-
 <style lang="less" scoped>
 .original-charge {
   text-decoration: line-through;
@@ -67,7 +66,7 @@
         </TableItem>
       </Table>
 
-      <Pagination class="mt-10" v-if="pagination.total > 0" align="right" v-model="pagination" @change="changePage" />
+      <Pagination class="mt-10" align="right" v-model="pagination" @change="changePage" />
     </div>
   </div>
 </template>
