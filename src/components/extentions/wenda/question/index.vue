@@ -8,9 +8,7 @@
         <Form>
           <Row :space="10">
             <Cell :width="6">
-              <FormItem label="UID">
-                <input type="text" v-model="filter.user_id" placeholder="UID" />
-              </FormItem>
+              <FormItem label="用户ID"> <input type="text" v-model="filter.user_id" placeholder="用户ID" /> </FormItem>
             </Cell>
             <Cell :width="6">
               <FormItem label="分类">
@@ -77,7 +75,7 @@
       </div>
 
       <div class="float-box mb-10">
-        <Pagination class="mt-10" v-if="pagination.total > 0" align="right" v-model="pagination" @change="changePage" />
+        <Pagination class="mt-10" align="right" v-model="pagination" @change="changePage" />
       </div>
     </div>
   </div>
