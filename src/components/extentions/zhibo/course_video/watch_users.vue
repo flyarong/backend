@@ -2,6 +2,9 @@
   <div class="h-panel w-800">
     <div class="h-panel-bar">
       <span class="h-panel-title">观看用户</span>
+      <div class="h-panel-right">
+        <Button @click="$emit('close')" :text="true">取消</Button>
+      </div>
     </div>
     <div class="h-panel-body">
       <div class="float-box mb-10">
@@ -25,7 +28,7 @@
       </div>
 
       <div class="float-box mb-10">
-        <Pagination class="mt-10" v-if="pagination.total > 0" align="right" v-model="pagination" @change="changePage" />
+        <Pagination class="mt-10" align="right" v-model="pagination" @change="changePage" />
       </div>
     </div>
   </div>

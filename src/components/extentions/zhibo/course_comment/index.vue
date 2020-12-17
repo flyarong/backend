@@ -2,6 +2,9 @@
   <div class="h-panel w-1200">
     <div class="h-panel-bar">
       <span class="h-panel-title">课程评论</span>
+      <div class="h-panel-right">
+        <Button @click="$emit('close')" :text="true">取消</Button>
+      </div>
     </div>
     <div class="h-panel-body">
       <div class="mb-10">
@@ -63,7 +66,7 @@
       </Table>
 
       <div class="mt-10">
-        <Pagination v-if="pagination.total > 0" align="right" v-model="pagination" @change="changePage" />
+        <Pagination align="right" v-model="pagination" @change="changePage" />
       </div>
     </div>
   </div>
