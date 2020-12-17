@@ -1,8 +1,12 @@
 <style lang="less"></style>
 <template>
-  <div class="table-basic-vue frame-page h-panel h-panel-margin-0 w-1000">
+  <div class="h-panel w-1200">
     <div class="h-panel-bar">
-      <span class="h-panel-title">添加课程</span>
+      <span class="h-panel-title">添加</span>
+      <div class="h-panel-right">
+        <Button color="primary" @click="create">添加</Button>
+        <Button @click="$emit('close')" :text="true">取消</Button>
+      </div>
     </div>
     <div class="h-panel-body">
       <Form ref="form" mode="block" :validOnChange="true" :showErrorTip="true" :labelWidth="110" :rules="rules" :model="course">
@@ -68,10 +72,6 @@
         </FormItem>
         <FormItem label="SEO关键字" prop="seo_keywords">
           <textarea v-model="course.seo_keywords" rows="1"></textarea>
-        </FormItem>
-
-        <FormItem>
-          <Button color="primary" @click="create">添加</Button>
         </FormItem>
       </Form>
     </div>

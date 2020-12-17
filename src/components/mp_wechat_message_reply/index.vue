@@ -5,11 +5,11 @@
     </div>
     <div class="h-panel-body">
       <div class="mb-10">
-        <p-button glass="h-btn h-btn-primary" icon="h-icon-plus" permission="mpWechatMessageReply.store" text="添加规则" @click="create()"></p-button>
+        <p-button glass="h-btn h-btn-primary" permission="mpWechatMessageReply.store" text="添加规则" @click="create()"></p-button>
       </div>
       <Table :loading="loading" :datas="datas">
-        <TableItem prop="id" title="ID" :width="80"></TableItem>
-        <TableItem prop="type" title="类型" :width="100"></TableItem>
+        <TableItem prop="id" title="ID" :width="120"></TableItem>
+        <TableItem prop="type" title="类型" :width="120"></TableItem>
         <TableItem title="内容" :width="200">
           <template slot-scope="{ data }">
             <span v-if="data.type === 'text'">{{ data.rule }}</span>
@@ -29,7 +29,7 @@
         </TableItem>
       </Table>
       <div class="mt-10">
-        <Pagination v-if="pagination.total > 0" align="right" v-model="pagination" @change="changePage" />
+        <Pagination align="right" v-model="pagination" @change="changePage" />
       </div>
     </div>
   </div>

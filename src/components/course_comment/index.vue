@@ -12,13 +12,13 @@
                 <user-filter v-model="filter.user_id"></user-filter>
               </FormItem>
             </Cell>
-            <Cell :width="8">
+            <Cell :width="10">
               <FormItem label="课程">
                 <template v-slot:label>课程</template>
                 <Select v-model="filter.course_id" :filterable="true" :datas="courses" keyName="id" titleName="title"></Select>
               </FormItem>
             </Cell>
-            <Cell :width="6">
+            <Cell :width="4">
               <FormItem>
                 <Button color="primary" @click="getData(true)">搜索</Button>
                 <Button class="h-btn" @click="reset">重置</Button>

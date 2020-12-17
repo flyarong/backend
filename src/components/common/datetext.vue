@@ -6,9 +6,15 @@ export default {
   props: ['date'],
   computed: {
     day() {
+      if (this.date === null) {
+        return '';
+      }
       return this.date.split(' ')[0];
     },
     hour() {
+      if (this.date === null) {
+        return '';
+      }
       return this.date.split(' ')[1];
     }
   }

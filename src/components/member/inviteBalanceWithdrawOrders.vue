@@ -35,24 +35,24 @@
         <Table ref="table" :loading="loading" :datas="datas" :checkbox="true">
           <TableItem prop="id" title="ID" :width="80"></TableItem>
           <TableItem prop="user_id" title="用户ID" :width="80"></TableItem>
-          <TableItem title="用户" :width="120">
+          <TableItem title="用户" :width="150">
             <template slot-scope="{ data }">
               <span v-if="users[data.user_id]">{{ users[data.user_id].nick_name }}</span>
               <span v-else class="red">已删除</span>
             </template>
           </TableItem>
           <TableItem prop="total" title="金额" unit="元" :width="100"></TableItem>
-          <TableItem title="渠道" :width="100">
+          <TableItem title="渠道" :width="150">
             <template slot-scope="{ data }">
               <copytext :copytext="data.channel" />
             </template>
           </TableItem>
-          <TableItem title="渠道姓名" :width="100">
+          <TableItem title="渠道姓名" :width="150">
             <template slot-scope="{ data }">
               <copytext :copytext="data.channel_name" />
             </template>
           </TableItem>
-          <TableItem title="渠道账号" :width="100">
+          <TableItem title="渠道账号" :width="200">
             <template slot-scope="{ data }">
               <copytext :copytext="data.channel_account" />
             </template>
@@ -159,14 +159,15 @@ export default {
         component: {
           vue: resolve => {
             require(['./children/InviteBalanceHandle'], resolve);
+          },
+          datas: {
+            ids: ids
           }
         },
         events: {
           success: (modal, data) => {
-            R.Member.CreateInviteBalanceWithdrawOrder({ ids: ids, status: data.status, remark: data.remark }).then(resp => {
-              HeyUI.$Message.success('添加成功');
-              this.getData();
-            });
+            modal.close();
+            this.getData();
           }
         }
       });

@@ -5,7 +5,7 @@
     </div>
     <div class="h-panel-body">
       <div class="float-box mb-10">
-        <p-button glass="h-btn h-btn-primary" icon="h-icon-plus" permission="administrator_role.store" text="添加" @click="create()"></p-button>
+        <p-button glass="h-btn h-btn-primary" permission="administrator_role.store" text="添加" @click="create()"></p-button>
       </div>
       <div class="float-box mb-10">
         <Table :loading="loading" :datas="datas">
@@ -22,7 +22,7 @@
         </Table>
       </div>
       <div class="float-box mb-10">
-        <Pagination v-if="pagination.total > 0" align="right" v-model="pagination" @change="changePage" />
+        <Pagination align="right" v-model="pagination" @change="changePage" />
       </div>
     </div>
   </div>

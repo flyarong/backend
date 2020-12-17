@@ -61,7 +61,7 @@
     </div>
     <div class="h-panel-body">
       <div class="float-box mb-10">
-        <p-button glass="h-btn h-btn-primary" icon="h-icon-plus" permission="role.store" text="添加" @click="create()"></p-button>
+        <p-button glass="h-btn h-btn-primary" permission="role.store" text="添加" @click="create()"></p-button>
       </div>
       <div class="float-box mb-10">
         <div class="role-item" v-for="role in datas" :key="role.id">

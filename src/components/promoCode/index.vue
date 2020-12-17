@@ -4,7 +4,7 @@
       <span class="h-panel-title">优惠码</span>
     </div>
     <div class="h-panel-body">
-      <div class="float-box">
+      <div class="float-box mb-10">
         <Form>
           <Row :space="10">
             <Cell :width="6">
@@ -26,10 +26,10 @@
           </Row>
         </Form>
       </div>
-      <div class="float-box mt-10">
+      <div class="float-box mb-10">
         <div class="alert">优惠码的 <b>U</b> 前缀是用户专属邀请码预留的，请勿在自定义优惠码中使用！</div>
       </div>
-      <div class="float-box mt-10">
+      <div class="float-box mb-10">
         <p-del-button text="批量删除" permission="promoCode.destroy.multi" @click="deleteSubmit()"></p-del-button>
         <p-button glass="h-btn h-btn-primary h-btn-s" icon="h-icon-plus" permission="promoCode.store" text="添加" @click="create()"></p-button>
 
@@ -37,7 +37,7 @@
 
         <p-button glass="h-btn h-btn-primary h-btn-s" permission="promoCode.generator" text="批量生成" @click="showGeneratePage()"></p-button>
       </div>
-      <div class="float-box mt-10">
+      <div class="float-box mb-10">
         <Table :loading="loading" :datas="datas" :checkbox="true" ref="table" @sort="sortEvt">
           <TableItem prop="id" :sort="true" title="ID" :width="80"></TableItem>
           <TableItem title="优惠码">
@@ -66,8 +66,8 @@
           </TableItem>
         </Table>
       </div>
-      <div class="float-box mt-10 mb-10">
-        <Pagination v-if="pagination.total > 0" align="right" v-model="pagination" @change="changePage" />
+      <div class="float-box mb-10">
+        <Pagination align="right" v-model="pagination" @change="changePage" />
       </div>
     </div>
   </div>
@@ -137,10 +137,7 @@ export default {
         events: {
           success: (modal, data) => {
             modal.close();
-            R.PromoCode.Create(data).then(resp => {
-              HeyUI.$Message.success('成功');
-              this.getData(true);
-            });
+            this.getData(true);
           }
         }
       });

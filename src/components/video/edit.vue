@@ -4,6 +4,10 @@
     <div class="h-panel w-1200">
       <div class="h-panel-bar">
         <span class="h-panel-title">编辑</span>
+        <div class="h-panel-right">
+          <Button color="primary" @click="create">保存</Button>
+          <Button @click="$emit('close')" :text="true">取消</Button>
+        </div>
       </div>
       <div class="h-panel-body">
         <Form ref="form" mode="block" :validOnChange="true" :showErrorTip="true" :rules="rules" :model="video">
@@ -122,10 +126,6 @@
               </FormItem>
             </Cell>
           </Row>
-
-          <FormItem>
-            <Button color="primary" @click="create">保存</Button>
-          </FormItem>
         </Form>
       </div>
     </div>
@@ -136,8 +136,6 @@ import TinymceEditor from '../common/tinymce';
 import AliyunVideo from '../common/video/aliyun/aliyun';
 import TencentVideo from '../common/video/tencent/tencent';
 
-import Video from 'model/Video';
-
 export default {
   props: ['id'],
   components: {
@@ -147,7 +145,28 @@ export default {
   },
   data() {
     return {
-      video: Video.parse({}),
+      video: {
+        course_id: null,
+        title: '',
+        slug: '',
+        charge: 0,
+        short_description: '',
+        description: '',
+        seo_keywords: '',
+        seo_description: '',
+        published_at: '',
+        is_show: 1,
+        aliyun_video_id: '',
+        tencent_video_id: '',
+        url: '',
+        duration: 0,
+        is_ban_sell: 1,
+        comment_status: 2,
+        ban_drag: 0,
+        free_seconds: 0,
+        player_pc: 'xg',
+        player_h5: 'xg'
+      },
       courses: [],
       chapters: [],
       tabs: ['阿里云', '腾讯云', '直链'],
@@ -228,26 +247,15 @@ export default {
       }
     },
     init() {
-      this.video.is_show = 0;
-      this.video.is_ban_sell = 0;
-      this.video.ban_drag = 0;
-      this.video.comment_status = 0;
-      this.video.player_pc = 'xg';
-      this.video.player_h5 = 'xg';
-
       R.Video.Edit({ id: this.id }).then(res => {
         this.video = res.data.video;
         this.tabActive();
         this.selectCourse({ id: this.video.course_id });
       });
 
-      // 读取创建所需要的参数
       R.Video.Create().then(resp => {
         this.courses = resp.data.courses;
       });
-    },
-    back() {
-      this.$router.push({ name: 'Video' });
     },
     create() {
       let validResult = this.$refs.form.valid();
