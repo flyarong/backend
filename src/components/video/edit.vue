@@ -1,4 +1,23 @@
-<style lang="less"></style>
+<style lang="less" scoped>
+.upload-video-box {
+  width: 100%;
+  height: auto;
+  float: left;
+
+  .tabs {
+    width: 100%;
+    height: auto;
+    float: left;
+    margin-bottom: 15px;
+  }
+
+  .body {
+    width: 100%;
+    height: auto;
+    float: left;
+  }
+}
+</style>
 <template>
   <div class>
     <div class="h-panel w-1200">
@@ -61,37 +80,33 @@
             </Cell>
           </Row>
 
-          <FormItem label="Slug" prop="slug">
-            <input type="text" v-model="video.slug" placeholder="不清楚可不填写" />
-          </FormItem>
-
           <FormItem label="上传视频">
-            <template v-slot:label>上传视频</template>
-            <Tabs :datas="tabs" v-model="tab"></Tabs>
+            <div class="upload-video-box">
+              <div class="tabs">
+                <Button class="h-btn" :class="{ 'h-btn-primary': item === tab }" v-for="item in tabs" :key="item" @click="switchTab(item)">{{
+                  item
+                }}</Button>
+              </div>
+              <div class="body">
+                <aliyun-video v-show="tab === '阿里云点播'" v-model="video.aliyun_video_id"></aliyun-video>
+                <tencent-video v-show="tab === '腾讯云点播'" v-model="video.tencent_video_id"></tencent-video>
+                <input type="text" v-show="tab === 'URL地址'" placeholder="视频URL地址（以mp4,m3u8等格式结尾的链接）" v-model="video.url" />
+              </div>
+            </div>
           </FormItem>
 
-          <FormItem label="阿里云视频ID" prop="aliyun_video_id" v-show="tab === '阿里云'">
-            <template v-slot:label>阿里云视频ID</template>
-            <aliyun-video v-model="video.aliyun_video_id"></aliyun-video>
-          </FormItem>
-          <FormItem label="腾讯云视频ID" prop="tencent_video_id" v-show="tab === '腾讯云'">
-            <template v-slot:label>腾讯云视频ID</template>
-            <tencent-video v-model="video.tencent_video_id"></tencent-video>
-          </FormItem>
-          <FormItem label="视频URL地址（以mp4,m3u8等格式结尾的链接）" prop="url" v-show="tab === '直链'">
-            <template v-slot:label>视频URL地址（以mp4,m3u8等格式结尾的链接）</template>
-            <input type="text" v-model="video.url" />
-          </FormItem>
-
-          <FormItem label="视频时长" prop="duration">
-            <template v-slot:label>视频时长</template>
-            <input-duration v-model="video.duration"></input-duration>
-          </FormItem>
-
-          <FormItem label="试看时长" prop="free_seconds">
-            <template v-slot:label>试看时长</template>
-            <input-duration v-model="video.free_seconds"></input-duration>
-          </FormItem>
+          <Row :space="10">
+            <Cell :width="12">
+              <FormItem label="视频时长" prop="duration">
+                <input-duration v-model="video.duration"></input-duration>
+              </FormItem>
+            </Cell>
+            <Cell :width="12">
+              <FormItem label="试看时长" prop="free_seconds">
+                <input-duration v-model="video.free_seconds"></input-duration>
+              </FormItem>
+            </Cell>
+          </Row>
 
           <Row :space="10">
             <Cell :width="6">
@@ -126,6 +141,10 @@
               </FormItem>
             </Cell>
           </Row>
+
+          <FormItem label="Slug" prop="slug">
+            <input type="text" v-model="video.slug" placeholder="可选" />
+          </FormItem>
         </Form>
       </div>
     </div>
@@ -169,8 +188,8 @@ export default {
       },
       courses: [],
       chapters: [],
-      tabs: ['阿里云', '腾讯云', '直链'],
-      tab: '阿里云',
+      tabs: ['阿里云点播', '腾讯云点播', 'URL地址'],
+      tab: '阿里云点播',
       commentStatus: [
         {
           title: '禁止评论',
@@ -214,20 +233,7 @@ export default {
         }
       ],
       rules: {
-        required: [
-          'course_id',
-          'title',
-          'charge',
-          'published_at',
-          'is_show',
-          'is_ban_sell',
-          'ban_drag',
-          'player_pc',
-          'duration',
-          'player_h5',
-          'free_seconds',
-          'comment_status'
-        ]
+        required: ['course_id', 'title', 'charge', 'published_at', 'is_show', 'is_ban_sell', 'ban_drag', 'duration']
       }
     };
   },
@@ -237,13 +243,13 @@ export default {
   methods: {
     tabActive() {
       if (this.video.aliyun_video_id) {
-        this.tab = '阿里云';
+        this.tab = '阿里云点播';
       }
       if (this.video.tencent_video_id) {
-        this.tab = '腾讯云';
+        this.tab = '腾讯云点播';
       }
       if (this.video.url) {
-        this.tab = '直链';
+        this.tab = 'URL地址';
       }
     },
     init() {
@@ -268,6 +274,14 @@ export default {
       R.CourseChapter.List({ course_id: course.id }).then(resp => {
         this.chapters = resp.data.chapters;
       });
+    },
+    switchTab(item) {
+      if (this.video.aliyun_video_id || this.video.tencent_video_id || this.video.url) {
+        // 禁止切换
+        HeyUI.$Message.warn('如需切换视频上传方式，请先清空已上传文件或者链接');
+        return;
+      }
+      this.tab = item;
     }
   }
 };
