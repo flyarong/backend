@@ -6,8 +6,6 @@
     <div class="h-panel-body">
       <div class="mb-10">
         <p-button glass="h-btn h-btn-primary" icon="h-icon-plus" permission="addons.TemplateOne.nav.store" text="添加" @click="create()"></p-button>
-
-        <p-button glass="h-btn h-btn-primary" permission="addons.TemplateOne.slider.list" text="幻灯片" @click="showSliderPage()"></p-button>
       </div>
       <Table :loading="loading" :datas="datas">
         <TableItem prop="id" title="ID" :width="120"></TableItem>
@@ -99,17 +97,6 @@ export default {
               HeyUI.$Message.success('成功');
               this.getData(true);
             });
-          }
-        }
-      });
-    },
-    showSliderPage() {
-      this.$Modal({
-        hasCloseIcon: true,
-        closeOnMask: false,
-        component: {
-          vue: resolve => {
-            require(['../slider/index'], resolve);
           }
         }
       });
