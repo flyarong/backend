@@ -79,10 +79,12 @@
           </TableItem>
           <TableItem title="操作" align="center" :width="240">
             <template slot-scope="{ data }">
-              <p-button glass="h-btn h-btn-s h-btn-primary" permission="member.edit" text="编辑" @click="edit(data)"></p-button>
-              <p-button glass="h-btn h-btn-s" permission="member.detail" text="详情" @click="detail(data)"></p-button>
-              <p-button glass="h-btn h-btn-s" permission="member.tags" text="标签" @click="showTags(data)"></p-button>
-              <p-button glass="h-btn h-btn-s" permission="member.remark" text="备注" @click="showRemark(data)"></p-button>
+              <ButtonGroup>
+                <p-button glass="h-btn h-btn-s h-btn-primary" permission="member.detail" text="详情" @click="detail(data)"></p-button>
+                <p-button glass="h-btn h-btn-s h-btn-primary" permission="member.edit" text="编辑" @click="edit(data)"></p-button>
+                <p-button glass="h-btn h-btn-s h-btn-primary" permission="member.tags" text="标签" @click="showTags(data)"></p-button>
+                <p-button glass="h-btn h-btn-s h-btn-primary" permission="member.remark" text="备注" @click="showRemark(data)"></p-button>
+              </ButtonGroup>
             </template>
           </TableItem>
         </Table>

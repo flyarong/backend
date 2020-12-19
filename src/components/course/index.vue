@@ -47,11 +47,18 @@
           </TableItem>
           <TableItem title="操作" align="center" :width="350">
             <template slot-scope="{ data }">
-              <p-del-button permission="course.destroy" @click="remove(datas, data)"></p-del-button>
-              <p-button glass="h-btn h-btn-s h-btn-primary" permission="course.edit" text="编辑" @click="edit(data)"></p-button>
-              <p-button glass="h-btn h-btn-s" permission="course_chapter" text="章节" @click="goChapter(data)"></p-button>
-              <p-button glass="h-btn h-btn-s" permission="course_attach" text="附件" @click="goCourseAttach(data)"></p-button>
-              <p-button glass="h-btn h-btn-s" permission="course.watchRecords" text="观看记录" @click="showWatchRecords(data)"></p-button>
+              <ButtonGroup>
+                <p-del-button permission="course.destroy" @click="remove(datas, data)"></p-del-button>
+                <p-button glass="h-btn h-btn-s h-btn-primary" permission="course.edit" text="编辑" @click="edit(data)"></p-button>
+                <p-button glass="h-btn h-btn-s h-btn-primary" permission="course_chapter" text="章节" @click="goChapter(data)"></p-button>
+                <p-button glass="h-btn h-btn-s h-btn-primary" permission="course_attach" text="附件" @click="goCourseAttach(data)"></p-button>
+                <p-button
+                  glass="h-btn h-btn-s h-btn-primary"
+                  permission="course.watchRecords"
+                  text="用户观看"
+                  @click="showWatchRecords(data)"
+                ></p-button>
+              </ButtonGroup>
             </template>
           </TableItem>
         </Table>

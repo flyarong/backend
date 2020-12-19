@@ -30,9 +30,6 @@
         </Form>
       </div>
       <div class="float-box mb-10">
-        <Button class="h-btn h-btn-s h-btn-primary" @click="exportExcel()">导出excel</Button>
-      </div>
-      <div class="float-box mb-10">
         <Table :loading="loading" :datas="list">
           <TableItem title="课程ID" prop="course_id" :width="120"></TableItem>
           <TableItem title="用户ID" prop="user_id" :width="120"></TableItem>

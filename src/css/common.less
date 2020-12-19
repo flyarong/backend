@@ -290,6 +290,7 @@
 
 // 重写弹出框
 .h-modal {
+
   .h-notify-container {
     overflow-y: auto;
     bottom: 100px;
@@ -305,6 +306,14 @@
       background-color: white;
       opacity: 1;
       z-index: 1101;
+    }
+  }
+
+  &.h-modal-comfirm {
+    height: auto;
+
+    .h-notify-container {
+      bottom: auto;
     }
   }
 }
