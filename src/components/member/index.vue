@@ -77,7 +77,7 @@
               </template>
             </template>
           </TableItem>
-          <TableItem title="操作" align="center" :width="240">
+          <TableItem title="操作" align="center" :width="240" fixed="right">
             <template slot-scope="{ data }">
               <ButtonGroup>
                 <p-button glass="h-btn h-btn-s h-btn-primary" permission="member.detail" text="详情" @click="detail(data)"></p-button>
