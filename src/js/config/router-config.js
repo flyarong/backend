@@ -267,6 +267,11 @@ const initRouter = () => {
         component: (resolve) => require(['components/extentions/codeExchanger/goods/index'], resolve),
         meta: { title: '兑换商品' }
       }, {
+        path: '/PlatformCompany',
+        name: 'PlatformCompany',
+        component: (resolve) => require(['components/extentions/platform/company/index'], resolve),
+        meta: { title: '机构' }
+      }, {
         path: '/system-error',
         name: 'SystemError',
         component: (resolve) => require(['components/error-pages/500'], resolve),
