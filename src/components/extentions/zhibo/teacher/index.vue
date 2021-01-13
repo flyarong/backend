@@ -1,10 +1,7 @@
 <template>
-  <div class="h-panel w-1000">
+  <div class="table-basic-vue frame-page h-panel">
     <div class="h-panel-bar">
       <span class="h-panel-title">讲师</span>
-      <div class="h-panel-right">
-        <Button @click="$emit('close')" :text="true">取消</Button>
-      </div>
     </div>
     <div class="h-panel-body">
       <div class="float-box mb-10">

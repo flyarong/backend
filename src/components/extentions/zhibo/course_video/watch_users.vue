@@ -1,5 +1,5 @@
 <template>
-  <div class="h-panel w-800">
+  <div class="h-panel w-1000">
     <div class="h-panel-bar">
       <span class="h-panel-title">观看用户</span>
       <div class="h-panel-right">

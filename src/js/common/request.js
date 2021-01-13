@@ -1295,10 +1295,10 @@ const Request = {
       },
       CourseChat: {
         List(param) {
-          return Ajax.get('/backend/addons/zhibo/course_chat', param);
+          return Ajax.get('/backend/addons/zhibo/chat/' + param.course_id + '/' + param.video_id, param);
         },
         Delete(param) {
-          return Ajax.delete('/backend/addons/zhibo/course_chat/' + param.id, param);
+          return Ajax.postJson('/backend/addons/zhibo/chat/delete', param);
         }
       },
       Zhibo: {

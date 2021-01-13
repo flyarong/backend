@@ -227,6 +227,13 @@ const initRouter = () => {
           title: '直播课程'
         }
       }, {
+        path: '/ZhiboTeacher',
+        name: 'ZhiboTeacher',
+        component: (resolve) => require(['components/extentions/zhibo/teacher/index'], resolve),
+        meta: {
+          title: '直播讲师'
+        }
+      }, {
         path: '/ZhiboOpen',
         name: 'ZhiboOpen',
         component: (resolve) => require(['components/extentions/zhibo/zhibo/index'], resolve),
