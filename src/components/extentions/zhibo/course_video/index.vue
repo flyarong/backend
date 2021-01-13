@@ -21,15 +21,15 @@
               <span>{{ data.title }}</span>
             </template>
           </TableItem>
-          <TableItem prop="published_at" title="直播时间" :width="160"></TableItem>
-          <TableItem prop="status_text" title="状态" :width="100"></TableItem>
-          <TableItem title="显示" :width="50">
+          <TableItem prop="published_at" title="直播时间" :width="200"></TableItem>
+          <TableItem title="状态" :width="100">
             <template slot-scope="{ data }">
-              <span v-if="data.is_show === 1">是</span>
-              <span v-else>否</span>
+              <span v-if="data.status === 0">未开始</span>
+              <span class="green" v-else-if="data.status === 1">直播中</span>
+              <span class="red" v-else>已结束</span>
             </template>
           </TableItem>
-          <TableItem title="操作" align="center" :width="300">
+          <TableItem title="操作" align="center" :width="400">
             <template slot-scope="{ data }">
               <p-del-button permission="addons.Zhibo.course_video.delete" @click="remove(datas, data)"></p-del-button>
               <p-button glass="h-btn h-btn-s h-btn-primary" permission="addons.Zhibo.course_video.update" text="编辑" @click="edit(data)"></p-button>
@@ -46,6 +46,13 @@
                 permission="addons.Zhibo.course_video.watch.users"
                 text="观看用户"
                 @click="watchUsers(data)"
+              ></p-button>
+              <p-button
+                v-if="data.status !== 0"
+                glass="h-btn h-btn-s h-btn-primary"
+                permission="addons.Zhibo.chat.list"
+                text="聊天室"
+                @click="showChat(data)"
               ></p-button>
             </template>
           </TableItem>
@@ -152,6 +159,27 @@ export default {
         component: {
           vue: resolve => {
             require(['./watch_users'], resolve);
+          },
+          datas: {
+            course_id: video.course_id,
+            video_id: video.id
+          }
+        },
+        events: {
+          success: (modal, data) => {
+            modal.close();
+            this.getData(true);
+          }
+        }
+      });
+    },
+    showChat(video) {
+      this.$Modal({
+        hasCloseIcon: true,
+        closeOnMask: false,
+        component: {
+          vue: resolve => {
+            require(['./chat'], resolve);
           },
           datas: {
             course_id: video.course_id,
