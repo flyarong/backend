@@ -49,32 +49,31 @@
           <TableItem prop="charge" title="价格" unit="元" :width="80"></TableItem>
           <TableItem prop="view_times" title="浏览" unit="次" :width="120"></TableItem>
           <TableItem prop="user_count" title="订阅" unit="人" :width="120"></TableItem>
-          <TableItem prop="published_at" title="上架" :width="120"></TableItem>
-          <TableItem title="操作" align="center" :width="300">
+          <TableItem prop="published_at" title="上架" :width="150"></TableItem>
+          <TableItem title="操作" align="center" :width="300" fixed="right">
             <template slot-scope="{ data }">
-              <p-del-button permission="addons.meedu_books.book.delete" @click="remove(datas, data)"></p-del-button>
-              <p-button glass="h-btn h-btn-s h-btn-primary" permission="addons.meedu_books.book.update" text="编辑" @click="edit(data)"></p-button>
-
-              <p-button
-                glass="h-btn h-btn-s h-btn-primary"
-                permission="addons.meedu_books.book_chapter.list"
-                text="章节"
-                @click="goChapter(data)"
-              ></p-button>
-
-              <p-button
-                glass="h-btn h-btn-s h-btn-primary"
-                permission="addons.meedu_books.book_article.list"
-                text="文章"
-                @click="showArticlesPage(data)"
-              ></p-button>
-
-              <p-button
-                glass="h-btn h-btn-primary h-btn-s"
-                permission="addons.meedu_books.book.comments.list"
-                text="评论"
-                @click="showCommentsPage(data)"
-              ></p-button>
+              <ButtonGroup>
+                <p-del-button permission="addons.meedu_books.book.delete" @click="remove(datas, data)"></p-del-button>
+                <p-button glass="h-btn h-btn-s h-btn-primary" permission="addons.meedu_books.book.update" text="编辑" @click="edit(data)"></p-button>
+                <p-button
+                  glass="h-btn h-btn-s h-btn-primary"
+                  permission="addons.meedu_books.book_chapter.list"
+                  text="章节"
+                  @click="goChapter(data)"
+                ></p-button>
+                <p-button
+                  glass="h-btn h-btn-s h-btn-primary"
+                  permission="addons.meedu_books.book_article.list"
+                  text="文章"
+                  @click="showArticlesPage(data)"
+                ></p-button>
+                <p-button
+                  glass="h-btn h-btn-primary h-btn-s"
+                  permission="addons.meedu_books.book.comments.list"
+                  text="评论"
+                  @click="showCommentsPage(data)"
+                ></p-button>
+              </ButtonGroup>
             </template>
           </TableItem>
         </Table>

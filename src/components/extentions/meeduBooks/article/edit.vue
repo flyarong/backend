@@ -10,12 +10,12 @@
     <div class="h-panel-body">
       <Form mode="block" ref="form" :validOnChange="true" :showErrorTip="true" :rules="rules" :model="article">
         <Row :space="10">
-          <Cell :width="6">
+          <Cell :width="8">
             <FormItem label="章节" prop="book_cid">
               <Select v-model="article.book_cid" :datas="cs" keyName="id" titleName="name"></Select>
             </FormItem>
           </Cell>
-          <Cell :width="18">
+          <Cell :width="16">
             <FormItem label="标题" prop="title">
               <input type="text" v-model="article.title" placeholder="请输入标题" />
             </FormItem>
