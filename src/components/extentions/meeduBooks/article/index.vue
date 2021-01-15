@@ -30,11 +30,11 @@
       </div>
       <div class="float-box mb-10">
         <Table :loading="loading" :datas="datas">
-          <TableItem prop="id" title="ID" :width="120"></TableItem>
-          <TableItem title="章节" :width="150">
+          <TableItem prop="id" title="ID" :width="100"></TableItem>
+          <TableItem title="章节" :width="200">
             <template slot-scope="{ data }">
               <span v-if="data.chapter">{{ data.chapter.name }}</span>
-              <span class="c-red" v-else>已删除</span>
+              <span class="red" v-else>已删除</span>
             </template>
           </TableItem>
           <TableItem prop="title" title="标题"></TableItem>
@@ -54,15 +54,17 @@
           <TableItem prop="published_at" title="上架时间" :width="200"></TableItem>
           <TableItem title="操作" align="center" :width="200">
             <template slot-scope="{ data }">
-              <p-del-button permission="addons.meedu_books.book.delete" @click="remove(datas, data)"></p-del-button>
-              <p-button glass="h-btn h-btn-s h-btn-primary" permission="addons.meedu_books.book.update" text="编辑" @click="edit(data)"></p-button>
+              <ButtonGroup>
+                <p-del-button permission="addons.meedu_books.book.delete" @click="remove(datas, data)"></p-del-button>
+                <p-button glass="h-btn h-btn-s h-btn-primary" permission="addons.meedu_books.book.update" text="编辑" @click="edit(data)"></p-button>
 
-              <p-button
-                glass="h-btn h-btn-primary h-btn-s"
-                permission="addons.meedu_books.book_article.comments.list"
-                text="评论"
-                @click="showCommentsPage(data)"
-              ></p-button>
+                <p-button
+                  glass="h-btn h-btn-primary h-btn-s"
+                  permission="addons.meedu_books.book_article.comments.list"
+                  text="评论"
+                  @click="showCommentsPage(data)"
+                ></p-button>
+              </ButtonGroup>
             </template>
           </TableItem>
         </Table>
