@@ -61,23 +61,25 @@
         </Row>
 
         <FormItem label="简短介绍" prop="short_desc">
-          <template v-slot:label>简短介绍</template>
           <textarea v-model="book.short_desc"></textarea>
         </FormItem>
 
         <FormItem label="详情介绍" prop="original_desc">
-          <template v-slot:label>详情介绍</template>
           <tinymce-editor v-model="book.original_desc"></tinymce-editor>
         </FormItem>
 
-        <FormItem label="SEO描述" prop="seo_description">
-          <template v-slot:label>SEO描述</template>
-          <textarea v-model="book.seo_description"></textarea>
-        </FormItem>
-        <FormItem label="SEO关键字" prop="seo_keywords">
-          <template v-slot:label>SEO关键字</template>
-          <textarea v-model="book.seo_keywords"></textarea>
-        </FormItem>
+        <Row :space="10">
+          <Cell :width="12">
+            <FormItem label="SEO描述" prop="seo_description">
+              <textarea v-model="book.seo_description"></textarea>
+            </FormItem>
+          </Cell>
+          <Cell :width="12">
+            <FormItem label="SEO关键字" prop="seo_keywords">
+              <textarea v-model="book.seo_keywords"></textarea>
+            </FormItem>
+          </Cell>
+        </Row>
       </Form>
     </div>
   </div>

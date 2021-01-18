@@ -1,5 +1,5 @@
 <template>
-  <div class="h-panel w-800">
+  <div class="h-panel w-1200">
     <div class="h-panel-bar">
       <span class="h-panel-title">订阅用户</span>
       <div class="h-panel-right">
@@ -13,16 +13,16 @@
           <TableItem title="用户">
             <template slot-scope="{ data }">
               <span v-if="data.user">{{ data.user.nick_name }}</span>
-              <span class="c-red" v-else>已删除</span>
+              <span class="red" v-else>已删除</span>
             </template>
           </TableItem>
           <TableItem title="价格">
             <template slot-scope="{ data }">
-              <span v-if="data.is_vip === 1" class="c-red">VIP免费</span>
+              <span class="red" v-if="data.is_vip === 1">VIP免费</span>
               <span v-else>￥{{ data.charge }}</span>
             </template>
           </TableItem>
-          <TableItem title="订阅时间" prop="created_at" :width="150"></TableItem>
+          <TableItem title="订阅时间" prop="created_at" :width="200"></TableItem>
         </Table>
       </div>
 
