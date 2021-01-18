@@ -279,6 +279,11 @@ const initRouter = () => {
         component: (resolve) => require(['components/extentions/platform/company/index'], resolve),
         meta: { title: '机构' }
       }, {
+        path: '/PlatformAnno',
+        name: 'PlatformAnno',
+        component: (resolve) => require(['components/extentions/platform/anno/index'], resolve),
+        meta: { title: '机构' }
+      }, {
         path: '/system-error',
         name: 'SystemError',
         component: (resolve) => require(['components/error-pages/500'], resolve),

@@ -1508,6 +1508,26 @@ const Request = {
         Delete() {
           return Ajax.delete('/backend/addons/Platform/company/' + param.id);
         }
+      },
+      Anno: {
+        List(param) {
+          return Ajax.get('/backend/addons/Platform/anno/index', param);
+        },
+        Create(param) {
+          return Ajax.get('/backend/addons/Platform/anno/create', param);
+        },
+        Store(param) {
+          return Ajax.postJson('/backend/addons/Platform/anno/create', param);
+        },
+        Edit(id) {
+          return Ajax.get('/backend/addons/Platform/anno/' + id);
+        },
+        Update(param) {
+          return Ajax.putJson('/backend/addons/Platform/anno/' + param.id, param);
+        },
+        Delete() {
+          return Ajax.delete('/backend/addons/Platform/anno/' + param.id);
+        }
       }
     }
   }
