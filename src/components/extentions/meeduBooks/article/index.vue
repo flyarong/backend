@@ -34,7 +34,7 @@
           <TableItem title="章节" :width="200">
             <template slot-scope="{ data }">
               <span v-if="data.chapter">{{ data.chapter.name }}</span>
-              <span class="red" v-else>已删除</span>
+              <span class="red" v-else>未选择</span>
             </template>
           </TableItem>
           <TableItem prop="title" title="标题"></TableItem>

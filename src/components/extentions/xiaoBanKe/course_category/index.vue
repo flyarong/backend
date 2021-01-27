@@ -1,5 +1,5 @@
 <template>
-  <div class="h-panel w-800">
+  <div class="h-panel w-1200">
     <div class="h-panel-bar">
       <span class="h-panel-title">课程分类</span>
       <div class="h-panel-right">
@@ -15,13 +15,15 @@
         <TableItem prop="sort" title="升序"></TableItem>
         <TableItem title="操作" align="center" :width="200">
           <template slot-scope="{ data }">
-            <p-del-button permission="addons.XiaoBanKe.course_category.delete" @click="remove(datas, data)"></p-del-button>
-            <p-button
-              glass="h-btn h-btn-s h-btn-primary"
-              permission="addons.XiaoBanKe.course_category.edit"
-              text="编辑"
-              @click="edit(data)"
-            ></p-button>
+            <ButtonGroup>
+              <p-del-button permission="addons.XiaoBanKe.course_category.delete" @click="remove(datas, data)"></p-del-button>
+              <p-button
+                glass="h-btn h-btn-s h-btn-primary"
+                permission="addons.XiaoBanKe.course_category.edit"
+                text="编辑"
+                @click="edit(data)"
+              ></p-button>
+            </ButtonGroup>
           </template>
         </TableItem>
       </Table>

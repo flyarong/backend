@@ -70,7 +70,7 @@ export default {
         charge: 0
       },
       rules: {
-        required: ['bid', 'book_cid', 'is_show', 'title', 'original_content', 'published_at']
+        required: ['bid', 'is_show', 'title', 'original_content', 'published_at']
       },
       books: [],
       chapters: []

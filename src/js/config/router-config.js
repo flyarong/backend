@@ -242,7 +242,12 @@ const initRouter = () => {
         path: '/K12/XiaoBanKe',
         name: 'XiaoBanKe',
         component: (resolve) => require(['components/extentions/xiaoBanKe/course/index'], resolve),
-        meta: { title: '大小班' }
+        meta: { title: '大小班课程' }
+      }, {
+        path: '/K12/XiaoBanKe/teacher',
+        name: 'XiaoBanKeTeacher',
+        component: (resolve) => require(['components/extentions/xiaoBanKe/teacher/index'], resolve),
+        meta: { title: '大小班课程' }
       }, {
         path: '/MultiLevelSharePoster',
         name: 'MultiLevelSharePoster',
