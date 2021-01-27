@@ -9,27 +9,33 @@
     </div>
     <div class="h-panel-body">
       <Form mode="block" ref="form" :validOnChange="true" :showErrorTip="true" :rules="rules" :model="teacher">
-        <FormItem label="讲师名" prop="name">
-          <template v-slot:label>讲师名</template>
-          <input type="text" v-model="teacher.name" />
-        </FormItem>
-        <FormItem label="头像" prop="avatar">
-          <template v-slot:label>头像</template>
-          <image-upload v-model="teacher.avatar" name="头像"></image-upload>
-        </FormItem>
-        <FormItem label="简介" prop="short_desc">
-          <template v-slot:label>简介</template>
-          <textarea v-model="teacher.short_desc"></textarea>
-        </FormItem>
-        <FormItem label="邮箱" prop="username">
-          <template v-slot:label>邮箱</template>
-          <input type="text" v-model="teacher.username" />
-          <warn text="用于教师登录"></warn>
-        </FormItem>
-        <FormItem label="密码" prop="password">
-          <template v-slot:label>密码</template>
-          <input type="text" v-model="teacher.password" />
-        </FormItem>
+        <Row :space="10">
+          <Cell :width="6">
+            <FormItem label="讲师名" prop="name">
+              <input type="text" v-model="teacher.name" />
+            </FormItem>
+          </Cell>
+          <Cell :width="18">
+            <FormItem label="头像" prop="avatar">
+              <image-upload v-model="teacher.avatar" name="头像"></image-upload>
+            </FormItem>
+          </Cell>
+          <Cell :width="12">
+            <FormItem label="邮箱" prop="username">
+              <input type="text" v-model="teacher.username" />
+            </FormItem>
+          </Cell>
+          <Cell :width="12">
+            <FormItem label="密码" prop="password">
+              <input type="text" v-model="teacher.password" />
+            </FormItem>
+          </Cell>
+          <Cell :width="24">
+            <FormItem label="简介" prop="short_desc">
+              <textarea v-model="teacher.short_desc"></textarea>
+            </FormItem>
+          </Cell>
+        </Row>
       </Form>
     </div>
   </div>

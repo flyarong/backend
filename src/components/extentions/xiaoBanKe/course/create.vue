@@ -10,6 +10,12 @@
     <div class="h-panel-body">
       <Form mode="block" ref="form" :validOnChange="true" :showErrorTip="true" :rules="rules" :model="course">
         <Row :space="10">
+          <Cell :width="24">
+            <FormItem label="课程标题" prop="title">
+              <input type="text" v-model="course.title" />
+            </FormItem>
+          </Cell>
+
           <Cell :width="6">
             <FormItem label="类型" prop="type">
               <Select v-model="course.type" :datas="courseTypes" keyName="id" titleName="name"></Select>
@@ -33,16 +39,7 @@
               <Select v-model="course.teacher_ids" :datas="teachers" :multiple="true" keyName="id" titleName="name" :filterable="true"></Select>
             </FormItem>
           </Cell>
-          <Cell :width="18">
-            <FormItem label="课程标题" prop="title">
-              <input type="text" v-model="course.title" />
-            </FormItem>
-          </Cell>
-          <Cell :width="6">
-            <FormItem label="开课时间" prop="start_at">
-              <DatePicker v-model="course.start_at" type="datetime"></DatePicker>
-            </FormItem>
-          </Cell>
+
           <Cell :width="24">
             <FormItem label="课程封面" prop="thumb">
               <image-upload v-model="course.thumb" name="课程封面"></image-upload>
@@ -64,6 +61,18 @@
               </div>
             </FormItem>
           </Cell>
+
+          <Cell :width="6">
+            <FormItem label="开课时间" prop="open_at">
+              <DatePicker v-model="course.open_at" type="datetime"></DatePicker>
+            </FormItem>
+          </Cell>
+          <Cell :width="6">
+            <FormItem label="结课时间" prop="over_at">
+              <DatePicker v-model="course.over_at" type="datetime"></DatePicker>
+            </FormItem>
+          </Cell>
+
           <Cell :width="24">
             <FormItem label="简短介绍" prop="short_desc">
               <textarea v-model="course.short_desc"></textarea>
@@ -100,11 +109,15 @@ export default {
         is_show: 1,
         max_people_num: null,
         start_at: null,
+        end_at: null,
+        open_at: null,
+        over_at: null,
         teacher_ids: null
       },
       rules: {
         required: [
-          'start_at',
+          'open_at',
+          'over_at',
           'teacher_ids',
           'type',
           'category_id',
