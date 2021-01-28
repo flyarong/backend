@@ -31,26 +31,26 @@
       </div>
       <div class="float-box mb-10">
         <Table :loading="loading" :datas="datas" :checkbox="true" ref="table">
-          <TableItem prop="id" title="ID" :width="80"></TableItem>
-          <TableItem title="用户">
+          <TableItem prop="id" title="ID" :width="100"></TableItem>
+          <TableItem title="用户" :width="150">
             <template slot-scope="{ data }">
               <span v-if="data.user">{{ data.user.nick_name }}</span>
               <span v-else class="red">已删除</span>
             </template>
           </TableItem>
-          <TableItem title="评论内容">
-            <template slot-scope="{ data }">
-              <div v-html="data.content"></div>
-            </template>
-          </TableItem>
-          <TableItem prop="created_at" title="时间"></TableItem>
-          <TableItem title="状态">
+          <TableItem prop="created_at" title="时间" :width="150"></TableItem>
+          <TableItem title="状态" :width="100">
             <template slot-scope="{ data }">
               <span v-if="data.is_check === 1">通过</span>
               <span v-else class="red">拒绝</span>
             </template>
           </TableItem>
-          <TableItem title="操作" align="center" :width="100">
+          <TableItem title="评论内容" :width="500">
+            <template slot-scope="{ data }">
+              <div v-html="data.content"></div>
+            </template>
+          </TableItem>
+          <TableItem title="操作" align="center" :width="100" fixed="right">
             <template slot-scope="{ data }">
               <p-del-button permission="addons.meedu_topics.topic.comment.delete" @click="remove(datas, data)"></p-del-button>
             </template>

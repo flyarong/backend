@@ -1,7 +1,5 @@
 import utils from 'hey-utils';
 
-const rclass = /[\t\r\n\f]/g;
-
 export default utils.extend({}, utils, {
   getClass(elem) {
     return (elem.getAttribute && elem.getAttribute('class')) || '';
@@ -10,7 +8,7 @@ export default utils.extend({}, utils, {
     let className;
     className = ` ${selector} `;
     if (elem.nodeType === 1 && (` ${this.getClass(elem)} `)
-      .replace(rclass, ' ')
+      .replace(/[\t\r\n\f]/g, ' ')
       .indexOf(className) > -1) {
       return true;
     }
@@ -18,7 +16,7 @@ export default utils.extend({}, utils, {
     return false;
   },
   exportExcel(data, filename, sheetName) {
-    let XLSX = require('xlsx');
+    const XLSX = require('xlsx');
     let wb = XLSX.utils.book_new(),
       ws = XLSX.utils.aoa_to_sheet(data);
     XLSX.utils.book_append_sheet(wb, ws, sheetName);
