@@ -122,8 +122,6 @@ export default {
     create() {
       let validResult = this.$refs.form.valid();
       if (validResult.result) {
-        this.topic.render_content = localStorage.getItem('markdown_content_val_topic_original_content');
-        this.topic.free_content_render = localStorage.getItem('markdown_content_val_topic_free_content');
         this.$emit('success', this.topic);
       }
     }
