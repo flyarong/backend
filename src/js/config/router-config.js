@@ -168,7 +168,7 @@ const initRouter = () => {
         path: '/MeeduTopics',
         name: 'MeeduTopics',
         component: (resolve) => require(['components/extentions/meeduTopics/topic/index'], resolve),
-        meta: { title: '话题' }
+        meta: { title: '图文' }
       }, {
         path: '/MiaoSha',
         name: 'MiaoSha',

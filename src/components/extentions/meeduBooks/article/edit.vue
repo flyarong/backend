@@ -44,8 +44,7 @@
         </Row>
 
         <FormItem label="内容" prop="original_content">
-          <template v-slot:label>内容</template>
-          <mk-editor v-model="article.original_content"></mk-editor>
+          <mk-editor :text="article.original_content" @textChange="contentChange"></mk-editor>
         </FormItem>
       </Form>
     </div>
@@ -89,6 +88,10 @@ export default {
     }
   },
   methods: {
+    contentChange(val, renderVal) {
+      this.article.original_content = val;
+      this.article.render_content = renderVal;
+    },
     init() {
       R.Extentions.meeduBooks.Article.Create().then(res => {
         this.books = res.data.books;
