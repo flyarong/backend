@@ -52,6 +52,19 @@
         <FormItem label="文章内容" prop="original_content">
           <markdown @textChange="contentChange" id="originalContent" :text="topic.original_content"></markdown>
         </FormItem>
+
+        <Row :space="10">
+          <Cell :width="12">
+            <FormItem label="SEO关键字" prop="seo_keywords">
+              <textarea v-model="topic.seo_keywords" rows="2"></textarea>
+            </FormItem>
+          </Cell>
+          <Cell :width="12">
+            <FormItem label="SEO描述" prop="seo_description">
+              <textarea v-model="topic.seo_description" rows="2"></textarea>
+            </FormItem>
+          </Cell>
+        </Row>
       </Form>
     </div>
   </div>
@@ -76,7 +89,9 @@ export default {
         free_content_render: '',
         charge: 0,
         original_content: '',
-        sorted_at: null
+        sorted_at: null,
+        seo_keywords: '',
+        seo_description: ''
       },
       rules: {
         required: ['cid', 'title', 'is_show', 'original_content', 'thumb']
