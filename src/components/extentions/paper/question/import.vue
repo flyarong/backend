@@ -9,14 +9,7 @@
     </div>
     <div class="h-panel-body">
       <div class="float-box mb-10">
-        <a :href="url + '?token=' + token" target="_blank">导入模板下载</a>
-      </div>
-      <div class="float-box mb-10">
-        <p>类型选项：单选题，多选题，判断题，填空题，问答题</p>
-        <p>难度选项：简单，中等，难，特别难</p>
-        <p>单选答案：请填写对应答案的序号，如果：1</p>
-        <p>多选答案：正确答案的序号用英文逗号连接，如：1,2,3</p>
-        <p>判断题答案：正确填写1，错误填写0</p>
+        <a href="https://www.yuque.com/meedu/rg44n1/ucbqv1" target="_blank">导入模板下载</a>
       </div>
       <div class="float-box mb-10">
         <input type="file" ref="file" />
