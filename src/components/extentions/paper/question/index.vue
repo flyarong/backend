@@ -33,38 +33,45 @@
       </div>
 
       <div class="float-box mb-10">
-        <p-button
-          glass="h-btn h-btn-primary h-btn-s"
-          permission="addons.Paper.question_category.list"
-          text="试题分类"
-          @click="showCategoriesPage()"
-        ></p-button>
+        <ButtonGroup>
+          <p-del-button permission="addons.Paper.question.delete" text="批量删除试题" @click="deleteSubmit"></p-del-button>
 
-        <p-button glass="h-btn h-btn-primary h-btn-s" permission="addons.Paper.question.store" text="添加" @click="create()"></p-button>
+          <p-button
+            glass="h-btn h-btn-primary h-btn-s"
+            permission="addons.Paper.question_category.list"
+            text="试题分类"
+            @click="showCategoriesPage()"
+          ></p-button>
 
-        <p-button glass="h-btn h-btn-primary h-btn-s" permission="addons.Paper.question.import.csv" text="批量导入" @click="importFile()"></p-button>
+          <p-button glass="h-btn h-btn-primary h-btn-s" permission="addons.Paper.question.store" text="添加试题" @click="create()"></p-button>
 
-        <p-del-button permission="addons.Paper.question.delete" text="批量删除" @click="deleteSubmit"></p-del-button>
+          <p-button
+            glass="h-btn h-btn-primary h-btn-s"
+            permission="addons.Paper.question.import.csv"
+            text="批量导入试题"
+            @click="importFile()"
+          ></p-button>
+        </ButtonGroup>
       </div>
 
       <div class="float-box mb-10">
         <Table :loading="loading" :checkbox="true" :datas="datas" ref="table">
-          <TableItem prop="id" title="ID" :width="80"></TableItem>
-          <TableItem title="分类" :width="80">
+          <TableItem prop="id" title="ID" :width="100"></TableItem>
+          <TableItem title="分类" :width="130">
             <template slot-scope="{ data }">
               <span v-if="data.category">{{ data.category.name }}</span>
               <span v-else class="red">已删除</span>
             </template>
           </TableItem>
-          <TableItem prop="type_text" title="类型" :width="80"></TableItem>
-          <TableItem prop="level_text" title="难度" :width="80"></TableItem>
-          <TableItem prop="score" title="分数" unit="分" :width="80"></TableItem>
-          <TableItem title="问题">
+          <TableItem prop="type_text" title="类型" :width="100"></TableItem>
+          <TableItem prop="level_text" title="难度" :width="100"></TableItem>
+          <TableItem prop="score" title="分数" unit="分" :width="10"></TableItem>
+          <TableItem title="问题" :width="600">
             <template slot-scope="{ data }">
               <div v-html="data.content"></div>
             </template>
           </TableItem>
-          <TableItem title="操作" align="center" :width="100">
+          <TableItem title="操作" align="center" :width="200" fixed="right">
             <template slot-scope="{ data }">
               <p-button glass="h-btn h-btn-s h-btn-primary" permission="addons.Paper.question.update" text="编辑" @click="edit(data)"></p-button>
             </template>
