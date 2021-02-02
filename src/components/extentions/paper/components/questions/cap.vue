@@ -42,8 +42,8 @@ export default {
   },
   data() {
     return {
-      header: this.content === null ? null : this.content.header,
-      questions: this.content === null ? [] : this.content.questions
+      header: typeof this.content === 'undefined' ? null : this.content.header,
+      questions: typeof this.content === 'undefined' ? [] : this.content.questions
     };
   },
   watch: {

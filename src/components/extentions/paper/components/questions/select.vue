@@ -44,9 +44,9 @@ export default {
     return {
       max: 10,
       length: 4,
-      answer: this.content ? this.content : [],
+      answer: typeof this.content !== 'undefined' ? this.content : [],
       question:
-        this.que === null
+        typeof this.que === 'undefined'
           ? {
               option1: null,
               option2: null,

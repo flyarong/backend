@@ -1,5 +1,5 @@
 <template>
-  <div class="h-panel w-1000">
+  <div class="h-panel w-1200">
     <div class="h-panel-bar">
       <span class="h-panel-title">添加</span>
       <div class="h-panel-right">
@@ -51,31 +51,20 @@
             </FormItem>
           </Cell>
         </Row>
-        <Row :sapce="10">
-          <Cell :width="6">
-            <FormItem label="试题随机" prop="is_random">
-              <h-switch v-model="paper.is_random" :trueValue="1" :falseValue="0"></h-switch>
-            </FormItem>
-          </Cell>
-          <Cell :width="18" v-if="paper.is_random === 1">
-            <FormItem label="试题随机范围" prop="random_category_id">
-              <Select v-model="paper.random_category_id" :datas="questionCategories" keyName="id" titleName="name" :filterable="true"></Select>
-              <warn text="试题随机的话，将会按照试卷的总分随机抽出一定的试题。"></warn>
-            </FormItem>
-          </Cell>
-        </Row>
 
         <Row :space="10">
-          <Cell :width="6">
+          <Cell :width="12">
             <FormItem label="仅邀请" prop="enabled_invite">
               <h-switch v-model="paper.enabled_invite" :trueValue="1" :falseValue="0"></h-switch>
+              <br />
               <warn text="只有在后台添加的用户才可以参与考试。"></warn>
             </FormItem>
           </Cell>
           <template v-if="paper.enabled_invite === 0">
-            <Cell :width="6">
+            <Cell :width="12">
               <FormItem label="免费" prop="is_free">
                 <h-switch v-model="paper.is_free" :trueValue="1" :falseValue="0"></h-switch>
+                <br />
                 <warn text="所有人都可以参与考试。"></warn>
               </FormItem>
             </Cell>
@@ -83,21 +72,21 @@
         </Row>
 
         <Row :space="10" v-if="paper.is_free === 0">
-          <Cell :width="6">
+          <Cell :width="24">
+            <FormItem label="会员可参与" prop="is_vip_free">
+              <h-switch v-model="paper.is_vip_free" :trueValue="1" :falseValue="0"></h-switch>
+              <br />
+              <warn text="VIP用户可直接参与考试"></warn>
+            </FormItem>
+          </Cell>
+          <Cell :width="12">
             <FormItem label="价格" prop="charge">
               <input type="number" v-model="paper.charge" />
-              <warn text="价格大于0的话用户可以购买此试卷参与考试"></warn>
+              <warn text="价格大于0的话用户可以购买此试卷参与考试，价格为0的话则禁止购买"></warn>
             </FormItem>
           </Cell>
-          <Cell :width="6">
-            <FormItem label="会员免费" prop="is_vip_free">
-              <h-switch v-model="paper.is_vip_free" :trueValue="1" :falseValue="0"></h-switch>
-              <warn text="VIP用户可免费参与考试"></warn>
-            </FormItem>
-          </Cell>
-          <Cell :width="6">
-            <FormItem label="必须购买课程" prop="required_courses">
-              <template v-slot:label>必须购买课程</template>
+          <Cell :width="12">
+            <FormItem label="购买指定课程可参与" prop="required_courses">
               <Select v-model="paper.required_courses" :datas="courses" :multiple="true" keyName="id" titleName="title" :filterable="true"></Select>
               <warn text="购买其中一门课程即可参与考试"></warn>
             </FormItem>
@@ -126,13 +115,12 @@ export default {
         random_rule: null,
         random_category_id: null,
         required_courses: [],
-        enabled_invite: 0
+        enabled_invite: null
       },
       rules: {
         required: [
           'category_id',
           'title',
-          'thumb',
           'score',
           'pass_score',
           'expired_minutes',
@@ -167,8 +155,7 @@ export default {
       let validResult = this.$refs.form.valid();
       if (validResult.result) {
         let data = this.paper;
-        data.required_courses && (data.required_courses = data.required_courses.join(','));
-        R.Extentions.paper.Paper.Store(data).then(resp => {
+        R.Extentions.paper.Paper.Store(data).then(() => {
           HeyUI.$Message.success('添加成功');
           this.$emit('success');
         });
