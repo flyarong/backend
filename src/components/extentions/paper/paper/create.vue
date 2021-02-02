@@ -22,12 +22,6 @@
             </FormItem>
           </Cell>
 
-          <Cell :width="24">
-            <FormItem label="封面" prop="thumb">
-              <image-upload v-model="paper.thumb" name="封面"></image-upload>
-            </FormItem>
-          </Cell>
-
           <Cell :width="6">
             <FormItem label="分数" prop="score">
               <input type="number" v-model="paper.score" placeholder="分数" />

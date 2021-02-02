@@ -22,12 +22,6 @@
             </FormItem>
           </Cell>
 
-          <Cell :width="24">
-            <FormItem label="封面" prop="thumb">
-              <image-upload v-model="paper.thumb" name="封面"></image-upload>
-            </FormItem>
-          </Cell>
-
           <Cell :width="6">
             <FormItem label="分数" prop="score">
               <input type="number" v-model="paper.score" placeholder="分数" />
@@ -119,7 +113,7 @@ export default {
         enabled_invite: 0
       },
       rules: {
-        required: ['title', 'thumb', 'score', 'pass_score', 'expired_minutes', 'is_random', 'try_times', 'is_vip_free', 'is_free', 'enabled_invite']
+        required: ['title', 'score', 'pass_score', 'expired_minutes', 'is_random', 'try_times', 'is_vip_free', 'is_free', 'enabled_invite']
       },
       createParams: {},
       categories: [],
