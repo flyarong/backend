@@ -82,8 +82,8 @@
               </FormItem>
             </Cell>
             <Cell :width="12">
-              <FormItem label="购买指定课程可参与" prop="required_courses">
-                <Select v-model="paper.required_courses" :datas="courses" :multiple="true" keyName="id" titleName="title" :filterable="true"></Select>
+              <FormItem label="购买指定课程可参与">
+                <Select v-model="requireCourses" :datas="courses" :multiple="true" keyName="id" titleName="title" :filterable="true"></Select>
                 <warn text="购买其中一门课程即可参与考试"></warn>
               </FormItem>
             </Cell>
@@ -101,7 +101,6 @@ export default {
         category_id: null,
         title: null,
         thumb: null,
-        score: null,
         pass_score: null,
         expired_minutes: null,
         is_random: 0,
@@ -111,9 +110,10 @@ export default {
         charge: 0,
         random_rule: null,
         random_category_id: null,
-        required_courses: [],
+        required_courses: null,
         enabled_invite: 0
       },
+      requireCourses: [],
       rules: {
         required: [
           'category_id',
@@ -149,6 +149,7 @@ export default {
       let validResult = this.$refs.form.valid();
       if (validResult.result) {
         let data = this.paper;
+        data.required_courses = this.requireCourses.join(',');
         R.Extentions.paper.Paper.Store(data).then(() => {
           HeyUI.$Message.success('添加成功');
           this.$emit('success');

@@ -64,16 +64,18 @@
     <div class="h-panel-bar">
       <span class="h-panel-title">设置习题</span>
       <div class="h-panel-right">
-        <Button @click="$emit('close')" :text="true">取消</Button>
+        <Button @click="$emit('success')" :text="true">取消</Button>
       </div>
     </div>
     <div class="h-panel-body">
       <div class="float-box mb-10">
         <p-button glass="h-btn h-btn-primary" permission="addons.Paper.paper.questions.add" text="添加试题" @click="addQuestion()"></p-button>
-        <warn text="点击试题即可删除" />
+      </div>
+      <div class="float-box mb-10" style="padding-top: 5px">
+        <span>总分：{{ totalScore }}分</span>
       </div>
       <div class="float-box mb-10">
-        <b>总分：{{ totalScore }}分</b>
+        <warn text="点击试题即可删除" />
       </div>
       <div class="float-box mb-10">
         <div class="questions-box" v-for="(list, typeText) in data" :key="typeText">

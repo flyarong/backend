@@ -23,12 +23,6 @@
           </Cell>
 
           <Cell :width="6">
-            <FormItem label="分数" prop="score">
-              <input type="number" v-model="paper.score" placeholder="分数" />
-            </FormItem>
-          </Cell>
-
-          <Cell :width="6">
             <FormItem label="及格分" prop="pass_score">
               <input type="number" v-model="paper.pass_score" placeholder="及格分" />
             </FormItem>
@@ -82,8 +76,8 @@
               </FormItem>
             </Cell>
             <Cell :width="12">
-              <FormItem label="购买指定课程可参与" prop="required_courses">
-                <Select v-model="paper.required_courses" :datas="courses" :multiple="true" keyName="id" titleName="title" :filterable="true"></Select>
+              <FormItem label="购买指定课程可参与">
+                <Select v-model="requireCourses" :datas="courses" :multiple="true" keyName="id" titleName="title" :filterable="true"></Select>
                 <warn text="购买其中一门课程即可参与考试"></warn>
               </FormItem>
             </Cell>
@@ -115,6 +109,7 @@ export default {
         required_courses: [],
         enabled_invite: 0
       },
+      requireCourses: [],
       rules: {
         required: ['title', 'score', 'pass_score', 'expired_minutes', 'is_random', 'try_times', 'is_vip_free', 'is_free', 'enabled_invite']
       },
@@ -136,14 +131,14 @@ export default {
       });
       R.Extentions.paper.Paper.Edit({ id: this.id }).then(res => {
         this.paper = res.data.data;
-        this.paper.required_courses = this.paper.required_courses.split(',');
+        this.requireCourses = this.paper.required_courses.split(',');
       });
     },
     create() {
       let validResult = this.$refs.form.valid();
       if (validResult.result) {
         let data = this.paper;
-        data.required_courses = data.required_courses.join(',');
+        data.required_courses = this.requireCourses.join(',');
         R.Extentions.paper.Paper.Update(data).then(resp => {
           HeyUI.$Message.success('成功');
           this.$emit('success');

@@ -37,22 +37,21 @@
             </template>
           </TableItem>
           <TableItem prop="title" title="标题" :width="500"></TableItem>
-          <TableItem title="总分/及格" :width="120">
+          <TableItem title="及格/总分" :width="120">
             <template slot-scope="{ data }">
-              <span>{{ data.score }}/{{ data.pass_score }}</span>
+              <span
+                ><b class="red">{{ data.pass_score }}分</b>&nbsp;/&nbsp;{{ data.score }}分</span
+              >
             </template>
           </TableItem>
           <TableItem prop="expired_minutes" title="时长" unit="m" :width="80"></TableItem>
-          <TableItem title="参与规则" :width="100">
-            <template slot-scope="{ data }">
-              <span class="blue" v-if="data.enabled_invite === 1">仅邀请</span>
-              <span class="red" v-else-if="data.is_free === 1">免费</span>
-              <span v-else-if="data.charge > 0">￥{{ data.charge }}</span>
-              <span v-else>{{ data.is_vip_free ? '会员免费' : '' }} {{ data.required_courses.length > 0 ? '购买课程' : '' }}</span>
-            </template>
-          </TableItem>
           <TableItem title="操作" align="center" :width="400" fixed="right">
             <template slot-scope="{ data }">
+              <ButtonGroup>
+                <p-del-button permission="addons.Paper.paper.delete" @click="remove(datas, data)"></p-del-button>
+                <p-button glass="h-btn h-btn-s h-btn-primary" permission="addons.Paper.paper.update" text="编辑" @click="edit(data)"></p-button>
+              </ButtonGroup>
+
               <ButtonGroup>
                 <p-button
                   glass="h-btn h-btn-s h-btn-primary"
@@ -60,11 +59,12 @@
                   text="设置习题"
                   @click="showQuestion(data)"
                 ></p-button>
-                <p-del-button permission="addons.Paper.paper.delete" @click="remove(datas, data)"></p-del-button>
-                <p-button glass="h-btn h-btn-s h-btn-primary" permission="addons.Paper.paper.update" text="编辑" @click="edit(data)"></p-button>
-
-                <p-button glass="h-btn h-btn-s h-btn-primary" permission="addons.Paper.paper.users" text="用户" @click="showUsers(data)"></p-button>
-
+                <p-button
+                  glass="h-btn h-btn-s h-btn-primary"
+                  permission="addons.Paper.paper.users"
+                  text="参与用户"
+                  @click="showUsers(data)"
+                ></p-button>
                 <p-button
                   glass="h-btn h-btn-s h-btn-primary"
                   permission="addons.Paper.paper.userPaper"
@@ -134,7 +134,7 @@ export default {
           }
         },
         events: {
-          success: (modal, data) => {
+          success: modal => {
             this.getData();
             modal.close();
           }
@@ -231,7 +231,7 @@ export default {
           }
         },
         events: {
-          success: (modal, data) => {
+          success: modal => {
             this.getData();
             modal.close();
           }
