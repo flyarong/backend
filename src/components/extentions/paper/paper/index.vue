@@ -100,6 +100,10 @@ export default {
   },
   mounted() {
     this.getData(true);
+
+    R.Extentions.paper.Paper.Create().then(resp => {
+      this.categories = resp.data.categories;
+    });
   },
   methods: {
     resetFilter() {
@@ -116,7 +120,6 @@ export default {
       this.loading = true;
       R.Extentions.paper.Paper.List(this.pagination).then(resp => {
         this.datas = resp.data.data.data;
-        this.categories = resp.data.categories;
         this.pagination.total = resp.data.data.total;
         this.loading = false;
       });

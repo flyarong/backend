@@ -1,28 +1,66 @@
 <style lang="less" scoped>
-.banner {
-  text-align: center;
+.questions-box {
+  width: 100%;
+  height: auto;
+  float: left;
+  margin-bottom: 15px;
+  border: 1px solid rgba(0, 0, 0, 0.05);
 
   .title {
     width: 100%;
     height: auto;
     float: left;
-    font-size: 18px;
-    line-height: 40px;
+    line-height: 45px;
+    font-size: 15px;
+    color: rgba(0, 0, 0, 0.8);
+    font-weight: bolder;
+    padding-left: 15px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
   }
 
-  .value {
+  .list-box {
     width: 100%;
     height: auto;
     float: left;
-    font-size: 24px;
-    font-weight: 600;
-    color: #000;
-    line-height: 64px;
+    padding: 15px;
+
+    .question-item {
+      width: 100%;
+      height: auto;
+      float: left;
+      margin-bottom: 15px;
+      padding: 10px;
+      background-color: rgba(0, 0, 0, 0.02);
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+
+      .info {
+        width: 100%;
+        height: auto;
+        float: left;
+        font-size: 13px;
+        color: rgba(0, 0, 0, 0.5);
+        margin-bottom: 10px;
+      }
+
+      .content {
+        width: 100%;
+        height: auto;
+        float: left;
+      }
+
+      &:hover {
+        cursor: pointer;
+        background-color: rgba(0, 0, 0, 0.03);
+      }
+    }
   }
 }
 </style>
 <template>
-  <div class="h-panel w-1000">
+  <div class="h-panel w-1200">
     <div class="h-panel-bar">
       <span class="h-panel-title">设置习题</span>
       <div class="h-panel-right">
@@ -31,16 +69,24 @@
     </div>
     <div class="h-panel-body">
       <div class="float-box mb-10">
-        <Row>
-          <Cell :width="12" class="banner">
-            <div class="title">总分</div>
-            <div class="value">{{ totalScore }}分</div>
-          </Cell>
-          <Cell :width="12" class="banner">
-            <div class="title">试题</div>
-            <div class="value">{{ data.length }}道</div>
-          </Cell>
-        </Row>
+        <p-button glass="h-btn h-btn-primary" permission="addons.Paper.paper.questions.add" text="添加试题" @click="addQuestion()"></p-button>
+        <warn text="点击试题即可删除" />
+      </div>
+      <div class="float-box mb-10">
+        <b>总分：{{ totalScore }}分</b>
+      </div>
+      <div class="float-box mb-10">
+        <div class="questions-box" v-for="(list, typeText) in data" :key="typeText">
+          <div class="title">{{ typeText }}&nbsp;(共{{ list.length }}题)</div>
+          <div class="list-box">
+            <div class="question-item" @click="deleteQuestion(item)" v-for="item in list" :key="item.id">
+              <div class="info">ID:{{ item.id }}&nbsp;|&nbsp;{{ item.score }}分&nbsp;|&nbsp;{{ item.level_text }}</div>
+              <div class="content">
+                <div v-html="item.content"></div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -50,10 +96,6 @@ export default {
   props: ['id'],
   data() {
     return {
-      questions: [],
-      s: [],
-      category_id: null,
-      categories: [],
       data: [],
       loading: false
     };
@@ -64,37 +106,49 @@ export default {
   computed: {
     totalScore() {
       let score = 0;
-      for (let i = 0; i < this.data.length; i++) {
-        score += this.data[i].score;
+      for (let index in this.data) {
+        let list = this.data[index];
+        for (let i = 0; i < list.length; i++) {
+          score += list[i].score;
+        }
       }
       return score;
     }
   },
   methods: {
-    categoryChange() {
-      this.getData();
-    },
     getData() {
       R.Extentions.paper.Paper.Questions({
-        id: this.id,
-        category_id: this.category_id
+        id: this.id
       }).then(res => {
-        this.questions = res.data.questions;
-        this.categories = res.data.categories;
-        this.data = res.data.data;
+        this.data = res.data.questions;
       });
     },
     deleteQuestion(question) {
-      R.Extentions.paper.Paper.DelQuestion({ id: this.id, question_id: question.id }).then(res => {
-        this.$Message.success('成功');
-        this.getData();
-      });
+      if (confirm('确认删除该试题？')) {
+        R.Extentions.paper.Paper.DelQuestion({ id: this.id, question_id: question.id }).then(res => {
+          this.$Message.success('成功');
+          this.getData();
+        });
+      }
     },
-    addQuestion(question) {
-      R.Extentions.paper.Paper.AddQuestions({ id: this.id, s: [question.id] }).then(res => {
-        this.$Message.success('成功');
-        this.getData();
-        this.s = [];
+    addQuestion() {
+      this.$Modal({
+        hasCloseIcon: true,
+        closeOnMask: false,
+        component: {
+          vue: resolve => {
+            require(['./question_add'], resolve);
+          },
+          datas: {
+            id: this.id
+          }
+        },
+        events: {
+          success: (modal, data) => {
+            this.getData();
+            modal.close();
+          }
+        }
       });
     }
   }
