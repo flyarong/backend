@@ -23,7 +23,7 @@
       </div>
 
       <div class="mb-10">
-        <p-button glass="h-btn h-btn-primary" permission="addons.Paper.paper_category.list" text="分类" @click="showCategoriesPage()"></p-button>
+        <p-button glass="h-btn h-btn-primary" permission="addons.Paper.paper_category.list" text="试卷分类" @click="showCategoriesPage()"></p-button>
         <p-button glass="h-btn h-btn-primary" permission="addons.Paper.paper.store" text="添加" @click="create()"></p-button>
       </div>
 
@@ -184,7 +184,7 @@ export default {
         closeOnMask: false,
         component: {
           vue: resolve => {
-            require(['./user'], resolve);
+            require(['./users'], resolve);
           },
           datas: {
             id: item.id

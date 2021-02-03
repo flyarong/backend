@@ -1,7 +1,7 @@
 <template>
-  <div class="h-panel w-1000">
+  <div class="h-panel w-1200">
     <div class="h-panel-bar">
-      <span class="h-panel-title">试题管理</span>
+      <span class="h-panel-title">章节试题</span>
       <div class="h-panel-right">
         <Button @click="$emit('close')" :text="true">取消</Button>
       </div>
@@ -10,9 +10,19 @@
       <div class="float-box mb-10">
         <Form>
           <Row :space="10">
-            <Cell :width="12">
+            <Cell :width="6">
               <FormItem label="分类">
                 <Select v-model="filter.category_id" :datas="categories" keyName="id" titleName="name" :filterable="true"></Select>
+              </FormItem>
+            </Cell>
+            <Cell :width="6">
+              <FormItem label="类型">
+                <Select v-model="filter.type" :datas="types" keyName="id" titleName="name" :filterable="true"></Select>
+              </FormItem>
+            </Cell>
+            <Cell :width="6">
+              <FormItem label="难度">
+                <Select v-model="filter.level" :datas="levels" keyName="id" titleName="name" :filterable="true"></Select>
               </FormItem>
             </Cell>
             <Cell :width="6">
@@ -25,25 +35,27 @@
         </Form>
       </div>
       <div class="float-box mb-10">
-        <p-button
-          glass="h-btn h-btn-primary h-btn-s"
-          permission="addons.Paper.practice_chapter.questions.store"
-          text="添加"
-          @click="create()"
-        ></p-button>
-
-        <p-del-button permission="addons.Paper.practice_chapter.questions.delete" text="批量移除" @click="deleteSubmit()"></p-del-button>
+        <ButtonGroup>
+          <p-button
+            glass="h-btn h-btn-primary h-btn-s"
+            permission="addons.Paper.practice_chapter.questions.store"
+            text="添加"
+            @click="create()"
+          ></p-button>
+          <p-del-button permission="addons.Paper.practice_chapter.questions.delete" text="批量移除" @click="deleteSubmit()"></p-del-button>
+        </ButtonGroup>
       </div>
       <div class="float-box mb-10">
         <Table ref="table" :loading="loading" :checkbox="true" :datas="datas">
-          <TableItem title="ID" :width="80">
+          <TableItem title="ID" :width="120">
             <template slot-scope="{ data }">
               {{ data.id }}
             </template>
           </TableItem>
-          <TableItem title="分类" :width="80">
+          <TableItem title="分类" :width="150">
             <template slot-scope="{ data }">
-              {{ data.category.name }}
+              <span v-if="data.category">{{ data.category.name }}</span>
+              <span v-else class="red">已删除</span>
             </template>
           </TableItem>
           <TableItem title="类型" :width="120">
@@ -51,7 +63,7 @@
               {{ data.type_text }}
             </template>
           </TableItem>
-          <TableItem title="难度">
+          <TableItem title="难度" :width="100">
             <template slot-scope="{ data }">
               {{ data.level_text }}
             </template>
@@ -77,15 +89,19 @@ export default {
     return {
       pagination: {
         page: 1,
-        size: 20,
+        size: 10,
         total: 0
       },
       filter: {
         category_id: null,
-        id: this.id
+        id: this.id,
+        type: null,
+        level: null
       },
       datas: [],
       categories: [],
+      types: [],
+      levels: [],
       loading: false
     };
   },
@@ -98,6 +114,8 @@ export default {
     },
     resetFilter() {
       this.filter.category_id = null;
+      this.filter.type = null;
+      this.filter.level = null;
       this.getData(true);
     },
     getData(reset = false) {
@@ -112,7 +130,10 @@ export default {
 
         this.datas = resp.data.data.data;
         this.pagination.total = resp.data.data.total;
+
         this.categories = resp.data.categories;
+        this.types = resp.data.types;
+        this.levels = resp.data.levels;
       });
     },
     create() {
@@ -144,7 +165,7 @@ export default {
     deleteSubmit() {
       let items = this.$refs.table.getSelection();
       if (items.length === 0) {
-        this.$Message.error('请选择需要移除的试题');
+        this.$Message.error('请选择操作数据');
         return;
       }
       this.loading = true;

@@ -127,9 +127,7 @@
           </TableItem>
           <TableItem title="操作" align="center" :width="150">
             <template slot-scope="{ data }">
-              <Poptip content="确认删除？" @confirm="remove(data)">
-                <button class="h-btn h-btn-s h-btn-red">删除</button>
-              </Poptip>
+              <p-del-button permission="addons.Paper.paper.users.delete" @click="remove(data)"></p-del-button>
             </template>
           </TableItem>
         </Table>

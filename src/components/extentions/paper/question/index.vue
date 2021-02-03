@@ -130,11 +130,12 @@ export default {
       R.Extentions.paper.Question.List(data).then(resp => {
         this.datas = resp.data.data.data;
         this.pagination.total = resp.data.data.total;
-        this.loading = false;
+
         this.levels = resp.data.levels;
         this.types = resp.data.types;
         this.categories = resp.data.categories;
-        this.downloadUrl = resp.data.download_url;
+
+        this.loading = false;
       });
     },
     deleteSubmit() {
