@@ -47,14 +47,17 @@
         </Row>
 
         <Row :space="10">
-          <Cell :width="12">
+          <Cell :width="24">
             <FormItem label="仅邀请" prop="enabled_invite">
               <h-switch v-model="paper.enabled_invite" :trueValue="1" :falseValue="0"></h-switch>
               <br />
-              <warn text="只有在后台添加的用户才可以参与考试。"></warn>
+              <warn text="只有在后台添加的用户才可以参与考试。该使用场景如：老师指定的一批学生科参与考试。"></warn>
             </FormItem>
           </Cell>
-          <template v-if="paper.enabled_invite === 0">
+        </Row>
+
+        <template v-if="paper.enabled_invite === 0">
+          <Row :space="10">
             <Cell :width="12">
               <FormItem label="免费" prop="is_free">
                 <h-switch v-model="paper.is_free" :trueValue="1" :falseValue="0"></h-switch>
@@ -62,30 +65,30 @@
                 <warn text="所有人都可以参与考试。"></warn>
               </FormItem>
             </Cell>
-          </template>
-        </Row>
+          </Row>
 
-        <Row :space="10" v-if="paper.is_free === 0">
-          <Cell :width="24">
-            <FormItem label="会员可参与" prop="is_vip_free">
-              <h-switch v-model="paper.is_vip_free" :trueValue="1" :falseValue="0"></h-switch>
-              <br />
-              <warn text="VIP用户可直接参与考试"></warn>
-            </FormItem>
-          </Cell>
-          <Cell :width="12">
-            <FormItem label="价格" prop="charge">
-              <input type="number" v-model="paper.charge" />
-              <warn text="价格大于0的话用户可以购买此试卷参与考试，价格为0的话则禁止购买"></warn>
-            </FormItem>
-          </Cell>
-          <Cell :width="12">
-            <FormItem label="购买指定课程可参与" prop="required_courses">
-              <Select v-model="paper.required_courses" :datas="courses" :multiple="true" keyName="id" titleName="title" :filterable="true"></Select>
-              <warn text="购买其中一门课程即可参与考试"></warn>
-            </FormItem>
-          </Cell>
-        </Row>
+          <Row :space="10" v-if="paper.is_free === 0">
+            <Cell :width="24">
+              <FormItem label="会员可参与" prop="is_vip_free">
+                <h-switch v-model="paper.is_vip_free" :trueValue="1" :falseValue="0"></h-switch>
+                <br />
+                <warn text="VIP用户可直接参与考试"></warn>
+              </FormItem>
+            </Cell>
+            <Cell :width="12">
+              <FormItem label="价格" prop="charge">
+                <input type="number" v-model="paper.charge" />
+                <warn text="价格大于0的话用户可以购买此试卷参与考试，价格为0的话则禁止购买"></warn>
+              </FormItem>
+            </Cell>
+            <Cell :width="12">
+              <FormItem label="购买指定课程可参与" prop="required_courses">
+                <Select v-model="paper.required_courses" :datas="courses" :multiple="true" keyName="id" titleName="title" :filterable="true"></Select>
+                <warn text="购买其中一门课程即可参与考试"></warn>
+              </FormItem>
+            </Cell>
+          </Row>
+        </template>
       </Form>
     </div>
   </div>
@@ -109,7 +112,7 @@ export default {
         random_rule: null,
         random_category_id: null,
         required_courses: [],
-        enabled_invite: null
+        enabled_invite: 0
       },
       rules: {
         required: [
@@ -132,9 +135,6 @@ export default {
     };
   },
   mounted() {
-    this.paper.enabled_invite = 1;
-    this.paper.is_free = 1;
-
     this.init();
   },
   methods: {
