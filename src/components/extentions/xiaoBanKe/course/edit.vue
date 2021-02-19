@@ -22,14 +22,6 @@
             </FormItem>
           </Cell>
           <Cell :width="6">
-            <FormItem label="上限人数" prop="max_people_num">
-              <div class="h-input-group">
-                <input type="text" v-model="course.max_people_num" disabled />
-                <span class="h-input-addon">人</span>
-              </div>
-            </FormItem>
-          </Cell>
-          <Cell :width="6">
             <FormItem label="分类" prop="category_id">
               <Select v-model="course.category_id" :datas="categories" keyName="id" titleName="name" :filterable="true"></Select>
             </FormItem>
@@ -37,6 +29,11 @@
           <Cell :width="6">
             <FormItem label="老师" prop="teacher_ids">
               <Select v-model="course.teacher_ids" :datas="teachers" :multiple="true" keyName="id" titleName="name" :filterable="true"></Select>
+            </FormItem>
+          </Cell>
+          <Cell :width="6">
+            <FormItem label="显示" prop="is_show">
+              <h-switch v-model="course.is_show" :trueValue="1" :falseValue="0"></h-switch>
             </FormItem>
           </Cell>
 
