@@ -45,12 +45,18 @@
           <TableItem prop="charge" title="购买价格" unit="元" :width="120"></TableItem>
           <TableItem title="老师" :width="200" fixed="right">
             <template slot-scope="{ data }">
-              <span v-if="data.teacher">{{ data.teacher.name }}</span>
+              <p-button
+                v-if="data.teacher"
+                glass="h-btn h-btn-primary"
+                permission="addons.XiaoBanKe.order.setTeacher"
+                :text="data.teacher.name"
+                @click="setTeacher(data)"
+              ></p-button>
               <p-button
                 v-else
                 glass="h-btn h-btn-primary"
                 permission="addons.XiaoBanKe.order.setTeacher"
-                text="安排教师"
+                text="未安排教师"
                 @click="setTeacher(data)"
               ></p-button>
             </template>
