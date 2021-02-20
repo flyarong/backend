@@ -53,10 +53,10 @@
           <TableItem title="操作" align="center" :width="100">
             <template slot-scope="{ data }">
               <p-button
-                glass="h-btn h-btn-s"
-                :class="data.status === 3 ? 'h-btn-red' : 'h-btn-yellow'"
+                v-if="data.status === 3"
+                glass="h-btn h-btn-s h-btn-yellow"
                 permission="addons.Paper.paper.userPaper.submit"
-                :text="data.status === 3 ? '阅卷' : '详情'"
+                text="阅卷"
                 @click="showScore(data)"
               ></p-button>
             </template>
