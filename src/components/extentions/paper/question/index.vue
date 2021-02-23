@@ -68,7 +68,7 @@
           <TableItem prop="score" title="分数" unit="分" :width="10"></TableItem>
           <TableItem title="问题" :width="600">
             <template slot-scope="{ data }">
-              <div v-html="data.content"></div>
+              <question-show :question="data"></question-show>
             </template>
           </TableItem>
           <TableItem title="操作" align="center" :width="200" fixed="right">
@@ -86,7 +86,12 @@
   </div>
 </template>
 <script>
+import QuestionShow from '../components/questions/show';
+
 export default {
+  components: {
+    QuestionShow
+  },
   data() {
     return {
       pagination: {

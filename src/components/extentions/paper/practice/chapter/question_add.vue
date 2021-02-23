@@ -61,7 +61,7 @@
           </TableItem>
           <TableItem title="内容">
             <template slot-scope="{ data }">
-              <div v-html="data.content"></div>
+              <question-show :question="data"></question-show>
             </template>
           </TableItem>
         </Table>
@@ -74,7 +74,12 @@
   </div>
 </template>
 <script>
+import QuestionShow from '../../components/questions/show';
+
 export default {
+  components: {
+    QuestionShow
+  },
   props: ['id'],
   data() {
     return {

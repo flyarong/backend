@@ -84,7 +84,7 @@
             <div class="question-item" @click="deleteQuestion(item)" v-for="item in list" :key="item.id">
               <div class="info">ID:{{ item.id }}&nbsp;|&nbsp;{{ item.score }}分&nbsp;|&nbsp;{{ item.level_text }}</div>
               <div class="content">
-                <div v-html="item.content"></div>
+                <question-show :question="item"></question-show>
               </div>
             </div>
           </div>
@@ -94,7 +94,10 @@
   </div>
 </template>
 <script>
+import QuestionShow from '../components/questions/show';
+
 export default {
+  components: { QuestionShow },
   props: ['id'],
   data() {
     return {

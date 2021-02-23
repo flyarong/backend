@@ -10,9 +10,19 @@
       <div class="float-box mb-10">
         <Form>
           <Row :space="10">
-            <Cell :width="12">
+            <Cell :width="6">
               <FormItem label="分类">
                 <Select v-model="filter.category_id" :datas="categories" keyName="id" titleName="name" :filterable="true"></Select>
+              </FormItem>
+            </Cell>
+            <Cell :width="6">
+              <FormItem label="类型">
+                <Select v-model="filter.type" :datas="types" keyName="id" titleName="name" :filterable="true"></Select>
+              </FormItem>
+            </Cell>
+            <Cell :width="6">
+              <FormItem label="难度">
+                <Select v-model="filter.level" :datas="levels" keyName="id" titleName="name" :filterable="true"></Select>
               </FormItem>
             </Cell>
             <Cell :width="6">
@@ -55,7 +65,7 @@
           </TableItem>
           <TableItem title="内容">
             <template slot-scope="{ data }">
-              <div v-html="data.content"></div>
+              <question-show :question="data"></question-show>
             </template>
           </TableItem>
         </Table>
@@ -68,7 +78,12 @@
   </div>
 </template>
 <script>
+import QuestionShow from '../components/questions/show';
+
 export default {
+  components: {
+    QuestionShow
+  },
   props: ['id'],
   data() {
     return {
@@ -79,12 +94,16 @@ export default {
       },
       filter: {
         category_id: null,
-        id: this.id
+        id: this.id,
+        type: null,
+        level: null
       },
       questions: [],
       datas: [],
       categories: [],
-      loading: false
+      loading: false,
+      types: [],
+      levels: []
     };
   },
   mounted() {
@@ -96,6 +115,8 @@ export default {
     },
     resetFilter() {
       this.filter.category_id = null;
+      this.filter.type = null;
+      this.filter.level = null;
       this.id = null;
       this.getData(true);
     },
@@ -113,6 +134,8 @@ export default {
         this.pagination.total = resp.data.questions.total;
 
         this.categories = resp.data.categories;
+        this.types = resp.data.types;
+        this.levels = resp.data.levels;
       });
     },
     addQuestion() {
