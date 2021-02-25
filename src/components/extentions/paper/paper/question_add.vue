@@ -1,7 +1,7 @@
 <template>
   <div class="h-panel w-1200">
     <div class="h-panel-bar">
-      <span class="h-panel-title">章节试题</span>
+      <span class="h-panel-title">添加试题</span>
       <div class="h-panel-right">
         <Button @click="$emit('success')" :text="true">取消</Button>
       </div>
@@ -35,30 +35,25 @@
         </Form>
       </div>
       <div class="float-box mb-10">
-        <ButtonGroup>
-          <p-button
-            glass="h-btn h-btn-primary h-btn-s"
-            permission="addons.Paper.practice_chapter.questions.store"
-            text="添加"
-            @click="create()"
-          ></p-button>
-          <p-del-button permission="addons.Paper.practice_chapter.questions.delete" text="批量移除" @click="deleteSubmit()"></p-del-button>
-        </ButtonGroup>
+        <p-del-button permission="addons.Paper.paper.questions.add" text="添加试题" @click="addQuestion()"></p-del-button>
       </div>
       <div class="float-box mb-10">
         <Table ref="table" :loading="loading" :checkbox="true" :datas="datas">
-          <TableItem title="ID" :width="120">
+          <TableItem title="ID" :width="100">
             <template slot-scope="{ data }">
               {{ data.id }}
             </template>
           </TableItem>
-          <TableItem title="分类" :width="150">
+          <TableItem title="分类" :width="100">
             <template slot-scope="{ data }">
               <span v-if="data.category">{{ data.category.name }}</span>
               <span v-else class="red">已删除</span>
             </template>
           </TableItem>
-          <TableItem title="类型" :width="120">
+          <TableItem title="类型" :width="80">
+            <template slot-scope="{ data }"> {{ data.score }}分 </template>
+          </TableItem>
+          <TableItem title="类型" :width="100">
             <template slot-scope="{ data }">
               {{ data.type_text }}
             </template>
@@ -83,7 +78,7 @@
   </div>
 </template>
 <script>
-import QuestionShow from '../../components/questions/show';
+import QuestionShow from '../components/questions/show';
 
 export default {
   components: {
@@ -103,11 +98,12 @@ export default {
         type: null,
         level: null
       },
+      questions: [],
       datas: [],
       categories: [],
+      loading: false,
       types: [],
-      levels: [],
-      loading: false
+      levels: []
     };
   },
   mounted() {
@@ -121,6 +117,7 @@ export default {
       this.filter.category_id = null;
       this.filter.type = null;
       this.filter.level = null;
+      this.id = null;
       this.getData(true);
     },
     getData(reset = false) {
@@ -129,48 +126,22 @@ export default {
         this.pagination.page = 1;
       }
       let data = this.pagination;
+      data.in = 0;
       Object.assign(data, this.filter);
-      R.Extentions.paper.PracticeChapter.Questions(data).then(resp => {
+      R.Extentions.paper.Paper.Questions(data).then(resp => {
         this.loading = false;
-
-        this.datas = resp.data.data.data;
-        this.pagination.total = resp.data.data.total;
+        this.datas = resp.data.questions.data;
+        this.pagination.total = resp.data.questions.total;
 
         this.categories = resp.data.categories;
         this.types = resp.data.types;
         this.levels = resp.data.levels;
       });
     },
-    create() {
-      this.$Modal({
-        hasCloseIcon: true,
-        closeOnMask: false,
-        component: {
-          vue: resolve => {
-            require(['./question_add'], resolve);
-          },
-          datas: {
-            id: this.id
-          }
-        },
-        events: {
-          success: (modal, data) => {
-            modal.close();
-            this.getData();
-          }
-        }
-      });
-    },
-    addQuestion(quesiton) {
-      R.Extentions.paper.PracticeChapter.QuestionsStore({ id: this.id, qids: [quesiton.id] }).then(resp => {
-        HeyUI.$Message.success('成功');
-        this.getData();
-      });
-    },
-    deleteSubmit() {
+    addQuestion() {
       let items = this.$refs.table.getSelection();
       if (items.length === 0) {
-        this.$Message.error('请选择操作数据');
+        this.$Message.error('请选择数据');
         return;
       }
       this.loading = true;
@@ -178,8 +149,8 @@ export default {
       for (let i = 0; i < items.length; i++) {
         ids.push(items[i].id);
       }
-      R.Extentions.paper.PracticeChapter.QuestionsDelete({ id: this.id, qids: ids }).then(() => {
-        HeyUI.$Message.success('成功');
+      R.Extentions.paper.Paper.AddQuestions({ id: this.id, s: ids }).then(res => {
+        this.$Message.success('成功');
         this.getData();
       });
     }

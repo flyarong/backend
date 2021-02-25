@@ -56,13 +56,20 @@
     }
   }
 
+  .header {
+    width: 100%;
+    height: auto;
+    float: left;
+    margin-bottom: 10px;
+  }
+
   .answer {
     width: 100%;
     height: auto;
     float: left;
     color: #333;
     line-height: 30px;
-    background-color: rgba(0, 0, 0, 0.2);
+    background-color: rgba(0, 0, 0, 0.06);
     padding-left: 8px;
   }
 
@@ -112,7 +119,7 @@ p {
 }
 </style>
 <template>
-  <div class="h-panel w-1000">
+  <div class="h-panel w-1200">
     <div class="h-panel-bar">
       <span class="h-panel-title">详情</span>
       <div class="h-panel-right">
@@ -134,57 +141,28 @@ p {
         </h2>
       </div>
       <div class="float-box mb-10">
-        <div class="question-item" v-for="item in questions" :key="item.id">
-          <template v-if="item.question">
-            <div class="title">
-              <span>{{ item.question.type_text }}</span>
-              <span>({{ item.question.score }}分)</span>
-              <span>{{ item.question.level_text }}</span>
-            </div>
-            <div class="content">
-              <div class="mb-10" v-html="item.question.content"></div>
-              <div class="option" v-if="item.question.type === 1 || item.question.type === 2">
-                <template v-for="i in optionLength">
-                  <div
-                    class="option-item"
-                    :class="{
-                      active: selectIsActive('option' + i, item.question.answer),
-                      'user-active': selectIsActive('option' + i, item.answer_content)
-                    }"
-                    v-if="item.question['option' + i]"
-                    :key="i"
-                    v-html="item.question['option' + i]"
-                  ></div>
-                </template>
-              </div>
-            </div>
+        <div class="question-item" v-for="item in list" :key="item.id">
+          <div class="content">
+            <div class="header" v-if="item.header" v-html="item.header"></div>
+
+            <div class="mb-10" v-html="item.content"></div>
+
             <div class="answer">
-              <p v-if="item.question.type !== 1 && item.question.type !== 2">回答：{{ userAnswer(item) }}</p>
-              <template v-if="item.thumbs_rows.length > 0">
-                <img
-                  v-for="(img, index) in item.thumbs_rows"
-                  :key="index"
-                  :src="img"
-                  width="70"
-                  height="70"
-                  @click="imagePreview(index, item.thumbs_rows)"
-                />
+              <p>回答：{{ item.answer }}</p>
+              <template v-if="item.thumbs.length > 0">
+                <img v-for="(img, index) in item.thumbs" :key="index" :src="img" width="70" height="70" @click="imagePreview(index, item.thumbs)" />
               </template>
             </div>
-            <div class="result" v-if="item.question.type !== 4">
-              <p :class="item.is_correct ? 'green' : 'red'">{{ item.is_correct ? '正确' : '错误' }} | 本题得分：{{ item.score }}分</p>
-            </div>
-            <div class="remark" v-if="item.question.remark">
-              <p>解析：</p>
-              <p v-html="item.question.remark"></p>
-            </div>
-            <div class="score" v-if="userPaper.status === 3 && item.question.type === 4">
+
+            <div class="score">
               <p>请打分：</p>
-              <Select v-model="item.score" :datas="scoreList(item.question.score)" keyName="id" titleName="text"></Select>
+              <Select v-model="item.score" :datas="scoreList(item.score)" keyName="id" titleName="text"></Select>
             </div>
-          </template>
+          </div>
         </div>
       </div>
+
+      <div class="float-box mt-10"></div>
     </div>
   </div>
 </template>
@@ -198,13 +176,64 @@ export default {
       optionLength: 10
     };
   },
+  computed: {
+    list() {
+      if (this.questions.length === 0) {
+        return [];
+      }
+      let list = [];
+      for (let i = 0; i < this.questions.length; i++) {
+        let question = this.questions[i];
+        if (question.question.type === 4) {
+          // 问答题
+          list.push({
+            id: question.id,
+            score: question.question.score,
+            header: null,
+            content: question.question.content,
+            remark: question.question.remark,
+            answer: question.answer_content,
+            thumbs: question.thumbs ? JSON.parse(question.thumbs) : []
+          });
+          continue;
+        }
+        if (question.question.type === 6) {
+          // 题帽题
+          let questionContent = JSON.parse(question.question.content);
+          let answerContent = question.answer_content ? JSON.parse(question.answer_content) : {};
+
+          for (let j = 0; j < questionContent.questions.length; j++) {
+            let childrenQuestion = questionContent.questions[j];
+            let childrenAnswer = typeof answerContent[j] === 'undefined' ? null : answerContent[j];
+            if (childrenQuestion.type === 4) {
+              // 题帽题中含有问答题
+              list.push({
+                id: question.id + '-cap-' + j,
+                score: childrenQuestion.score,
+                header: questionContent.header,
+                content: childrenQuestion.content,
+                remark: question.question.remark,
+                answer: childrenAnswer ? childrenAnswer['answer'] : '',
+                thumbs: childrenAnswer ? childrenAnswer['thumbs'] : []
+              });
+              break;
+            }
+          }
+
+          continue;
+        }
+      }
+
+      return list;
+    }
+  },
   mounted() {
     this.init();
   },
   methods: {
     scoreList(max) {
       var rows = [];
-      for (var i = 1; i <= max; i++) {
+      for (let i = 0; i <= max; i++) {
         rows.push({
           id: i,
           text: i + '分'
@@ -242,13 +271,8 @@ export default {
     },
     submitPaper() {
       var data = {};
-      for (var i = 0; i < this.questions.length; i++) {
-        var item = this.questions[i];
-        if (item.question.type !== 4) {
-          // 过滤非问答题
-          continue;
-        }
-
+      for (let i = 0; i < this.list.length; i++) {
+        var item = this.list[i];
         data[item.id] = {
           score: item.score
         };

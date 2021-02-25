@@ -1,9 +1,9 @@
 <template>
-  <div class="h-panel w-1000">
+  <div class="h-panel w-1200">
     <div class="h-panel-bar">
       <span class="h-panel-title">章节</span>
       <div class="h-panel-right">
-        <Button @click="$emit('close')" :text="true">取消</Button>
+        <Button @click="$emit('success')" :text="true">取消</Button>
       </div>
     </div>
     <div class="h-panel-body">
@@ -13,24 +13,26 @@
       </div>
       <div class="float-box mb-10">
         <Table ref="table" :loading="loading" :checkbox="true" :datas="datas">
-          <TableItem prop="id" title="ID" :width="80"></TableItem>
+          <TableItem prop="id" title="ID" :width="100"></TableItem>
           <TableItem prop="sort" title="升序" :width="120"></TableItem>
           <TableItem prop="name" title="章节名"></TableItem>
-          <TableItem prop="question_count" title="题目数" unit="个"></TableItem>
+          <TableItem prop="question_count" title="题目数" unit="个" :width="120"></TableItem>
           <TableItem title="操作" align="center" :width="200">
             <template slot-scope="{ data }">
-              <p-button
-                glass="h-btn h-btn-s h-btn-primary"
-                permission="addons.Paper.practice_chapter.update"
-                text="编辑"
-                @click="edit(data)"
-              ></p-button>
-              <p-button
-                glass="h-btn h-btn-s h-btn-primary"
-                permission="addons.Paper.practice_chapter.questions"
-                text="试题"
-                @click="showQuestionsPage(data)"
-              ></p-button>
+              <ButtonGroup>
+                <p-button
+                  glass="h-btn h-btn-s h-btn-primary"
+                  permission="addons.Paper.practice_chapter.update"
+                  text="编辑"
+                  @click="edit(data)"
+                ></p-button>
+                <p-button
+                  glass="h-btn h-btn-s h-btn-primary"
+                  permission="addons.Paper.practice_chapter.questions"
+                  text="试题"
+                  @click="showQuestionsPage(data)"
+                ></p-button>
+              </ButtonGroup>
             </template>
           </TableItem>
         </Table>
@@ -128,6 +130,12 @@ export default {
           },
           datas: {
             id: item.id
+          }
+        },
+        events: {
+          success: modal => {
+            modal.close();
+            this.getData();
           }
         }
       });

@@ -958,8 +958,11 @@ const Request = {
         Users(param) {
           return Ajax.get('/backend/addons/Paper/practice/' + param.id + '/users', param);
         },
-        UserRecords(param) {
-          return Ajax.get('/backend/addons/Paper/practice/' + param.id + '/user/records', param);
+        AddUser(param) {
+          return Ajax.postJson('/backend/addons/Paper/practice/' + param.id + '/user/insert', param);
+        },
+        DelUser(param) {
+          return Ajax.postJson('/backend/addons/Paper/practice/' + param.id + '/user/delete', param);
         }
       },
       PracticeChapter: {
