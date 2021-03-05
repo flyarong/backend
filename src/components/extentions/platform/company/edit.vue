@@ -23,14 +23,32 @@
         </Row>
 
         <Row :space="10">
-          <Cell :width="8">
-            <FormItem prop="vod_service" label="点播服务">
-              <Select v-model="form.vod_service" :datas="options.vodServices" :filterable="true" keyName="value" titleName="name"></Select>
+          <Cell :width="6">
+            <FormItem label="存储额度(MB)" prop="storage_size">
+              <input type="text" v-model="form.storage_size" placeholder="包括视频，图片等等，单位：MB" />
             </FormItem>
           </Cell>
+          <Cell :width="6">
+            <FormItem label="视频流量额度(MB)" prop="vod_flow_size">
+              <input type="text" v-model="form.vod_flow_size" placeholder="视频流量额度，单位：MB" />
+            </FormItem>
+          </Cell>
+          <Cell :width="6">
+            <FormItem label="视频转码时长(分钟)" prop="transcode_seconds">
+              <input type="text" v-model="form.transcode_seconds" placeholder="视频转码时长，单位：分钟" />
+            </FormItem>
+          </Cell>
+          <Cell :width="6">
+            <FormItem label="直播流量额度(MB)" prop="live_flow_size">
+              <input type="text" v-model="form.live_flow_size" placeholder="直播流量额度，单位：MB" />
+            </FormItem>
+          </Cell>
+        </Row>
+
+        <Row :space="10">
           <Cell :width="8">
-            <FormItem prop="live_service" label="直播服务">
-              <Select v-model="form.live_service" :datas="options.liveServices" :filterable="true" keyName="value" titleName="name"></Select>
+            <FormItem prop="func" label="开通功能">
+              <Select v-model="form.func" :datas="func" keyName="key" titleName="name" :multiple="true"></Select>
             </FormItem>
           </Cell>
         </Row>
@@ -47,38 +65,25 @@ export default {
         name: '',
         desc: '',
         vod_service: '',
-        live_service: ''
-      },
-      options: {
-        vodServices: [
-          {
-            name: '阿里云',
-            value: 'aliyun'
-          },
-          {
-            name: '腾讯云',
-            value: 'tencent'
-          }
-        ],
-        liveServices: [
-          {
-            name: '阿里云',
-            value: 'aliyun'
-          },
-          {
-            name: '腾讯云',
-            value: 'tencent'
-          }
-        ]
+        live_service: '',
+        func: [],
+        storage_size: null,
+        vod_flow_size: null,
+        transcode_seconds: null,
+        live_flow_size: null
       },
       rules: {
-        required: ['name', 'desc', 'vod_service', 'live_service']
-      }
+        required: ['name', 'desc', 'vod_service', 'live_service', 'storage_size', 'vod_flow_size', 'transcode_seconds', 'live_flow_size']
+      },
+      func: []
     };
   },
   mounted() {
     R.Extentions.Platform.Company.Edit(this.id).then(resp => {
       this.form = resp.data;
+    });
+    R.Extentions.Platform.Company.Create().then(resp => {
+      this.func = resp.data.func;
     });
   },
   methods: {

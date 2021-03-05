@@ -4,25 +4,31 @@
       <span class="h-panel-title">机构</span>
     </div>
     <div class="h-panel-body">
-      <div class="mb-10">
+      <div class="float-box mb-10">
         <p-button glass="h-btn h-btn-primary" icon="h-icon-plus" permission="addons.Platform.company.store" text="添加" @click="create()"></p-button>
       </div>
-      <Table :loading="loading" :datas="datas">
-        <TableItem prop="id" title="机构ID" :width="100"></TableItem>
-        <TableItem prop="name" title="机构名" :width="300"></TableItem>
-        <TableItem title="管理员" :width="150">
-          <template slot-scope="{ data }">{{ data.admin_user.nickname }}</template>
-        </TableItem>
-        <TableItem prop="desc" title="简介" :width="500"></TableItem>
-        <TableItem title="操作" align="center" :width="200" fixed="right">
-          <template slot-scope="{ data }">
-            <p-del-button permission="addons.Platform.company.delete" @click="remove(datas, data)"></p-del-button>
-            <p-button glass="h-btn h-btn-s h-btn-primary" permission="addons.Platform.company.update" text="编辑" @click="edit(data)"></p-button>
-          </template>
-        </TableItem>
-      </Table>
+      <div class="float-box mb-10">
+        <Table :loading="loading" :datas="datas">
+          <TableItem prop="id" title="机构ID" :width="100"></TableItem>
+          <TableItem prop="name" title="机构名" :width="300"></TableItem>
+          <TableItem title="管理员" :width="150">
+            <template slot-scope="{ data }">{{ data.admin_user.nickname }}</template>
+          </TableItem>
+          <TableItem prop="desc" title="简介" :width="500"></TableItem>
+          <TableItem title="操作" align="center" :width="200" fixed="right">
+            <template slot-scope="{ data }">
+              <ButtonGroup>
+                <p-del-button permission="addons.Platform.company.delete" @click="remove(datas, data)"></p-del-button>
+                <p-button glass="h-btn h-btn-s h-btn-primary" permission="addons.Platform.company.update" text="编辑" @click="edit(data)"></p-button>
+              </ButtonGroup>
+            </template>
+          </TableItem>
+        </Table>
+      </div>
 
-      <Pagination class="mt-10" align="right" v-model="pagination" @change="changePage" />
+      <div class="float-box mb-10">
+        <Pagination class="mt-10" align="right" v-model="pagination" @change="changePage" />
+      </div>
     </div>
   </div>
 </template>
