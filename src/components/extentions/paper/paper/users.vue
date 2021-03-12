@@ -33,11 +33,12 @@
     <div class="h-panel-body">
       <div class="float-box mb-10">
         <Row :space="10">
-          <Cell :width="20">
+          <Cell :width="24">
             <textarea style="width: 100%" v-model="mobiles" placeholder="一行一个手机号"></textarea>
           </Cell>
-          <Cell :width="4">
+          <Cell :width="24">
             <p-button glass="h-btn h-btn-primary" permission="addons.Paper.paper.users.add" text="添加用户" @click="userAdd()"></p-button>
+            <Button class="h-btn h-btn-primary" @click="exportXlsx()">导出成绩</Button>
           </Cell>
         </Row>
       </div>
@@ -95,6 +96,7 @@
       </div>
       <div class="float-box mb-10">
         <Table ref="table" :loading="loading" :datas="datas">
+          <TableItem title="用户ID" prop="user_id" :width="100"></TableItem>
           <TableItem title="用户" :width="120">
             <template slot-scope="{ data }">
               <span v-if="typeof users[data.user_id] === 'undefined'" class="red">已删除</span>
@@ -119,6 +121,10 @@
           </TableItem>
         </Table>
       </div>
+
+      <div class="float-box mb-10">
+        <Pagination class="mt-10" align="right" v-model="pagination" @change="changePage" />
+      </div>
     </div>
   </div>
 </template>
@@ -127,6 +133,11 @@ export default {
   props: ['id'],
   data() {
     return {
+      pagination: {
+        page: 1,
+        size: 10,
+        total: 0
+      },
       datas: [],
       loading: false,
       mobiles: '',
@@ -147,13 +158,19 @@ export default {
     this.getData();
   },
   methods: {
+    changePage() {
+      this.getData();
+    },
     getData() {
       this.loading = true;
       let data = {
         id: this.id
       };
+      Object.assign(data, this.pagination);
       R.Extentions.paper.Paper.Users(data).then(resp => {
         this.datas = resp.data.data;
+        this.pagination.total = resp.data.total;
+
         this.loading = false;
         this.passScore = resp.data.pass_score;
         this.users = resp.data.users;
@@ -171,16 +188,56 @@ export default {
         this.$Message.error('请输入用户手机号');
         return;
       }
-      R.Extentions.paper.Paper.UserAdd({ mobiles: mobiles, id: this.id }).then(resp => {
-        HeyUI.$Message.success('成功');
+      R.Extentions.paper.Paper.UserAdd({ mobiles: mobiles, id: this.id }).then(() => {
+        HeyUI.$Message.success('添加成功');
         this.mobiles = '';
         this.getData(true);
       });
     },
     remove(item) {
-      R.Extentions.paper.Paper.UserDel({ id: this.id, user_id: item.user_id }).then(resp => {
+      R.Extentions.paper.Paper.UserDel({ id: this.id, user_id: item.user_id }).then(() => {
         HeyUI.$Message.success('成功');
         this.getData(true);
+      });
+    },
+    exportXlsx() {
+      this.loading = true;
+      R.Extentions.paper.Paper.Users({
+        id: this.id,
+        page: 1,
+        size: 20000
+      }).then(resp => {
+        this.loading = false;
+        if (resp.data.total === 0) {
+          HeyUI.$Message.warn('数据为空');
+          return;
+        }
+
+        let filename = '成绩导出|' + Utils.currentDate() + '.xlsx';
+        let sheetName = '默认';
+
+        let rows = [['用户ID', '用户名', '手机号', '分数', '及格', '时间']];
+        resp.data.data.forEach(item => {
+          let user = resp.data.users[item.user_id];
+          if (typeof user === 'undefined') {
+            return;
+          }
+
+          let isPass = item.score >= resp.data.pass_score ? '是' : '否';
+
+          rows.push([item.user_id, user.nick_name, user.mobile, item.score, isPass, item.created_at]);
+        });
+
+        // 总结
+        rows.push(['', '', '']);
+        rows.push(['最低分', resp.data.stat.min]);
+        rows.push(['最高分', resp.data.stat.max]);
+        rows.push(['平均分', resp.data.stat.average]);
+        rows.push(['总人数', resp.data.total]);
+        rows.push(['及格人数', resp.data.stat.pass_count]);
+        rows.push(['及格率', resp.data.stat.pass_rate + '%']);
+
+        Utils.exportExcel(rows, filename, sheetName);
       });
     }
   }
