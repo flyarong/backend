@@ -76,7 +76,7 @@
           <Cell :width="3">
             <div class="banner">
               <div class="title">及格率</div>
-              <div class="value">{{ stat.pass_rate * 100 }}%</div>
+              <div class="value">{{ stat.pass_rate }}%</div>
             </div>
           </Cell>
           <Cell :width="3">
@@ -97,32 +97,19 @@
         <Table ref="table" :loading="loading" :datas="datas">
           <TableItem title="用户" :width="120">
             <template slot-scope="{ data }">
-              <span v-if="data.user">{{ data.user.nick_name }}</span>
-              <span v-else class="red">已删除</span>
+              <span v-if="typeof users[data.user_id] === 'undefined'" class="red">已删除</span>
+              <span v-else>{{ users[data.user_id].nick_name }}</span>
             </template>
           </TableItem>
-          <TableItem title="考试次数" :width="100">
+          <TableItem title="最高得分" :width="100">
             <template slot-scope="{ data }">
-              <span v-if="typeof userScores[data.user_id] === 'undefined'" class="red">未考试</span>
-              <span v-else>{{ userScores[data.user_id].times }}次</span>
-            </template>
-          </TableItem>
-          <TableItem title="得分最高" :width="100">
-            <template slot-scope="{ data }">
-              <span v-if="typeof userScores[data.user_id] === 'undefined'" class="red">未考试</span>
-              <span v-else>{{ userScores[data.user_id].max }}分</span>
-            </template>
-          </TableItem>
-          <TableItem title="得分最低" :width="100">
-            <template slot-scope="{ data }">
-              <span v-if="typeof userScores[data.user_id] === 'undefined'" class="red">未考试</span>
-              <span v-else>{{ userScores[data.user_id].min }}分</span>
+              <span>{{ data.score }}分</span>
             </template>
           </TableItem>
           <TableItem title="及格" :width="80">
             <template slot-scope="{ data }">
-              <span v-if="typeof userScores[data.user_id] === 'undefined'" class="red">未考试</span>
-              <span v-else>{{ userScores[data.user_id] >= passScore ? '是' : '否' }}</span>
+              <span v-if="data.score >= passScore">是</span>
+              <span v-else class="red">不及格</span>
             </template>
           </TableItem>
           <TableItem title="操作" align="center" :width="150">
@@ -143,7 +130,7 @@ export default {
       datas: [],
       loading: false,
       mobiles: '',
-      userScores: {},
+      users: [],
       token: '',
       totalScore: 0,
       passScore: 0,
@@ -168,8 +155,8 @@ export default {
       R.Extentions.paper.Paper.Users(data).then(resp => {
         this.datas = resp.data.data;
         this.loading = false;
-        this.userScores = resp.data.user_score;
         this.passScore = resp.data.pass_score;
+        this.users = resp.data.users;
 
         this.stat = resp.data.stat;
       });
