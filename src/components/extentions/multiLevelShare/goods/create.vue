@@ -62,10 +62,7 @@
   </div>
 </template>
 <script>
-import TinymceEditor from '@/components/common/tinymce';
-
 export default {
-  components: { TinymceEditor },
   data() {
     return {
       goods: {

@@ -1,5 +1,6 @@
 <style lang="less" scoped>
-.add-option-button {
+.add-option-button,
+.del-option-button {
   width: 100%;
   height: 30px;
   line-height: 30px;
@@ -29,7 +30,15 @@
       <template v-slot:label>选项{{ i }}</template>
       <wang-editor v-model="question['option' + i]" :height="100"></wang-editor>
     </FormItem>
-    <div class="add-option-button" v-if="length < max" @click="length++">添加选项</div>
+
+    <Row :space="10">
+      <Cell :width="12">
+        <div class="add-option-button" v-if="length < max" @click="length++">添加选项</div>
+      </Cell>
+      <Cell :width="12">
+        <div class="del-option-button" @click="deleteOption">删除选项</div>
+      </Cell>
+    </Row>
   </div>
 </template>
 
@@ -49,17 +58,17 @@ export default {
       question:
         typeof this.que === 'undefined'
           ? {
-              option1: null,
-              option2: null,
-              option3: null,
-              option4: null,
-              option5: null,
-              option6: null,
-              option7: null,
-              option8: null,
-              option9: null,
-              option10: null
-            }
+            option1: null,
+            option2: null,
+            option3: null,
+            option4: null,
+            option5: null,
+            option6: null,
+            option7: null,
+            option8: null,
+            option9: null,
+            option10: null
+          }
           : this.que
     };
   },
@@ -88,37 +97,37 @@ export default {
       this.answer = this.content;
     },
     answer() {
-      this.$emit('update', 'choice', this.answer, this.length, this.question);
+      this.emitUpdate();
     },
     'question.option1'() {
-      this.$emit('update', 'choice', this.answer, this.length, this.question);
+      this.emitUpdate();
     },
     'question.option2'() {
-      this.$emit('update', 'choice', this.answer, this.length, this.question);
+      this.emitUpdate();
     },
     'question.option3'() {
-      this.$emit('update', 'choice', this.answer, this.length, this.question);
+      this.emitUpdate();
     },
     'question.option4'() {
-      this.$emit('update', 'choice', this.answer, this.length, this.question);
+      this.emitUpdate();
     },
     'question.option5'() {
-      this.$emit('update', 'choice', this.answer, this.length, this.question);
+      this.emitUpdate();
     },
     'question.option6'() {
-      this.$emit('update', 'choice', this.answer, this.length, this.question);
+      this.emitUpdate();
     },
     'question.option7'() {
-      this.$emit('update', 'choice', this.answer, this.length, this.question);
+      this.emitUpdate();
     },
     'question.option8'() {
-      this.$emit('update', 'choice', this.answer, this.length, this.question);
+      this.emitUpdate();
     },
     'question.option9'() {
-      this.$emit('update', 'choice', this.answer, this.length, this.question);
+      this.emitUpdate();
     },
     'question.option10'() {
-      this.$emit('update', 'choice', this.answer, this.length, this.question);
+      this.emitUpdate();
     }
   },
   methods: {
@@ -137,6 +146,24 @@ export default {
         return;
       }
       this.length = i;
+    },
+    deleteOption() {
+      if (this.length === 0) {
+        return;
+      }
+      let key = 'option' + this.length;
+
+      // 删除选项
+      this.question[key] = null;
+      this.length--;
+
+      // 答案清空[如果选中已被删除的选项]
+      if (this.answer === key) {
+        this.answer = null;
+      }
+    },
+    emitUpdate() {
+      this.$emit('update', 'choice', this.answer, this.length, this.question);
     }
   }
 };

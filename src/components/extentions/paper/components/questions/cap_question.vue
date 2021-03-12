@@ -1,39 +1,56 @@
 <style lang="less" scoped>
 .cap-question-box {
-  background-color: rgba(0, 0, 0, 0.02);
-  padding: 15px;
+  width: 100%;
+  height: auto;
+  float: left;
+  box-sizing: border-box;
 }
 </style>
 <template>
   <div class="cap-question-box">
-    <FormItem label="类型">
-      <Select v-model="question.type" :datas="types" keyName="id" titleName="name"></Select>
-    </FormItem>
-    <FormItem label="分数">
-      <input type="text" v-model="question.score" />
-    </FormItem>
-    <FormItem label="问题">
-      <wang-editor v-model="question.content"></wang-editor>
-    </FormItem>
-    <div class="answer-box">
-      <paper-question-choice :content="question.answer" :que="question" @update="contentUpdate" v-if="question.type === 1"></paper-question-choice>
-      <paper-question-select
-        :content="question.answer.split(',')"
-        @update="contentUpdate"
-        :que="question"
-        v-else-if="question.type === 2"
-      ></paper-question-select>
-      <paper-question-input
-        :content="question.answer"
-        @update="contentUpdate"
-        v-else-if="question.type === 3 || question.type === 4"
-      ></paper-question-input>
-      <paper-question-judge
-        :content="parseInt(question.answer) === 1 ? '正确' : '错误'"
-        @update="contentUpdate"
-        v-else-if="question.type === 5"
-      ></paper-question-judge>
-    </div>
+    <Row :space="10">
+      <Cell :width="12">
+        <FormItem label="类型">
+          <Select v-model="question.type" :datas="types" keyName="id" titleName="name"></Select>
+        </FormItem>
+      </Cell>
+      <Cell :width="12">
+        <FormItem label="分数">
+          <input type="text" v-model="question.score" placeholder="分数" />
+        </FormItem>
+      </Cell>
+      <Cell :width="24">
+        <FormItem label="问题">
+          <wang-editor v-model="question.content"></wang-editor>
+        </FormItem>
+      </Cell>
+      <Cell :width="24">
+        <div class="answer-box">
+          <paper-question-choice
+            :content="question.answer"
+            :que="question"
+            @update="contentUpdate"
+            v-if="question.type === 1"
+          ></paper-question-choice>
+          <paper-question-select
+            :content="question.answer.split(',')"
+            @update="contentUpdate"
+            :que="question"
+            v-else-if="question.type === 2"
+          ></paper-question-select>
+          <paper-question-input
+            :content="question.answer"
+            @update="contentUpdate"
+            v-else-if="question.type === 3 || question.type === 4"
+          ></paper-question-input>
+          <paper-question-judge
+            :content="parseInt(question.answer) === 1 ? '正确' : '错误'"
+            @update="contentUpdate"
+            v-else-if="question.type === 5"
+          ></paper-question-judge>
+        </div>
+      </Cell>
+    </Row>
   </div>
 </template>
 

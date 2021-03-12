@@ -129,7 +129,7 @@ export default {
     },
     downloadImage() {
       if (this.image.length === 0) {
-        Hey.$Message.warn('请输入图片url地址');
+        HeyUI.$Message.warn('请输入图片url地址');
         return;
       }
       R.Upload.ImageDownload({ url: this.image }).then(res => {

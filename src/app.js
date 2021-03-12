@@ -21,6 +21,10 @@ import UserFilter from './components/common/user-filter/index';
 import DateText from './components/common/datetext';
 import HelpIcon from './components/common/help-icon';
 
+// markdown编辑器
+import mavonEditor from 'mavon-editor';
+import 'mavon-editor/dist/css/index.css';
+
 Vue.component('ImageUpload', ImageUpload);
 Vue.component('Warn', Warn);
 Vue.component('PButton', PButton);
@@ -30,10 +34,6 @@ Vue.component('InputDuration', InputDuration);
 Vue.component('UserFilter', UserFilter);
 Vue.component('DateText', DateText);
 Vue.component('HelpIcon', HelpIcon);
-
-// markdown编辑器
-import mavonEditor from 'mavon-editor';
-import 'mavon-editor/dist/css/index.css';
 Vue.use(mavonEditor);
 
 require('./css/app.less');

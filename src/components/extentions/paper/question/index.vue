@@ -34,7 +34,7 @@
 
       <div class="float-box mb-10">
         <ButtonGroup>
-          <p-del-button permission="addons.Paper.question.delete" text="批量删除试题" @click="deleteSubmit"></p-del-button>
+          <p-del-button permission="addons.Paper.question.delete" text="删除" @click="deleteSubmit"></p-del-button>
 
           <p-button
             glass="h-btn h-btn-primary h-btn-s"

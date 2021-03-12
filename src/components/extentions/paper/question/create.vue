@@ -1,11 +1,3 @@
-<style lang="less" scoped>
-.answer-box {
-  box-sizing: border-box;
-  padding: 15px;
-  background-color: rgba(0, 0, 0, 0.03);
-  border-radius: 2px;
-}
-</style>
 <template>
   <div class="h-panel w-1200">
     <div class="h-panel-bar">
@@ -111,12 +103,12 @@ export default {
         this.question.answer = val;
       } else if (t === 'choice') {
         this.question.answer = val;
-        for (let i = 1; i <= length; i++) {
+        for (let i = 1; i <= 10; i++) {
           this.question['option' + i] = options['option' + i];
         }
       } else if (t === 'select') {
         this.question.answer = val.join(',');
-        for (let i = 1; i <= length; i++) {
+        for (let i = 1; i <= 10; i++) {
           this.question['option' + i] = options['option' + i];
         }
       } else if (t === 'cap') {
