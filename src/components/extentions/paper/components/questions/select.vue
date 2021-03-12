@@ -1,5 +1,6 @@
 <style lang="less" scoped>
-.add-option-button {
+.add-option-button,
+.del-option-button {
   width: 100%;
   height: 30px;
   line-height: 30px;
@@ -28,12 +29,21 @@
     <FormItem :label="'选项' + i" :prop="'option' + i" v-for="i in length" :key="i">
       <wang-editor v-model="question['option' + i]" :height="50"></wang-editor>
     </FormItem>
-    <div class="add-option-button" v-if="length < max" @click="length++">添加选项</div>
+
+    <Row :space="10">
+      <Cell :width="12">
+        <div class="add-option-button" v-if="length < max" @click="length++">添加选项</div>
+      </Cell>
+      <Cell :width="12">
+        <div class="del-option-button" @click="deleteOption">删除选项</div>
+      </Cell>
+    </Row>
   </div>
 </template>
 
 <script>
 import WangEditor from '@/components/common/wangEditor';
+const _ = require('lodash');
 
 export default {
   props: ['content', 'que'],
@@ -87,37 +97,37 @@ export default {
       this.answer = this.content;
     },
     answer() {
-      this.$emit('update', 'select', this.answer, this.length, this.question);
+      this.emitUpdate();
     },
     'question.option1'() {
-      this.$emit('update', 'select', this.answer, this.length, this.question);
+      this.emitUpdate();
     },
     'question.option2'() {
-      this.$emit('update', 'select', this.answer, this.length, this.question);
+      this.emitUpdate();
     },
     'question.option3'() {
-      this.$emit('update', 'select', this.answer, this.length, this.question);
+      this.emitUpdate();
     },
     'question.option4'() {
-      this.$emit('update', 'select', this.answer, this.length, this.question);
+      this.emitUpdate();
     },
     'question.option5'() {
-      this.$emit('update', 'select', this.answer, this.length, this.question);
+      this.emitUpdate();
     },
     'question.option6'() {
-      this.$emit('update', 'select', this.answer, this.length, this.question);
+      this.emitUpdate();
     },
     'question.option7'() {
-      this.$emit('update', 'select', this.answer, this.length, this.question);
+      this.emitUpdate();
     },
     'question.option8'() {
-      this.$emit('update', 'select', this.answer, this.length, this.question);
+      this.emitUpdate();
     },
     'question.option9'() {
-      this.$emit('update', 'select', this.answer, this.length, this.question);
+      this.emitUpdate();
     },
     'question.option10'() {
-      this.$emit('update', 'select', this.answer, this.length, this.question);
+      this.emitUpdate();
     }
   },
   methods: {
@@ -133,6 +143,24 @@ export default {
       }
       i--;
       this.length = i;
+    },
+    deleteOption() {
+      if (this.length === 0) {
+        return;
+      }
+
+      let key = 'option' + this.length;
+      this.question[key] = null;
+      this.length--;
+
+      // 答案选择清空
+      let index = _.indexOf(this.answer, key);
+      if (index !== -1) {
+        this.answer.splice(index, 1);
+      }
+    },
+    emitUpdate() {
+      this.$emit('update', 'select', this.answer, this.length, this.question);
     }
   }
 };

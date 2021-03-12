@@ -1,6 +1,24 @@
-## MeEdu后台前端
+# MeEdu后台前端
 
 [官网](https://meedu.vip)
+
+## 依赖库
+
+| 依赖 | 描述 |
+| --- | --- |
+| `manba` | 日期处理 |
+| `xlsx` | xls表格处理（导入，导出） | 
+| `wangeditor` | 富文本编辑器 |
+| `vuedraggable` | 可拖拽组件 |
+| `vue-tinymce-editor` | tinymce富文本编辑器 |
+| `vue-chartjs` | chartjs图表 |
+| `vod-js-sdk-v6` | 腾讯云点播上传sdk |
+| `mavon-editor` | markdown编辑器 |
+| `marked` | markdown转html库 |
+| `vuex` | 全局状态管理 |
+| `vue-router` | 路由 |
+
+## 运行
 
 ### 手动编译
 
@@ -55,3 +73,4 @@ cd meedu-backend && ./build.sh
 ```
 
 执行完成之后，编译好的文件已保存到了 `dist` 目录。将该文件夹复制到 `meedu` 项目的 `public` 目录下面，重命名为 `admin`。
+
