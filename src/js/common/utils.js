@@ -23,7 +23,7 @@ export default utils.extend({}, utils, {
     XLSX.writeFile(wb, filename);
   },
   currentDate() {
-    return Manba().format('YYYY/MM/DD, h:mm:ss');
+    return Manba().format('YYYY/MM/DD h:mm:ss');
   },
   uuid() {
     var CHARS = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'.split('');
