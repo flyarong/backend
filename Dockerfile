@@ -1,10 +1,11 @@
-FROM node:14-alpine
+FROM node:lts-slim
 WORKDIR /app/meedu-backend
 
-COPY package*.json ./
-RUN npm config set registry https://registry.npm.taobao.org \
-    && yarn install \
-    && npm install -g hey-cli
+COPY package.json ./
+COPY yarn.lock ./
+RUN yarn config set registry https://registry.npm.taobao.org \
+    && yarn global add hey-cli \
+    && yarn
 
 COPY . .
 

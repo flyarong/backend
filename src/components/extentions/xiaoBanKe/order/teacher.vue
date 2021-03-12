@@ -35,7 +35,6 @@ export default {
     create() {
       R.Extentions.xiaoBanKe.Order.SetTeacher({ id: this.id, teacher_id: this.teacher_id }).then(res => {
         this.$emit('success');
-        å;
       });
     }
   }

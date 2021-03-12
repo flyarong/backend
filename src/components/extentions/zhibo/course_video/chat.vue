@@ -50,12 +50,7 @@
   </div>
 </template>
 <script>
-import DurationText from '@/components/common/duration-text';
-
 export default {
-  components: {
-    DurationText
-  },
   props: ['course_id', 'video_id'],
   data() {
     return {

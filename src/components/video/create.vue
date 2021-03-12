@@ -152,14 +152,11 @@
   </div>
 </template>
 <script>
-import HelpIcon from '../common/help-icon.vue';
-import TinymceEditor from '../common/tinymce';
 import AliyunVideo from '../common/video/aliyun/aliyun';
 import TencentVideo from '../common/video/tencent/tencent';
 
 export default {
   components: {
-    TinymceEditor,
     AliyunVideo,
     TencentVideo
   },

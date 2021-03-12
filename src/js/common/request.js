@@ -294,7 +294,7 @@ const Request = {
     },
     RemarkUpdate(param) {
       return Ajax.putJson('/member/' + param.id + '/remark', param);
-    },
+    }
   },
   Course: {
     List(param) {
@@ -636,7 +636,7 @@ const Request = {
         },
         Delete(param) {
           return Ajax.delete('/backend/addons/LearningPaths/step/relation/' + param.id, param);
-        },
+        }
       }
     },
     meeduBooks: {
@@ -1219,7 +1219,7 @@ const Request = {
         },
         Users(param) {
           return Ajax.get('/backend/addons/zhibo/course/' + param.id + '/users', param);
-        },
+        }
       },
       CourseChapter: {
         List(param) {
@@ -1282,7 +1282,7 @@ const Request = {
         },
         WatchUsers(param) {
           return Ajax.get('/backend/addons/zhibo/course_video/watch/users', param);
-        },
+        }
       },
       CourseComment: {
         List(param) {
@@ -1292,7 +1292,6 @@ const Request = {
           return Ajax.postJson('/backend/addons/zhibo/course_comment/check', param);
         },
         Delete(param) {
-
           return Ajax.postJson('/backend/addons/zhibo/course_comment/delete', param);
         }
       },
@@ -1365,7 +1364,7 @@ const Request = {
         Delete(param) {
           return Ajax.delete('/backend/addons/multi_level_share/goods/' + param.id, param);
         }
-      },
+      }
     },
     xiaoBanKe: {
       Order: {
@@ -1382,7 +1381,7 @@ const Request = {
       Dashboard: {
         Index(param) {
           return Ajax.get('/backend/addons/XiaoBanKe/dashboard', param);
-        },
+        }
       },
       CourseCategory: {
         List(param) {
@@ -1443,7 +1442,7 @@ const Request = {
         Delete(param) {
           return Ajax.delete('/backend/addons/XiaoBanKe/teacher/' + param.id, param);
         }
-      },
+      }
     },
     Snapshot: {
       Images: {
@@ -1452,7 +1451,7 @@ const Request = {
         },
         Delete(param) {
           return Ajax.postJson('/backend/addons/Snapshot/images/delete/multi', param);
-        },
+        }
       }
     },
     CodeExchanger: {
@@ -1488,7 +1487,7 @@ const Request = {
         },
         Export() {
           return Ajax.get('/backend/addons/CodeExchanger/code/export');
-        },
+        }
       }
     },
     Platform: {
@@ -1508,7 +1507,7 @@ const Request = {
         Update(param) {
           return Ajax.putJson('/backend/addons/Platform/company/' + param.id, param);
         },
-        Delete() {
+        Delete(param) {
           return Ajax.delete('/backend/addons/Platform/company/' + param.id);
         }
       },
@@ -1528,7 +1527,7 @@ const Request = {
         Update(param) {
           return Ajax.putJson('/backend/addons/Platform/anno/' + param.id, param);
         },
-        Delete() {
+        Delete(param) {
           return Ajax.delete('/backend/addons/Platform/anno/' + param.id);
         }
       }

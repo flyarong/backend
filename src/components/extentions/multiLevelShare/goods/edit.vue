@@ -52,11 +52,8 @@
   </div>
 </template>
 <script>
-import TinymceEditor from '@/components/common/tinymce';
-
 export default {
   props: ['id'],
-  components: { TinymceEditor },
   data() {
     return {
       goods: {

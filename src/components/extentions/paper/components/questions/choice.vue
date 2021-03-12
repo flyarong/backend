@@ -58,17 +58,17 @@ export default {
       question:
         typeof this.que === 'undefined'
           ? {
-              option1: null,
-              option2: null,
-              option3: null,
-              option4: null,
-              option5: null,
-              option6: null,
-              option7: null,
-              option8: null,
-              option9: null,
-              option10: null
-            }
+            option1: null,
+            option2: null,
+            option3: null,
+            option4: null,
+            option5: null,
+            option6: null,
+            option7: null,
+            option8: null,
+            option9: null,
+            option10: null
+          }
           : this.que
     };
   },

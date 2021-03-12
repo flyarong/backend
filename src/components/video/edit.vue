@@ -151,14 +151,12 @@
   </div>
 </template>
 <script>
-import TinymceEditor from '../common/tinymce';
 import AliyunVideo from '../common/video/aliyun/aliyun';
 import TencentVideo from '../common/video/tencent/tencent';
 
 export default {
   props: ['id'],
   components: {
-    TinymceEditor,
     AliyunVideo,
     TencentVideo
   },
