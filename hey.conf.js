@@ -24,6 +24,7 @@ module.exports = {
             Utils: [path.resolve(__dirname, 'src/js/common/utils'), 'default'],
             Manba: 'manba',
             HeyUI: 'heyui',
+            Model: 'js-model',
             G: 'hey-global',
             log: 'hey-log',
             R: [path.resolve(__dirname, 'src/js/common/request'), 'default']
