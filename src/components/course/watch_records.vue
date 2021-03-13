@@ -174,8 +174,8 @@ export default {
           HeyUI.$Message.warn('数据为空');
           return;
         }
-        let date = new Date();
-        let filename = '课程观看记录|' + date.getFullYear() + '年' + date.getMonth() + '月' + date.getDate() + '日.xlsx';
+
+        let filename = '课程观看记录|' + Utils.currentDate() + '.xlsx';
         let sheetName = '默认';
 
         Utils.exportExcel(res.data.data, filename, sheetName);

@@ -963,6 +963,9 @@ const Request = {
         },
         DelUser(param) {
           return Ajax.postJson('/backend/addons/Paper/practice/' + param.id + '/user/delete', param);
+        },
+        UserProgress(pid, userId) {
+          return Ajax.get('/backend/addons/Paper/practice/' + pid + '/user/' + userId + '/progress');
         }
       },
       PracticeChapter: {
