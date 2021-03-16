@@ -7,7 +7,7 @@
       </div>
     </div>
     <div class="h-panel-body">
-      <div class="mb-10">
+      <div class="float-box mb-10">
         <Form>
           <Row :space="10">
             <Cell :width="6">
@@ -30,42 +30,46 @@
         </Form>
       </div>
 
-      <div style="mb-10">
-        <p-del-button permission="addons.Zhibo.course_comment.delete.multi" @click="deleteSubmit()"></p-del-button>
-        <p-del-button permission="addons.Zhibo.course_comment.check" text="审核通过" @click="checkSubmit(1)"></p-del-button>
-        <p-del-button permission="addons.Zhibo.course_comment.check" text="审核拒绝" @click="checkSubmit(0)"></p-del-button>
+      <div class="float-box mb-10">
+        <ButtonGroup>
+          <p-del-button permission="addons.Zhibo.course_comment.delete.multi" @click="deleteSubmit()"></p-del-button>
+          <p-del-button permission="addons.Zhibo.course_comment.check" text="审核通过" @click="checkSubmit(1)"></p-del-button>
+          <p-del-button permission="addons.Zhibo.course_comment.check" text="审核拒绝" @click="checkSubmit(0)"></p-del-button>
+        </ButtonGroup>
       </div>
 
-      <Table :loading="loading" :datas="datas" :checkbox="true" ref="table" class="mt-10">
-        <TableItem prop="id" title="ID" :width="80"></TableItem>
-        <TableItem prop="user_id" title="用户ID" :width="80"></TableItem>
-        <TableItem title="用户" :width="120">
-          <template slot-scope="{ data }">
-            <span v-if="data.user">{{ data.user.nick_name }}</span>
-            <span class="red" v-else>不存在</span>
-          </template>
-        </TableItem>
-        <TableItem title="课程">
-          <template slot-scope="{ data }">
-            <span v-if="data.course">{{ data.course.title }}</span>
-            <span class="red" v-else>已删除</span>
-          </template>
-        </TableItem>
-        <TableItem title="内容">
-          <template slot-scope="{ data }">
-            <p v-html="data.content"></p>
-          </template>
-        </TableItem>
-        <TableItem title="状态">
-          <template slot-scope="{ data }">
-            <span v-if="data.is_check === 1">通过</span>
-            <span class="red" v-else>拒绝</span>
-          </template>
-        </TableItem>
-        <TableItem prop="created_at" title="时间" :width="120"></TableItem>
-      </Table>
+      <div class="float-box mb-10">
+        <Table :loading="loading" :datas="datas" :checkbox="true" ref="table">
+          <TableItem prop="id" title="ID" :width="100"></TableItem>
+          <TableItem prop="user_id" title="用户ID" :width="100"></TableItem>
+          <TableItem title="用户" :width="120">
+            <template slot-scope="{ data }">
+              <span v-if="data.user">{{ data.user.nick_name }}</span>
+              <span class="red" v-else>不存在</span>
+            </template>
+          </TableItem>
+          <TableItem title="课程">
+            <template slot-scope="{ data }">
+              <span v-if="data.course">{{ data.course.title }}</span>
+              <span class="red" v-else>已删除</span>
+            </template>
+          </TableItem>
+          <TableItem title="内容">
+            <template slot-scope="{ data }">
+              <p v-html="data.content"></p>
+            </template>
+          </TableItem>
+          <TableItem title="状态">
+            <template slot-scope="{ data }">
+              <span v-if="data.is_check === 1">通过</span>
+              <span class="red" v-else>拒绝</span>
+            </template>
+          </TableItem>
+          <TableItem prop="created_at" title="时间" :width="160"></TableItem>
+        </Table>
+      </div>
 
-      <div class="mt-10">
+      <div class="float-box mb-10">
         <Pagination align="right" v-model="pagination" @change="changePage" />
       </div>
     </div>

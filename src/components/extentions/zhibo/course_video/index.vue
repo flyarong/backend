@@ -14,14 +14,12 @@
         <Table :loading="loading" :datas="datas">
           <TableItem title="标题">
             <template slot-scope="{ data }">
-              <span class="grey">{{ data.course.title }}</span>
-              <span>/</span>
               <span class="grey">{{ data.chapter.name }}</span>
               <span>/</span>
               <span>{{ data.title }}</span>
             </template>
           </TableItem>
-          <TableItem prop="published_at" title="直播时间" :width="200"></TableItem>
+          <TableItem prop="published_at" title="直播时间" :width="160"></TableItem>
           <TableItem title="状态" :width="100">
             <template slot-scope="{ data }">
               <span v-if="data.status === 0">未开始</span>
@@ -31,29 +29,36 @@
           </TableItem>
           <TableItem title="操作" align="center" :width="400">
             <template slot-scope="{ data }">
-              <p-del-button permission="addons.Zhibo.course_video.delete" @click="remove(datas, data)"></p-del-button>
-              <p-button glass="h-btn h-btn-s h-btn-primary" permission="addons.Zhibo.course_video.update" text="编辑" @click="edit(data)"></p-button>
-              <p-button
-                v-if="data.status === 1"
-                glass="h-btn h-btn-s h-btn-primary"
-                permission="addons.Zhibo.zhibo.pause"
-                text="停止直播"
-                @click="livePause(data)"
-              ></p-button>
-              <p-button
-                v-if="data.status !== 0"
-                glass="h-btn h-btn-s h-btn-primary"
-                permission="addons.Zhibo.course_video.watch.users"
-                text="观看用户"
-                @click="watchUsers(data)"
-              ></p-button>
-              <p-button
-                v-if="data.status !== 0"
-                glass="h-btn h-btn-s h-btn-primary"
-                permission="addons.Zhibo.chat.list"
-                text="聊天室"
-                @click="showChat(data)"
-              ></p-button>
+              <ButtonGroup>
+                <p-del-button permission="addons.Zhibo.course_video.delete" @click="remove(datas, data)"></p-del-button>
+                <p-button
+                  glass="h-btn h-btn-s h-btn-primary"
+                  permission="addons.Zhibo.course_video.update"
+                  text="编辑"
+                  @click="edit(data)"
+                ></p-button>
+                <p-button
+                  v-if="data.status === 1"
+                  glass="h-btn h-btn-s h-btn-primary"
+                  permission="addons.Zhibo.zhibo.pause"
+                  text="停止直播"
+                  @click="livePause(data)"
+                ></p-button>
+                <p-button
+                  v-if="data.status !== 0"
+                  glass="h-btn h-btn-s h-btn-primary"
+                  permission="addons.Zhibo.course_video.watch.users"
+                  text="观看用户"
+                  @click="watchUsers(data)"
+                ></p-button>
+                <p-button
+                  v-if="data.status !== 0"
+                  glass="h-btn h-btn-s h-btn-primary"
+                  permission="addons.Zhibo.chat.list"
+                  text="聊天室"
+                  @click="showChat(data)"
+                ></p-button>
+              </ButtonGroup>
             </template>
           </TableItem>
         </Table>
