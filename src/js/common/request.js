@@ -1296,7 +1296,10 @@ const Request = {
         },
         Delete(param) {
           return Ajax.postJson('/backend/addons/zhibo/course_comment/delete', param);
-        }
+        },
+        Reply(id, replyContent) {
+          return Ajax.postJson('/backend/addons/zhibo/course_comment/' + id + '/reply', { reply: replyContent });
+        },
       },
       CourseChat: {
         List(param) {

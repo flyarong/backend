@@ -48,24 +48,30 @@
               <span class="red" v-else>不存在</span>
             </template>
           </TableItem>
-          <TableItem title="课程">
+          <TableItem title="课程" :width="300">
             <template slot-scope="{ data }">
               <span v-if="data.course">{{ data.course.title }}</span>
               <span class="red" v-else>已删除</span>
             </template>
           </TableItem>
-          <TableItem title="内容">
-            <template slot-scope="{ data }">
-              <p v-html="data.content"></p>
-            </template>
-          </TableItem>
-          <TableItem title="状态">
+          <TableItem title="状态" :width="80">
             <template slot-scope="{ data }">
               <span v-if="data.is_check === 1">通过</span>
               <span class="red" v-else>拒绝</span>
             </template>
           </TableItem>
           <TableItem prop="created_at" title="时间" :width="160"></TableItem>
+          <TableItem title="内容" :width="300">
+            <template slot-scope="{ data }">
+              <p v-html="data.content"></p>
+            </template>
+          </TableItem>
+          <TableItem title="回复" :width="300">
+            <template slot-scope="{ data }">
+              <p v-html="data.reply_content"></p>
+              <a href="javascript:void(0)" @click="showReplyWin(data)">回复</a>
+            </template>
+          </TableItem>
         </Table>
       </div>
 
@@ -152,6 +158,27 @@ export default {
       R.Extentions.zhibo.CourseComment.Delete({ ids: ids }).then(resp => {
         HeyUI.$Message.success('成功');
         this.getData();
+      });
+    },
+    showReplyWin(item) {
+      this.$Modal({
+        hasCloseIcon: true,
+        closeOnMask: false,
+        component: {
+          vue: resolve => {
+            require(['./reply'], resolve);
+          },
+          datas: {
+            id: item.id,
+            reply_content: item.reply_content
+          }
+        },
+        events: {
+          success: modal => {
+            modal.close();
+            this.getData(true);
+          }
+        }
       });
     }
   }
