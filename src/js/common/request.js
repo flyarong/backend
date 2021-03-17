@@ -1316,17 +1316,8 @@ const Request = {
         getParams(param) {
           return Ajax.get('/backend/addons/zhibo/zhibo/getParams', param);
         },
-        pause(param) {
-          return Ajax.get('/backend/addons/zhibo/zhibo/pause', param);
-        },
-        resume(param) {
-          return Ajax.get('/backend/addons/zhibo/zhibo/resume', param);
-        },
-        pauseChat(param) {
-          return Ajax.get('/backend/addons/zhibo/zhibo/pauseChat', param);
-        },
-        resumeChat(param) {
-          return Ajax.get('/backend/addons/zhibo/zhibo/resumeChat', param);
+        stop(param) {
+          return Ajax.get('/backend/addons/zhibo/zhibo/stop', param);
         }
       }
     },

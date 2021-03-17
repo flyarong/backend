@@ -37,13 +37,23 @@
                   text="编辑"
                   @click="edit(data)"
                 ></p-button>
+
+                <p-button
+                  v-if="data.status === 0"
+                  glass="h-btn h-btn-s h-btn-primary"
+                  permission="addons.Zhibo.zhibo.open"
+                  text="开始直播"
+                  @click="showPlay(data)"
+                ></p-button>
+
                 <p-button
                   v-if="data.status === 1"
                   glass="h-btn h-btn-s h-btn-primary"
-                  permission="addons.Zhibo.zhibo.pause"
-                  text="停止直播"
-                  @click="livePause(data)"
+                  permission="addons.Zhibo.zhibo.open"
+                  text="继续直播"
+                  @click="showPlay(data)"
                 ></p-button>
+
                 <p-button
                   v-if="data.status !== 0"
                   glass="h-btn h-btn-s h-btn-primary"
@@ -151,12 +161,6 @@ export default {
         }
       });
     },
-    livePause(video) {
-      R.Extentions.zhibo.Zhibo.pause({ video_id: video.id }).then(res => {
-        HeyUI.$Message.success('成功');
-        this.getData();
-      });
-    },
     watchUsers(video) {
       this.$Modal({
         hasCloseIcon: true,
@@ -171,7 +175,7 @@ export default {
           }
         },
         events: {
-          success: (modal, data) => {
+          success: modal => {
             modal.close();
             this.getData(true);
           }
@@ -192,9 +196,30 @@ export default {
           }
         },
         events: {
-          success: (modal, data) => {
+          success: modal => {
             modal.close();
-            this.getData(true);
+            this.getData();
+          }
+        }
+      });
+    },
+    showPlay(video) {
+      this.$Modal({
+        hasCloseIcon: true,
+        closeOnMask: false,
+        component: {
+          vue: resolve => {
+            require(['../zhibo/play'], resolve);
+          },
+          datas: {
+            course_id: video.course_id,
+            video_id: video.id
+          }
+        },
+        events: {
+          success: modal => {
+            modal.close();
+            this.getData();
           }
         }
       });
