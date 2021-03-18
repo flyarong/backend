@@ -33,6 +33,11 @@
               <image-upload v-model="course.thumb" name="课程封面"></image-upload>
             </FormItem>
           </Cell>
+          <Cell :width="24">
+            <FormItem label="播放封面" prop="poster">
+              <image-upload v-model="course.poster" name="播放封面"></image-upload>
+            </FormItem>
+          </Cell>
         </Row>
 
         <Row :space="10">
@@ -94,7 +99,8 @@ export default {
         published_at: '',
         is_show: 1,
         vip_can_view: 0,
-        status: null
+        status: null,
+        poster: ''
       },
       rules: {
         required: [
