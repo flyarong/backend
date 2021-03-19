@@ -1296,7 +1296,10 @@ const Request = {
         },
         Delete(param) {
           return Ajax.postJson('/backend/addons/zhibo/course_comment/delete', param);
-        }
+        },
+        Reply(id, replyContent) {
+          return Ajax.postJson('/backend/addons/zhibo/course_comment/' + id + '/reply', { reply: replyContent });
+        },
       },
       CourseChat: {
         List(param) {
@@ -1313,17 +1316,8 @@ const Request = {
         getParams(param) {
           return Ajax.get('/backend/addons/zhibo/zhibo/getParams', param);
         },
-        pause(param) {
-          return Ajax.get('/backend/addons/zhibo/zhibo/pause', param);
-        },
-        resume(param) {
-          return Ajax.get('/backend/addons/zhibo/zhibo/resume', param);
-        },
-        pauseChat(param) {
-          return Ajax.get('/backend/addons/zhibo/zhibo/pauseChat', param);
-        },
-        resumeChat(param) {
-          return Ajax.get('/backend/addons/zhibo/zhibo/resumeChat', param);
+        stop(param) {
+          return Ajax.get('/backend/addons/zhibo/zhibo/stop', param);
         }
       }
     },
