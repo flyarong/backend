@@ -894,6 +894,9 @@ const Request = {
         },
         Delete(param) {
           return Ajax.postJson('/backend/addons/Paper/question/destroy/multi', param);
+        },
+        Import(param) {
+          return Ajax.postJson('/backend/addons/Paper/question/import/csv', param);
         }
       },
       QuestionCategory: {
