@@ -7,18 +7,12 @@
       <div class="float-box mb-10">
         <Form>
           <Row :space="10">
-            <Cell :width="6">
+            <Cell :width="8">
               <FormItem label="分类">
-                <Select
-                  v-model="filer.category_id"
-                  :datas="categories"
-                  keyName="id"
-                  titleName="name"
-                  :filterable="true"
-                ></Select>
+                <Select v-model="filer.category_id" :datas="categories" keyName="id" titleName="name" :filterable="true"></Select>
               </FormItem>
             </Cell>
-            <Cell :width="6">
+            <Cell :width="8">
               <FormItem label="搜索" prop="key">
                 <input type="text" v-model="filer.key" placeholder="搜索" />
               </FormItem>
@@ -33,62 +27,51 @@
         </Form>
       </div>
 
-      <div class="mb-10">
-        <p-button
-          glass="h-btn h-btn-primary h-btn-s"
-          permission="addons.Paper.paper_category.list"
-          text="分类"
-          @click="showCategoriesPage()"
-        ></p-button>
-
-        <p-button
-          glass="h-btn h-btn-primary h-btn-s"
-          icon="h-icon-plus"
-          permission="addons.Paper.practice.store"
-          text="添加"
-          @click="create()"
-        ></p-button>
-
-        <p-del-button permission="addons.Paper.practice.delete" text="批量删除" @click="deleteSubmit()"></p-del-button>
+      <div class="float-box mb-10">
+        <p-button glass="h-btn h-btn-primary" permission="addons.Paper.paper_category.list" text="练习分类" @click="showCategoriesPage()"></p-button>
+        <p-button glass="h-btn h-btn-primary" permission="addons.Paper.practice.store" text="添加" @click="create()"></p-button>
       </div>
 
-      <Table ref="table" :loading="loading" :datas="datas" :checkbox="true" @sort="sortEvt">
-        <TableItem prop="id" title="ID" :width="80" :sort="true"></TableItem>
-        <TableItem title="分类" :width="120">
-          <template slot-scope="{ data }">
-            <span v-if="data.category">{{data.category.name}}</span>
-            <span v-else class="red">已删除</span>
-          </template>
-        </TableItem>
-        <TableItem prop="name" title="练习名"></TableItem>
-        <TableItem title="VIP免费" align="center" :width="80">
-          <template slot-scope="{ data }">
-            <span>{{data.is_vip_free === 1 ? '是' : '否'}}</span>
-          </template>
-        </TableItem>
-        <TableItem title="价格" :width="120">
-          <template slot-scope="{ data }">
-            <span v-if="data.is_free === 1" class="red">免费</span>
-            <span v-else>￥{{data.charge}}</span>
-          </template>
-        </TableItem>
-        <TableItem title="操作" align="center" :width="200">
-          <template slot-scope="{ data }">
-            <p-button
-              glass="h-btn h-btn-s h-btn-primary"
-              permission="addons.Paper.practice.update"
-              text="编辑"
-              @click="edit(data)"
-            ></p-button>
-            <p-button
-              glass="h-btn h-btn-s h-btn-primary"
-              permission="addons.Paper.practice_chapter.list"
-              text="章节"
-              @click="showChaptersPage(data)"
-            ></p-button>
-          </template>
-        </TableItem>
-      </Table>
+      <div class="float-box mb-10">
+        <Table ref="table" :loading="loading" :datas="datas">
+          <TableItem prop="id" title="ID" :width="100"></TableItem>
+          <TableItem title="分类" :width="150">
+            <template slot-scope="{ data }">
+              <span v-if="data.category">{{ data.category.name }}</span>
+              <span v-else class="red">已删除</span>
+            </template>
+          </TableItem>
+          <TableItem prop="name" title="练习名" :width="500"></TableItem>
+          <TableItem prop="question_count" title="题目数" unit="个" :width="100"></TableItem>
+          <TableItem title="操作" align="center" :width="200">
+            <template slot-scope="{ data }">
+              <ButtonGroup>
+                <p-del-button permission="addons.Paper.paper.delete" @click="remove(data)"></p-del-button>
+                <p-button glass="h-btn h-btn-s h-btn-primary" permission="addons.Paper.practice.update" text="编辑" @click="edit(data)"></p-button>
+              </ButtonGroup>
+
+              <ButtonGroup>
+                <p-button
+                  glass="h-btn h-btn-s h-btn-primary"
+                  permission="addons.Paper.practice_chapter.list"
+                  text="章节"
+                  @click="showChaptersPage(data)"
+                ></p-button>
+                <p-button
+                  glass="h-btn h-btn-s h-btn-primary"
+                  permission="addons.Paper.practice_chapter.list"
+                  text="参与用户"
+                  @click="showUsers(data)"
+                ></p-button>
+              </ButtonGroup>
+            </template>
+          </TableItem>
+        </Table>
+      </div>
+
+      <div class="float-box mb-10">
+        <Pagination class="mt-10" align="right" v-model="pagination" @change="changePage" />
+      </div>
     </div>
   </div>
 </template>
@@ -98,13 +81,12 @@ export default {
     return {
       pagination: {
         page: 1,
-        size: 10
+        size: 10,
+        total: 0
       },
       filer: {
         category_id: null,
-        key: null,
-        sort: null,
-        order: null
+        key: null
       },
       datas: [],
       loading: false,
@@ -116,23 +98,16 @@ export default {
   },
   methods: {
     changePage() {
-      this.getData();
-    },
-    sortEvt(sort) {
-      this.filer.order = sort.prop;
-      this.filer.sort = sort.type;
-      this.getData(true);
+      this.getData(false);
     },
     resetFilter() {
       this.filer = {
         category_id: null,
-        key: null,
-        sort: null,
-        order: null
+        key: null
       };
       this.getData(true);
     },
-    getData(reset = true) {
+    getData(reset = false) {
       if (reset) {
         this.pagination.page = 1;
       }
@@ -141,22 +116,14 @@ export default {
       Object.assign(data, this.filer);
       R.Extentions.paper.Practice.List(data).then(resp => {
         this.datas = resp.data.data.data;
-        this.loading = false;
+        this.pagination.total = resp.data.data.total;
         this.categories = resp.data.categories;
+
+        this.loading = false;
       });
     },
-    deleteSubmit() {
-      let items = this.$refs.table.getSelection();
-      if (items.length === 0) {
-        this.$Message.error('请选择需要删除的练习');
-        return;
-      }
-      this.loading = true;
-      let ids = [];
-      for (let i = 0; i < items.length; i++) {
-        ids.push(items[i].id);
-      }
-      R.Extentions.paper.Practice.Delete({ ids: ids }).then(resp => {
+    remove(item) {
+      R.Extentions.paper.Practice.Delete({ ids: [item.id] }).then(resp => {
         HeyUI.$Message.success('成功');
         this.getData();
       });
@@ -206,6 +173,12 @@ export default {
           vue: resolve => {
             require(['../paper_category/index'], resolve);
           }
+        },
+        events: {
+          success: modal => {
+            modal.close();
+            this.getData();
+          }
         }
       });
     },
@@ -219,6 +192,32 @@ export default {
           },
           datas: {
             id: item.id
+          }
+        },
+        events: {
+          success: modal => {
+            modal.close();
+            this.getData();
+          }
+        }
+      });
+    },
+    showUsers(item) {
+      this.$Modal({
+        hasCloseIcon: true,
+        closeOnMask: false,
+        component: {
+          vue: resolve => {
+            require(['./users'], resolve);
+          },
+          datas: {
+            id: item.id
+          }
+        },
+        events: {
+          success: modal => {
+            modal.close();
+            this.getData();
           }
         }
       });

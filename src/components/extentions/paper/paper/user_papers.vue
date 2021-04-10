@@ -1,7 +1,10 @@
 <template>
-  <div class="h-panel w-1000">
+  <div class="h-panel w-1200">
     <div class="h-panel-bar">
       <span class="h-panel-title">考试记录</span>
+      <div class="h-panel-right">
+        <Button @click="$emit('close')" :text="true">取消</Button>
+      </div>
     </div>
     <div class="h-panel-body">
       <div class="float-box mb-10">
@@ -12,7 +15,7 @@
                 <input type="number" v-model="filter.user_id" placeholder="用户id" />
               </FormItem>
             </Cell>
-            <Cell :width="6">
+            <Cell :width="8">
               <FormItem label="状态">
                 <Select v-model="filter.status" :datas="statusMap" keyName="id" titleName="text"></Select>
               </FormItem>
@@ -28,47 +31,46 @@
       </div>
       <div class="float-box mb-10">
         <Table ref="table" :loading="loading" :datas="datas">
-          <TableItem title="ID" prop="id" :width="80"></TableItem>
-          <TableItem title="UID" prop="user_id" :width="80"></TableItem>
-          <TableItem title="用户" :width="120">
+          <TableItem title="ID" prop="id" :width="100"></TableItem>
+          <TableItem title="用户ID" prop="user_id" :width="100"></TableItem>
+          <TableItem title="用户" :width="150">
             <template slot-scope="{ data }">
-              <span v-if="data.user">{{data.user.nick_name}}</span>
-              <span v-else class="red">已删除</span>
+              <span v-if="data.user">{{ data.user.nick_name }}</span>
+              <span v-else class="red">不存在</span>
             </template>
           </TableItem>
-          <TableItem title="分数" :width="80">
+          <TableItem title="分数" :width="100">
             <template slot-scope="{ data }">
-              <span v-if="data.status === 2">{{data.score}}分</span>
-              <span v-else></span>
+              <span v-if="data.status === 2">{{ data.score }}分</span>
+              <span v-else class="red">未完成</span>
             </template>
           </TableItem>
-          <TableItem title="状态" :width="80">
+          <TableItem title="状态" :width="100">
             <template slot-scope="{ data }">
-              <span>{{data.status_text}}</span>
+              <span>{{ data.status_text }}</span>
             </template>
           </TableItem>
           <TableItem title="操作" align="center" :width="100">
             <template slot-scope="{ data }">
               <p-button
-                glass="h-btn h-btn-s"
-                :class="data.status === 3 ? 'h-btn-red' : 'h-btn-yellow'"
+                v-if="data.status === 3"
+                glass="h-btn h-btn-s h-btn-yellow"
                 permission="addons.Paper.paper.userPaper.submit"
-                :text="data.status === 3 ? '阅卷' : '详情'"
+                text="阅卷"
                 @click="showScore(data)"
               ></p-button>
+              <p-a
+                permission="addons.Paper.paper.userPaper.render"
+                :url="'/backend/addons/Paper/paper/' + data.paper_id + '/userPaper/' + data.id + '/render'"
+                text="查看"
+              ></p-a>
             </template>
           </TableItem>
         </Table>
       </div>
 
       <div class="float-box mb-10">
-        <Pagination
-          class="mt-10"
-          v-if="pagination.total > 0"
-          align="right"
-          v-model="pagination"
-          @change="changePage"
-        />
+        <Pagination class="mt-10" align="right" v-model="pagination" @change="changePage" />
       </div>
     </div>
   </div>
@@ -135,13 +137,14 @@ export default {
           }
         },
         events: {
-          success: (modal, data) => {
+          success: modal => {
             modal.close();
             this.getData();
           }
         }
       });
-    }
+    },
+    showRender(item) {}
   }
 };
 </script>

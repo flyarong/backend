@@ -2,6 +2,9 @@
   <div class="h-panel w-1000">
     <div class="h-panel-bar">
       <span class="h-panel-title">视频批量导入</span>
+      <div class="h-panel-right">
+        <Button @click="$emit('close')" :text="true">取消</Button>
+      </div>
     </div>
     <div class="h-panel-body">
       <div class="float-box mb-30">
@@ -28,7 +31,9 @@ export default {
     };
   },
   mounted() {
-    this.$refs.xlsfile.addEventListener('change', this.handleFile, false);
+    this.$nextTick(() => {
+      this.$refs.xlsfile.addEventListener('change', this.handleFile, false);
+    });
   },
   methods: {
     handleFile(e) {

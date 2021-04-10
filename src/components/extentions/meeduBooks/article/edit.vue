@@ -2,16 +2,20 @@
   <div class="h-panel w-1200">
     <div class="h-panel-bar">
       <span class="h-panel-title">编辑</span>
+      <div class="h-panel-right">
+        <Button color="primary" @click="create">保存</Button>
+        <Button @click="$emit('close')" :text="true">取消</Button>
+      </div>
     </div>
     <div class="h-panel-body">
       <Form mode="block" ref="form" :validOnChange="true" :showErrorTip="true" :rules="rules" :model="article">
         <Row :space="10">
-          <Cell :width="6">
+          <Cell :width="8">
             <FormItem label="章节" prop="book_cid">
               <Select v-model="article.book_cid" :datas="cs" keyName="id" titleName="name"></Select>
             </FormItem>
           </Cell>
-          <Cell :width="18">
+          <Cell :width="16">
             <FormItem label="标题" prop="title">
               <input type="text" v-model="article.title" placeholder="请输入标题" />
             </FormItem>
@@ -40,12 +44,7 @@
         </Row>
 
         <FormItem label="内容" prop="original_content">
-          <template v-slot:label>内容</template>
-          <mk-editor v-model="article.original_content"></mk-editor>
-        </FormItem>
-
-        <FormItem>
-          <Button color="primary" @click="create">保存</Button>
+          <mk-editor :text="article.original_content" @textChange="contentChange"></mk-editor>
         </FormItem>
       </Form>
     </div>
@@ -71,7 +70,7 @@ export default {
         charge: 0
       },
       rules: {
-        required: ['bid', 'book_cid', 'is_show', 'title', 'original_content', 'published_at']
+        required: ['bid', 'is_show', 'title', 'original_content', 'published_at']
       },
       books: [],
       chapters: []
@@ -89,6 +88,10 @@ export default {
     }
   },
   methods: {
+    contentChange(val, renderVal) {
+      this.article.original_content = val;
+      this.article.render_content = renderVal;
+    },
     init() {
       R.Extentions.meeduBooks.Article.Create().then(res => {
         this.books = res.data.books;
@@ -104,7 +107,6 @@ export default {
     create() {
       let validResult = this.$refs.form.valid();
       if (validResult.result) {
-        this.article.render_content = localStorage.getItem('markdown_content_val');
         this.$emit('success', this.article);
       }
     }

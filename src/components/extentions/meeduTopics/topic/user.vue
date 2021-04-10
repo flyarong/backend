@@ -1,13 +1,16 @@
 <template>
-  <div class="h-panel w-800">
+  <div class="h-panel w-1200">
     <div class="h-panel-bar">
       <span class="h-panel-title">订单</span>
+      <div class="h-panel-right">
+        <Button @click="$emit('close')" :text="true">取消</Button>
+      </div>
     </div>
     <div class="h-panel-body">
       <div class="float-box mb-10">
         <Form>
           <Row :space="10">
-            <Cell :width="12">
+            <Cell :width="6">
               <FormItem label="UID">
                 <user-filter v-model="filter.user_id"></user-filter>
               </FormItem>
@@ -24,14 +27,15 @@
 
       <div class="float-box mb-10">
         <Table :loading="loading" :datas="datas">
-          <TableItem title="UID" prop="user_id" :width="80"></TableItem>
+          <TableItem title="用户ID" prop="user_id" :width="120"></TableItem>
           <TableItem title="用户">
             <template slot-scope="{ data }">
               <span v-if="data.user">{{ data.user.nick_name }}</span>
               <span v-else class="c-red">已删除</span>
             </template>
           </TableItem>
-          <TableItem prop="charge" title="价格" unit="元"></TableItem>
+          <TableItem prop="charge" title="价格" unit="元" :width="100"></TableItem>
+          <TableItem prop="created_at" title="时间" :width="200"></TableItem>
         </Table>
       </div>
 

@@ -9,35 +9,17 @@
           <Row :space="10">
             <Cell :width="6">
               <FormItem label="分类">
-                <Select
-                  v-model="filter.category_id"
-                  :datas="categories"
-                  keyName="id"
-                  titleName="name"
-                  :filterable="true"
-                ></Select>
+                <Select v-model="filter.category_id" :datas="categories" keyName="id" titleName="name" :filterable="true"></Select>
               </FormItem>
             </Cell>
             <Cell :width="6">
               <FormItem label="类型">
-                <Select
-                  v-model="filter.type"
-                  :datas="types"
-                  keyName="id"
-                  titleName="name"
-                  :filterable="true"
-                ></Select>
+                <Select v-model="filter.type" :datas="types" keyName="id" titleName="name" :filterable="true"></Select>
               </FormItem>
             </Cell>
             <Cell :width="6">
               <FormItem label="难度">
-                <Select
-                  v-model="filter.level"
-                  :datas="levels"
-                  keyName="id"
-                  titleName="name"
-                  :filterable="true"
-                ></Select>
+                <Select v-model="filter.level" :datas="levels" keyName="id" titleName="name" :filterable="true"></Select>
               </FormItem>
             </Cell>
             <Cell :width="6">
@@ -51,74 +33,65 @@
       </div>
 
       <div class="float-box mb-10">
-        <p-button
-          glass="h-btn h-btn-primary h-btn-s"
-          permission="addons.Paper.question.store"
-          text="添加"
-          @click="create()"
-        ></p-button>
+        <ButtonGroup>
+          <p-del-button permission="addons.Paper.question.delete" text="删除" @click="deleteSubmit"></p-del-button>
 
-        <p-button
-          glass="h-btn h-btn-primary h-btn-s"
-          permission="addons.Paper.question.import.csv"
-          text="导入"
-          @click="importFile()"
-        ></p-button>
+          <p-button
+            glass="h-btn h-btn-primary h-btn-s"
+            permission="addons.Paper.question_category.list"
+            text="试题分类"
+            @click="showCategoriesPage()"
+          ></p-button>
 
-        <p-button
-          glass="h-btn h-btn-primary h-btn-s"
-          permission="addons.Paper.question_category.list"
-          text="试题分类"
-          @click="showCategoriesPage()"
-        ></p-button>
+          <p-button glass="h-btn h-btn-primary h-btn-s" permission="addons.Paper.question.store" text="添加试题" @click="create()"></p-button>
 
-        <p-del-button permission="addons.Paper.question.delete" text="批量删除" @click="deleteSubmit"></p-del-button>
+          <p-button
+            glass="h-btn h-btn-primary h-btn-s"
+            permission="addons.Paper.question.import.csv"
+            text="批量导入试题"
+            @click="importFile()"
+          ></p-button>
+        </ButtonGroup>
       </div>
 
       <div class="float-box mb-10">
         <Table :loading="loading" :checkbox="true" :datas="datas" ref="table">
-          <TableItem prop="id" title="ID" :width="80"></TableItem>
-          <TableItem title="分类" :width="80">
+          <TableItem prop="id" title="ID" :width="100"></TableItem>
+          <TableItem title="分类" :width="130">
             <template slot-scope="{ data }">
-              <span v-if="data.category">{{data.category.name}}</span>
+              <span v-if="data.category">{{ data.category.name }}</span>
               <span v-else class="red">已删除</span>
             </template>
           </TableItem>
-          <TableItem prop="type_text" title="类型" :width="80"></TableItem>
-          <TableItem prop="level_text" title="难度" :width="80"></TableItem>
-          <TableItem prop="score" title="分数" unit="分" :width="80"></TableItem>
-          <TableItem title="问题">
+          <TableItem prop="type_text" title="类型" :width="100"></TableItem>
+          <TableItem prop="level_text" title="难度" :width="100"></TableItem>
+          <TableItem prop="score" title="分数" unit="分" :width="10"></TableItem>
+          <TableItem title="问题" :width="600">
             <template slot-scope="{ data }">
-              <div v-html="data.content"></div>
+              <question-show :question="data"></question-show>
             </template>
           </TableItem>
-          <TableItem title="操作" align="center" :width="100">
+          <TableItem title="操作" align="center" :width="200" fixed="right">
             <template slot-scope="{ data }">
-              <p-button
-                glass="h-btn h-btn-s h-btn-primary"
-                permission="addons.Paper.question.update"
-                text="编辑"
-                @click="edit(data)"
-              ></p-button>
+              <p-button glass="h-btn h-btn-s h-btn-primary" permission="addons.Paper.question.update" text="编辑" @click="edit(data)"></p-button>
             </template>
           </TableItem>
         </Table>
       </div>
 
       <div class="float-box mb-10">
-        <Pagination
-          class="mt-10"
-          v-if="pagination.total > 0"
-          align="right"
-          v-model="pagination"
-          @change="changePage"
-        />
+        <Pagination class="mt-10" v-if="pagination.total > 0" align="right" v-model="pagination" @change="changePage" />
       </div>
     </div>
   </div>
 </template>
 <script>
+import QuestionShow from '../components/questions/show';
+
 export default {
+  components: {
+    QuestionShow
+  },
   data() {
     return {
       pagination: {
@@ -162,11 +135,12 @@ export default {
       R.Extentions.paper.Question.List(data).then(resp => {
         this.datas = resp.data.data.data;
         this.pagination.total = resp.data.data.total;
-        this.loading = false;
+
         this.levels = resp.data.levels;
         this.types = resp.data.types;
         this.categories = resp.data.categories;
-        this.downloadUrl = resp.data.download_url;
+
+        this.loading = false;
       });
     },
     deleteSubmit() {

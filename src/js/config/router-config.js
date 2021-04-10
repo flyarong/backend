@@ -168,7 +168,7 @@ const initRouter = () => {
         path: '/MeeduTopics',
         name: 'MeeduTopics',
         component: (resolve) => require(['components/extentions/meeduTopics/topic/index'], resolve),
-        meta: { title: '话题' }
+        meta: { title: '图文' }
       }, {
         path: '/MiaoSha',
         name: 'MiaoSha',
@@ -200,10 +200,10 @@ const initRouter = () => {
         component: (resolve) => require(['components/extentions/singlePage/page/index'], resolve),
         meta: { title: '单页' }
       }, {
-        path: '/TemplateOneTag',
-        name: 'TemplateOneTag',
-        component: (resolve) => require(['components/extentions/templateOne/tag/index'], resolve),
-        meta: { title: '立春模板标签' }
+        path: '/TemplateOneSlider',
+        name: 'TemplateOneSlider',
+        component: (resolve) => require(['components/extentions/templateOne/slider/index'], resolve),
+        meta: { title: '立春模板幻灯片' }
       }, {
         path: '/TemplateOneNav',
         name: 'TemplateOneNav',
@@ -227,20 +227,32 @@ const initRouter = () => {
           title: '直播课程'
         }
       }, {
-        path: '/ZhiboOpen',
-        name: 'ZhiboOpen',
-        component: (resolve) => require(['components/extentions/zhibo/zhibo/index'], resolve),
-        meta: { title: '开播' }
+        path: '/ZhiboTeacher',
+        name: 'ZhiboTeacher',
+        component: (resolve) => require(['components/extentions/zhibo/teacher/index'], resolve),
+        meta: {
+          title: '直播讲师'
+        }
       }, {
         path: '/K12/XiaoBanKe',
         name: 'XiaoBanKe',
         component: (resolve) => require(['components/extentions/xiaoBanKe/course/index'], resolve),
-        meta: { title: '大小班' }
+        meta: { title: '大小班课程' }
+      }, {
+        path: '/K12/XiaoBanKe/teacher',
+        name: 'XiaoBanKeTeacher',
+        component: (resolve) => require(['components/extentions/xiaoBanKe/teacher/index'], resolve),
+        meta: { title: '大小班课程' }
       }, {
         path: '/MultiLevelSharePoster',
         name: 'MultiLevelSharePoster',
         component: (resolve) => require(['components/extentions/multiLevelShare/poster/index'], resolve),
         meta: { title: '海报 - 三级分销' }
+      }, {
+        path: '/MultiLevelShareGoods',
+        name: 'MultiLevelShareGoods',
+        component: (resolve) => require(['components/extentions/multiLevelShare/goods/index'], resolve),
+        meta: { title: '分销商品 - 三级分销' }
       }, {
         path: '/Snapshot/images',
         name: 'SnapshotImages',
@@ -261,6 +273,16 @@ const initRouter = () => {
         name: 'CodeExchangerGoods',
         component: (resolve) => require(['components/extentions/codeExchanger/goods/index'], resolve),
         meta: { title: '兑换商品' }
+      }, {
+        path: '/PlatformCompany',
+        name: 'PlatformCompany',
+        component: (resolve) => require(['components/extentions/platform/company/index'], resolve),
+        meta: { title: '机构' }
+      }, {
+        path: '/PlatformAnno',
+        name: 'PlatformAnno',
+        component: (resolve) => require(['components/extentions/platform/anno/index'], resolve),
+        meta: { title: '机构' }
       }, {
         path: '/system-error',
         name: 'SystemError',

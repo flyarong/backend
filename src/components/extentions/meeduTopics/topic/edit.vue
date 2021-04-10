@@ -1,60 +1,70 @@
 <template>
-  <div class="table-basic-vue frame-page h-panel w-800">
+  <div class="h-panel w-1200">
     <div class="h-panel-bar">
-      <span class="h-panel-title">编辑文章</span>
+      <span class="h-panel-title">编辑</span>
+      <div class="h-panel-right">
+        <Button color="primary" @click="create">保存</Button>
+        <Button @click="$emit('close')" :text="true">取消</Button>
+      </div>
     </div>
     <div class="h-panel-body">
-      <Form
-        mode="block"
-        ref="form"
-        :validOnChange="true"
-        :showErrorTip="true"
-        :rules="rules"
-        :model="topic"
-      >
+      <Form mode="block" ref="form" :validOnChange="true" :showErrorTip="true" :rules="rules" :model="topic">
+        <Row :space="10">
+          <Cell :width="6">
+            <FormItem label="分类" prop="cid">
+              <Select v-model="topic.cid" :datas="categories" keyName="id" titleName="name"></Select>
+            </FormItem>
+          </Cell>
+          <Cell :width="18">
+            <FormItem label="标题" prop="title">
+              <input type="text" v-model="topic.title" />
+            </FormItem>
+          </Cell>
+          <Cell :width="24">
+            <FormItem label="封面" prop="thumb">
+              <image-upload v-model="topic.thumb" name="封面"></image-upload>
+            </FormItem>
+          </Cell>
+          <Cell :width="3">
+            <FormItem label="显示" prop="is_show">
+              <h-switch v-model="topic.is_show"></h-switch>
+            </FormItem>
+          </Cell>
+          <Cell :width="3">
+            <FormItem label="价格" prop="charge">
+              <input type="number" min="0" max="2000" v-model="topic.charge" />
+            </FormItem>
+          </Cell>
+          <Cell :width="3">
+            <FormItem label="会员免费" prop="is_vip_free" v-if="topic.charge > 0">
+              <h-switch v-model="topic.is_vip_free"></h-switch>
+            </FormItem>
+          </Cell>
+          <Cell :width="6">
+            <FormItem label="排序时间" prop="sorted_at">
+              <DatePicker v-model="topic.sorted_at" type="datetime"></DatePicker>
+            </FormItem>
+          </Cell>
+        </Row>
         <FormItem label="免费内容" prop="free_content">
-          <template v-slot:label>免费内容</template>
-          <markdown v-model="topic.free_content" uid="_topic_free_content"></markdown>
-          <warn text="该内容所有用户都可以看到，不管是文章收费还是需要登录查看。"></warn>
+          <markdown @textChange="freeContentChange" id="freeContent" :text="topic.free_content"></markdown>
         </FormItem>
         <FormItem label="文章内容" prop="original_content">
-          <template v-slot:label>内容</template>
-          <markdown v-model="topic.original_content" uid="_topic_original_content"></markdown>
-        </FormItem>
-        <FormItem label="分类" prop="cid">
-          <template v-slot:label>分类</template>
-          <Select v-model="topic.cid" :datas="categories" keyName="id" titleName="name"></Select>
-        </FormItem>
-        <FormItem label="标题" prop="title">
-          <template v-slot:label>标题</template>
-          <input type="text" v-model="topic.title" />
-        </FormItem>
-        <FormItem label="显示" prop="is_show">
-          <template v-slot:label>显示</template>
-          <h-switch v-model="topic.is_show"></h-switch>
-        </FormItem>
-        <FormItem label="登录查看" prop="is_need_login">
-          <template v-slot:label>登录查看</template>
-          <h-switch v-model="topic.is_need_login"></h-switch>
-        </FormItem>
-        <FormItem label="价格" prop="charge">
-          <template v-slot:label>价格</template>
-          <input type="number" min="0" max="2000" v-model="topic.charge" />
-        </FormItem>
-        <FormItem label="会员免费" prop="is_vip_free" v-if="topic.charge > 0">
-          <template v-slot:label>会员免费</template>
-          <h-switch v-model="topic.is_vip_free"></h-switch>
-        </FormItem>
-        <FormItem label="排序时间" prop="sorted_at">
-          <template v-slot:label>排序时间</template>
-          <DatePicker v-model="topic.sorted_at" v-width="200" type="datetime"></DatePicker>
-          <br />
-          <warn text="文章会按照这个字段进行降序排序，不填写默认取当前时间。"></warn>
+          <markdown @textChange="contentChange" id="originalContent" :text="topic.original_content"></markdown>
         </FormItem>
 
-        <FormItem>
-          <Button color="primary" @click="create">保存</Button>
-        </FormItem>
+        <Row :space="10">
+          <Cell :width="12">
+            <FormItem label="SEO关键字" prop="seo_keywords">
+              <textarea v-model="topic.seo_keywords" rows="2"></textarea>
+            </FormItem>
+          </Cell>
+          <Cell :width="12">
+            <FormItem label="SEO描述" prop="seo_description">
+              <textarea v-model="topic.seo_description" rows="2"></textarea>
+            </FormItem>
+          </Cell>
+        </Row>
       </Form>
     </div>
   </div>
@@ -79,10 +89,12 @@ export default {
         free_content_render: '',
         charge: 0,
         original_content: '',
-        sorted_at: null
+        sorted_at: null,
+        seo_keywords: '',
+        seo_description: ''
       },
       rules: {
-        required: ['cid', 'title', 'is_show', 'original_content']
+        required: ['cid', 'title', 'is_show', 'original_content', 'thumb']
       },
       categories: []
     };
@@ -99,11 +111,17 @@ export default {
         this.categories = res.data;
       });
     },
+    freeContentChange(ori, render) {
+      this.topic.free_content = ori;
+      this.topic.free_content_render = render;
+    },
+    contentChange(ori, render) {
+      this.topic.original_content = ori;
+      this.topic.render_content = render;
+    },
     create() {
       let validResult = this.$refs.form.valid();
       if (validResult.result) {
-        this.topic.render_content = localStorage.getItem('markdown_content_val_topic_original_content');
-        this.topic.free_content_render = localStorage.getItem('markdown_content_val_topic_free_content');
         this.$emit('success', this.topic);
       }
     }

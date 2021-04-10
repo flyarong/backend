@@ -294,7 +294,7 @@ const Request = {
     },
     RemarkUpdate(param) {
       return Ajax.putJson('/member/' + param.id + '/remark', param);
-    },
+    }
   },
   Course: {
     List(param) {
@@ -636,7 +636,7 @@ const Request = {
         },
         Delete(param) {
           return Ajax.delete('/backend/addons/LearningPaths/step/relation/' + param.id, param);
-        },
+        }
       }
     },
     meeduBooks: {
@@ -894,6 +894,9 @@ const Request = {
         },
         Delete(param) {
           return Ajax.postJson('/backend/addons/Paper/question/destroy/multi', param);
+        },
+        Import(param) {
+          return Ajax.postJson('/backend/addons/Paper/question/import/csv', param);
         }
       },
       QuestionCategory: {
@@ -958,8 +961,14 @@ const Request = {
         Users(param) {
           return Ajax.get('/backend/addons/Paper/practice/' + param.id + '/users', param);
         },
-        UserRecords(param) {
-          return Ajax.get('/backend/addons/Paper/practice/' + param.id + '/user/records', param);
+        AddUser(param) {
+          return Ajax.postJson('/backend/addons/Paper/practice/' + param.id + '/user/insert', param);
+        },
+        DelUser(param) {
+          return Ajax.postJson('/backend/addons/Paper/practice/' + param.id + '/user/delete', param);
+        },
+        UserProgress(pid, userId) {
+          return Ajax.get('/backend/addons/Paper/practice/' + pid + '/user/' + userId + '/progress');
         }
       },
       PracticeChapter: {
@@ -1046,26 +1055,6 @@ const Request = {
           return Ajax.delete('/backend/addons/TemplateOne/nav/' + param.id, param);
         }
       },
-      Tag: {
-        List(param) {
-          return Ajax.get('/backend/addons/TemplateOne/tag/index', param);
-        },
-        Create(param) {
-          return Ajax.get('/backend/addons/TemplateOne/tag/create', param);
-        },
-        Store(param) {
-          return Ajax.postJson('/backend/addons/TemplateOne/tag/create', param);
-        },
-        Edit(param) {
-          return Ajax.get('/backend/addons/TemplateOne/tag/' + param.id);
-        },
-        Update(param) {
-          return Ajax.putJson('/backend/addons/TemplateOne/tag/' + param.id, param);
-        },
-        Delete(param) {
-          return Ajax.delete('/backend/addons/TemplateOne/tag/' + param.id, param);
-        }
-      },
       Slider: {
         List(param) {
           return Ajax.get('/backend/addons/TemplateOne/slider/index', param);
@@ -1084,26 +1073,6 @@ const Request = {
         },
         Delete(param) {
           return Ajax.delete('/backend/addons/TemplateOne/slider/' + param.id, param);
-        }
-      },
-      CourseCategory: {
-        List(param) {
-          return Ajax.get('/backend/addons/TemplateOne/courseCategory', param);
-        },
-        Create(param) {
-          return Ajax.get('/backend/addons/TemplateOne/courseCategory', param);
-        },
-        Store(param) {
-          return Ajax.postJson('/backend/addons/TemplateOne/courseCategory', param);
-        },
-        Edit(param) {
-          return Ajax.get('/backend/addons/TemplateOne/courseCategory/' + param.id);
-        },
-        Update(param) {
-          return Ajax.putJson('/backend/addons/TemplateOne/courseCategory/' + param.id, param);
-        },
-        Delete(param) {
-          return Ajax.delete('/backend/addons/TemplateOne/courseCategory/' + param.id, param);
         }
       }
     },
@@ -1256,7 +1225,7 @@ const Request = {
         },
         Users(param) {
           return Ajax.get('/backend/addons/zhibo/course/' + param.id + '/users', param);
-        },
+        }
       },
       CourseChapter: {
         List(param) {
@@ -1319,7 +1288,7 @@ const Request = {
         },
         WatchUsers(param) {
           return Ajax.get('/backend/addons/zhibo/course_video/watch/users', param);
-        },
+        }
       },
       CourseComment: {
         List(param) {
@@ -1329,16 +1298,18 @@ const Request = {
           return Ajax.postJson('/backend/addons/zhibo/course_comment/check', param);
         },
         Delete(param) {
-
           return Ajax.postJson('/backend/addons/zhibo/course_comment/delete', param);
-        }
+        },
+        Reply(id, replyContent) {
+          return Ajax.postJson('/backend/addons/zhibo/course_comment/' + id + '/reply', { reply: replyContent });
+        },
       },
       CourseChat: {
         List(param) {
-          return Ajax.get('/backend/addons/zhibo/course_chat', param);
+          return Ajax.get('/backend/addons/zhibo/chat/' + param.course_id + '/' + param.video_id, param);
         },
         Delete(param) {
-          return Ajax.delete('/backend/addons/zhibo/course_chat/' + param.id, param);
+          return Ajax.postJson('/backend/addons/zhibo/chat/delete', param);
         }
       },
       Zhibo: {
@@ -1348,17 +1319,8 @@ const Request = {
         getParams(param) {
           return Ajax.get('/backend/addons/zhibo/zhibo/getParams', param);
         },
-        pause(param) {
-          return Ajax.get('/backend/addons/zhibo/zhibo/pause', param);
-        },
-        resume(param) {
-          return Ajax.get('/backend/addons/zhibo/zhibo/resume', param);
-        },
-        pauseChat(param) {
-          return Ajax.get('/backend/addons/zhibo/zhibo/pauseChat', param);
-        },
-        resumeChat(param) {
-          return Ajax.get('/backend/addons/zhibo/zhibo/resumeChat', param);
+        stop(param) {
+          return Ajax.get('/backend/addons/zhibo/zhibo/stop', param);
         }
       }
     },
@@ -1383,6 +1345,26 @@ const Request = {
           return Ajax.delete('/backend/addons/multi_level_share/poster/' + param.id, param);
         }
       },
+      Goods: {
+        List(param) {
+          return Ajax.get('/backend/addons/multi_level_share/goods/index', param);
+        },
+        Create(param) {
+          return Ajax.get('/backend/addons/multi_level_share/goods/create', param);
+        },
+        Store(param) {
+          return Ajax.postJson('/backend/addons/multi_level_share/goods/create', param);
+        },
+        Edit(param) {
+          return Ajax.get('/backend/addons/multi_level_share/goods/' + param.id);
+        },
+        Update(param) {
+          return Ajax.putJson('/backend/addons/multi_level_share/goods/' + param.id, param);
+        },
+        Delete(param) {
+          return Ajax.delete('/backend/addons/multi_level_share/goods/' + param.id, param);
+        }
+      }
     },
     xiaoBanKe: {
       Order: {
@@ -1399,7 +1381,7 @@ const Request = {
       Dashboard: {
         Index(param) {
           return Ajax.get('/backend/addons/XiaoBanKe/dashboard', param);
-        },
+        }
       },
       CourseCategory: {
         List(param) {
@@ -1460,7 +1442,7 @@ const Request = {
         Delete(param) {
           return Ajax.delete('/backend/addons/XiaoBanKe/teacher/' + param.id, param);
         }
-      },
+      }
     },
     Snapshot: {
       Images: {
@@ -1469,7 +1451,7 @@ const Request = {
         },
         Delete(param) {
           return Ajax.postJson('/backend/addons/Snapshot/images/delete/multi', param);
-        },
+        }
       }
     },
     CodeExchanger: {
@@ -1503,6 +1485,51 @@ const Request = {
         DeleteMulti(param) {
           return Ajax.postJson('/backend/addons/CodeExchanger/code/delete/multi', param);
         },
+        Export() {
+          return Ajax.get('/backend/addons/CodeExchanger/code/export');
+        }
+      }
+    },
+    Platform: {
+      Company: {
+        List(param) {
+          return Ajax.get('/backend/addons/Platform/company/index', param);
+        },
+        Create(param) {
+          return Ajax.get('/backend/addons/Platform/company/create', param);
+        },
+        Store(param) {
+          return Ajax.postJson('/backend/addons/Platform/company/create', param);
+        },
+        Edit(id) {
+          return Ajax.get('/backend/addons/Platform/company/' + id);
+        },
+        Update(param) {
+          return Ajax.putJson('/backend/addons/Platform/company/' + param.id, param);
+        },
+        Delete(param) {
+          return Ajax.delete('/backend/addons/Platform/company/' + param.id);
+        }
+      },
+      Anno: {
+        List(param) {
+          return Ajax.get('/backend/addons/Platform/anno/index', param);
+        },
+        Create(param) {
+          return Ajax.get('/backend/addons/Platform/anno/create', param);
+        },
+        Store(param) {
+          return Ajax.postJson('/backend/addons/Platform/anno/create', param);
+        },
+        Edit(id) {
+          return Ajax.get('/backend/addons/Platform/anno/' + id);
+        },
+        Update(param) {
+          return Ajax.putJson('/backend/addons/Platform/anno/' + param.id, param);
+        },
+        Delete(param) {
+          return Ajax.delete('/backend/addons/Platform/anno/' + param.id);
+        }
       }
     }
   }
